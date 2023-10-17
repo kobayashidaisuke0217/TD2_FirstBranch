@@ -17,6 +17,7 @@
 #include"FollowCamera.h"
 
 #include "Enemy.h"
+#include <Stageh.h>
 using namespace std;
 class GameScene:public Iscene
 {
@@ -48,7 +49,8 @@ private:
 	unique_ptr<Player> player_;
 	unique_ptr<FollowCamera> followCamera_;
 	//unique_ptr<ground> ground_;
-	
+	unique_ptr<Stage> stage_;
+
 	unique_ptr<CollisionManager> collisionManager_;
 	
 	unique_ptr<Enemy>enemy_;
@@ -56,6 +58,9 @@ private:
 	std::unique_ptr<Model> enemyBodyModel = nullptr;
 	std::unique_ptr<Model> enemyL_armModel = nullptr;
 	std::unique_ptr<Model> enemyR_armModel = nullptr;
+
+	//ブロック
+	std::unique_ptr<Model> BlockModel_ = nullptr;
 #pragma endregion
 };
 

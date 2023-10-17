@@ -38,8 +38,9 @@ private:
 	//!< 回転角度(90度の回転）
 	float rad = 90 * 3.14f / 180;
 	Quaternion quaternion_;
+	float number;
 private:
 	void Move();
-
+	float CheckNumber();
 };
 

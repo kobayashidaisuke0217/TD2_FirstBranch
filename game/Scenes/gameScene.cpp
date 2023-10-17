@@ -35,6 +35,9 @@ void GameScene::Initialize()
 	enemyR_armModel.reset(Model::CreateModelFromObj("Resource", "float_R_arm.obj"));
 	std::vector<Model*>enemyModels = { enemyBodyModel.get(),enemyHeadModel.get(),enemyL_armModel.get(),enemyR_armModel.get() };
 	enemy_->Initialize(enemyModels);
+	BlockModel_.reset(Model::CreateModelFromObj("Resource", "Normal.obj"));
+	stage_ = std::make_unique<Stage>();
+	stage_->Initialize(BlockModel_.get());
 	GlovalVariables* globalVariables{};
 	globalVariables = GlovalVariables::GetInstance();
 	blendCount_ = 0;
@@ -56,7 +59,7 @@ void GameScene::Update()
 	}
 	player_->isHit_ = false;
 	
-
+	stage_->Update();
 	
 	
 
@@ -99,6 +102,7 @@ void GameScene::Draw()
 void GameScene::Draw3D()
 {
 	skyDome_->Draw(viewProjection_);
+	stage_->Draw(viewProjection_);
 	player_->Draw(viewProjection_);
 	
 	enemy_->Draw(viewProjection_);

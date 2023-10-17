@@ -350,3 +350,47 @@ inline Vector3 extractEulerAnglesFromRotationMatrix(const Matrix4x4& rotationMat
 
 	return eulerAngle;
 }
+
+// 現在の向きX
+inline Vector3 GetRightVectorFromModelMatrix(const Matrix4x4& modelMatrix) {
+	// モデルの右方向ベクトルはモデルの変換行列における X 軸方向を示すベクトルです。
+
+	// 変換行列から X 軸ベクトルを取得
+	Vector3 rightVector;
+	rightVector.x = modelMatrix.m[0][0];
+	rightVector.y = modelMatrix.m[1][0];
+	rightVector.z = modelMatrix.m[2][0];
+
+	// ベクトルを正規化して返す
+	return rightVector;
+}
+
+// 現在の向きY
+inline Vector3 GetUpVectorFromModelMatrix(const Matrix4x4& modelMatrix) {
+	// モデルの上方向ベクトルはモデルの変換行列における Y 軸方向を示すベクトルです。
+
+	// 変換行列から Y 軸ベクトルを取得
+	Vector3 upVector;
+	upVector.x = modelMatrix.m[0][1];
+	upVector.y = modelMatrix.m[1][1];
+	upVector.z = modelMatrix.m[2][1];
+
+	// ベクトルを正規化して返す
+	return upVector;
+}
+
+// 現在の向きZ
+inline Vector3 GetFrontVectorFromModelMatrix(const Matrix4x4& modelMatrix) {
+	// モデルの前方ベクトルはモデルの変換行列における Z 軸方向を示すベクトルです。
+	// 通常の変換行列では Z 軸がモデルの前方を向いていることが一般的です。
+
+	// 変換行列から Z 軸ベクトルを取得
+	Vector3 frontVector;
+	frontVector.x = modelMatrix.m[0][2];
+	frontVector.y = modelMatrix.m[1][2];
+	frontVector.z = modelMatrix.m[2][2];
+
+	// ベクトルを正規化して返す
+	return frontVector;
+}
+
