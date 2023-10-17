@@ -38,6 +38,7 @@ struct WorldTransform {
 	void TransferMatrix();
 
 	void UpdateMatrix();
-
+	 
+	void UpdateQuaternionMatrix(Matrix4x4 quart);
 	Vector3 GetWorldPos();
 };

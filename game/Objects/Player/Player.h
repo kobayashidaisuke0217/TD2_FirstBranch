@@ -39,6 +39,8 @@ private:
 	float rad = 90 * 3.14f / 180;
 	Quaternion quaternion_;
 	float number;
+
+	DualQuaternion Dual_;
 private:
 	void Move();
 	float CheckNumber();
