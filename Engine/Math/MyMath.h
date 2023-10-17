@@ -81,7 +81,11 @@ struct StructSphere {
 struct Quaternion {
 	float w, x, y, z;
 };
-
+// デュアルクォータニオンを表現する構造体
+struct DualQuaternion {
+	Quaternion real;    // 正規部分
+	Quaternion dual;    // 双対部分
+};
 inline Vector3 operator-(const Vector3& v) {
 	return { -v.x, -v.y, -v.z };
 }
@@ -349,4 +353,64 @@ inline Vector3 extractEulerAnglesFromRotationMatrix(const Matrix4x4& rotationMat
 	eulerAngle.z = atan2(m12, m22);
 
 	return eulerAngle;
+}
+// ワールド行列とデュアルクォータニオンの合成関数
+inline Matrix4x4 composeWorldMatrix(const Matrix4x4& worldMatrix, const DualQuaternion& dualQuaternion) {
+	// ワールド行列とデュアルクォータニオンの正規部分を取得
+	Matrix4x4 rotationMatrix = quaternionToMatrix(dualQuaternion.real);
+	Quaternion dualQuaternionReal = dualQuaternion.real;
+
+	// ワールド行列に回転行列を掛ける
+	Matrix4x4 combinedMatrix;
+	combinedMatrix = Multiply(worldMatrix, rotationMatrix);
+
+	// 平行移動の双対部分を計算
+	Quaternion dualQuaternionDual = dualQuaternion.dual;
+	Quaternion translationPart;
+	translationPart.w = -0.5f * (dualQuaternionDual.x * dualQuaternionReal.w - dualQuaternionDual.w * dualQuaternionReal.x -
+		dualQuaternionDual.y * dualQuaternionReal.z + dualQuaternionDual.z * dualQuaternionReal.y);
+	translationPart.x = -0.5f * (dualQuaternionDual.x * dualQuaternionReal.z - dualQuaternionDual.w * dualQuaternionReal.y +
+		dualQuaternionDual.y * dualQuaternionReal.w - dualQuaternionDual.z * dualQuaternionReal.x);
+	translationPart.y = -0.5f * (dualQuaternionDual.x * dualQuaternionReal.y + dualQuaternionDual.w * dualQuaternionReal.z -
+		dualQuaternionDual.y * dualQuaternionReal.x - dualQuaternionDual.z * dualQuaternionReal.w);
+	translationPart.z = -0.5f * (dualQuaternionDual.x * dualQuaternionReal.x + dualQuaternionDual.w * dualQuaternionReal.y -
+		dualQuaternionDual.y * dualQuaternionReal.z - dualQuaternionDual.z * dualQuaternionReal.w);
+
+	// 平行移動の双対部分をワールド行列に追加
+		combinedMatrix.m[0][3] += translationPart.w;
+		combinedMatrix.m[1][3] += translationPart.x;
+		combinedMatrix.m[2][3] += translationPart.y;
+		combinedMatrix.m[3][3] += translationPart.z;
+
+	return combinedMatrix;
+}
+// クォータニオンを使用してベクトルを回転させる関数
+inline Vector3 rotateVectorWithQuaternion(const Quaternion& q, const Vector3& v) {
+	// クォータニオンの回転行列を取得
+	Matrix4x4 rotationMatrix = quaternionToMatrix(q);
+
+	// ベクトルを4次元ベクトルに変換
+	float vector4[4] = { v.x, v.y, v.z, 1.0f };
+
+	// ベクトルを回転行列で変換
+	float rotatedVector4[4] = { 0.0f };
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < 4; ++j) {
+			rotatedVector4[i] += rotationMatrix.m[i][j] * vector4[j];
+		}
+	}
+
+	// 3次元ベクトルに戻す
+	Vector3 rotatedVector = { rotatedVector4[0], rotatedVector4[1], rotatedVector4[2] };
+
+	return rotatedVector;
+}
+// クォータニオンの乗算（積）を行う関数
+inline Quaternion Multiply(const Quaternion& q1, const Quaternion& q2) {
+	Quaternion result;
+	result.w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
+	result.x = q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y;
+	result.y = q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x;
+	result.z = q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w;
+	return result;
 }
