@@ -14,6 +14,8 @@ void Player::Initialize( Model* model)
 	goal_= worldTransform_.matWorld_;
 	start_ = worldTransform_.matWorld_;
 	Translation_ = worldTransform_.translation_;
+	quaternion_ = createQuaternion(0.0f, { 0.0f,1.0f,0.0f });
+	quaternion_ = Normalize(quaternion_);
 }
 
 void Player::Update()
@@ -27,11 +29,16 @@ void Player::Update()
 	structSphere_.center = worldTransform_.GetWorldPos();
 	structSphere_.radius = 1.5f;
 	Move();
+	Vector3 WorldPos = worldTransform_.GetWorldPos();
+	Vector4 Mat1 = { goal_.m[3][0],goal_.m[3][1],goal_.m[3][2],goal_.m[3][3] };
+	Vector4 Mat2 = { start_.m[3][0],start_.m[3][1],start_.m[3][2],start_.m[3][3] };
 	ImGui::Begin("player");
-	ImGui::DragFloat4("translation", &Translation_.x,0.01f);
+	ImGui::DragFloat4("translation", &WorldPos.x,0.01f);
+	ImGui::DragFloat4("translation", &Mat1.x, 0.01f);
+	ImGui::DragFloat4("translation", &Mat2.x, 0.01f);
 	ImGui::End();
 	//worldTransform_.UpdateMatrix();
-
+	worldTransform_.TransferMatrix();
 	
 }
 
@@ -74,50 +81,63 @@ void Player::Move()
 {
 	
 	if (input_->PushKey(DIK_W)&&MoveFlag==false) {
-	    Translation_.z += 1.0f;
-		quaternion_ = createQuaternion(rad, { -1.0f,0.0f,0.0f });
-		quaternion_ = Normalize(quaternion_);
+		Vector3 move = { 0.0f,0.0f,1.0f };
+	    
+	Quaternion	newquaternion_ = createQuaternion(rad, { -1.0f,0.0f,0.0f });
+	newquaternion_ = Normalize(newquaternion_);
+	quaternion_ = Multiply(quaternion_, newquaternion_);
 		Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
-		Matrix4x4 goalmatrix = Multiply(worldTransform_.matWorld_, quaternionMat);
-		//goalmatrix = Multiply(goalmatrix, MakeTranslateMatrix(Translation_));
-		
+		//Vector3 rotatedVector = rotateVectorWithQuaternion(quaternion_, Move);
+		Translation_ =Add(move, Translation_);
+	/*	Matrix4x4 a = MakeTranslateMatrix(Translation_);
+		quaternionMat = Multiply(quaternionMat, a);
+		Matrix4x4 goalmatrix = Multiply(worldTransform_.matWorld_, quaternionMat);*/
+		Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
 		goal_ = goalmatrix;
 		start_ = worldTransform_.matWorld_;
 		MoveFlag = true;
 		
 	}
 	if (input_->PushKey(DIK_S) && MoveFlag == false) {
-		worldTransform_.translation_.z -= 1.0f;
-		quaternion_ = createQuaternion(rad, { 1.0f,0.0f,0.0f });
-		quaternion_ = Normalize(quaternion_);
+		Vector3 move = { 0.0f,0.0f,-1.0f };
+		Quaternion	newquaternion_ = createQuaternion(rad, { 1.0f,0.0f,0.0f });
+		newquaternion_ = Normalize(newquaternion_);
+		quaternion_ = Multiply(quaternion_, newquaternion_);
 		Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
-		Matrix4x4 goalmatrix = Multiply(worldTransform_.matWorld_, quaternionMat);
-
+		
+		Translation_ = Add(move, Translation_);
+		
+		Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
 		goal_ = goalmatrix;
 		start_ = worldTransform_.matWorld_;
 		MoveFlag = true;
 	}
 	if (input_->PushKey(DIK_A) && MoveFlag == false) {
-		worldTransform_.translation_.x -= 1.0f;
-		worldTransform_.translation_.y = 1.0f;
-		quaternion_ = createQuaternion(rad, { 0.0f,0.0f,-1.0f });
-		quaternion_ = Normalize(quaternion_);
-		Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
-		Matrix4x4 goalmatrix = Multiply(worldTransform_.matWorld_, quaternionMat);
 		
+	
+		Vector3 move = { -1.0f,0.0f,0.0f };
+		Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,-1.0f });
+		newquaternion_ = Normalize(newquaternion_);
+		quaternion_ = Multiply(quaternion_, newquaternion_);
+		Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
+
+		Translation_ = Add(move, Translation_);
+
+		Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
 		goal_ = goalmatrix;
 		start_ = worldTransform_.matWorld_;
 		MoveFlag = true;
 	}
 	if (input_->PushKey(DIK_D) && MoveFlag == false) {
-		worldTransform_.translation_.x += 1.0f;
-		worldTransform_.translation_.y = 1.0f;
-		quaternion_ = createQuaternion(rad, { 0.0f,0.0f,1.0f });
-		quaternion_ = Normalize(quaternion_);
+		Vector3 move = { 1.0f,0.0f,0.0f };
+		Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,1.0f });
+		newquaternion_ = Normalize(newquaternion_);
+		quaternion_ = Multiply(quaternion_, newquaternion_);
 		Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
-		Matrix4x4 goalmatrix = Multiply(worldTransform_.matWorld_, quaternionMat);
-		
-	
+
+		Translation_ = Add(move, Translation_);
+
+		Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
 		goal_ = goalmatrix;
 		start_ = worldTransform_.matWorld_;
 		MoveFlag = true;
@@ -140,6 +160,6 @@ void Player::Move()
 			MoveFlag = false;
 			moveSpeed = 0.0f;
 		}
-		worldTransform_.TransferMatrix();
+		
 	}
 }
