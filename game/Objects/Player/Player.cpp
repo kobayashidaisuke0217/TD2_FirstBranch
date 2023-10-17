@@ -1,7 +1,8 @@
 #include "Player.h"
 #include "ImguiManger.h"
 #include "mymath.h"
-void Player::Initialize( Model* model)
+
+void Player::Initialize(Model* model)
 {
 	worldTransform_.Initialize();
 	input_ = Input::GetInstance();
@@ -38,6 +39,9 @@ void Player::Update()
 	ImGui::DragFloat4("translation", &Mat2.x, 0.01f);
 	ImGui::End();
 	//worldTransform_.UpdateMatrix();
+	ImGui::Begin("number");
+	ImGui::Text("number %f", number);
+	ImGui::End();
 	worldTransform_.TransferMatrix();
 	
 }
@@ -159,7 +163,107 @@ void Player::Move()
 		}if (moveSpeed >= 1.0f) {
 			MoveFlag = false;
 			moveSpeed = 0.0f;
+			//サイコロの目を確認(今は、わかりやすいよう上面の番号を表示している)
+			number = CheckNumber();
 		}
 		
 	}
+}
+
+float Player::CheckNumber() {
+	float number = 0;
+	Vector3 RightVector = GetRightVectorFromModelMatrix(worldTransform_.matWorld_);
+	Vector3 UPVector = GetUpVectorFromModelMatrix(worldTransform_.matWorld_);
+	Vector3 FrontVector = GetFrontVectorFromModelMatrix(worldTransform_.matWorld_);
+
+	if (RightVector.y >= 0.9f) {
+
+		if (UPVector.z >= 0.9f) {
+			number = 1.0f;
+
+		}
+		else if (FrontVector.z <= -0.8f) {
+			number = 4.0f;
+
+		}
+		else if (UPVector.z <= -0.8f) {
+			number = 6.0f;
+
+		}
+		else {
+			number = 3.0f;
+		}
+
+	}
+	else if (RightVector.y <= -0.8f) {
+
+		if (UPVector.z >= 0.9f) {
+			number = 1.0f;
+
+		}
+		else if (FrontVector.z <= -0.8f) {
+			number = 3.0f;
+
+		}
+		else if (UPVector.z <= -0.8f) {
+			number = 6.0f;
+
+		}
+		else {
+			number = 4.0f;
+		}
+
+	}
+	else if (UPVector.y >= 0.9f) {
+		number = 5.0f;
+
+	}
+	else if (UPVector.y <= -0.8f) {
+		number = 2.0f;
+
+	}
+	else if (FrontVector.y >= 0.9f) {
+
+		if (RightVector.z >= 0.9f) {
+			number = 4.0f;
+
+		}
+		else if (RightVector.z <= -0.8f) {
+			number = 3.0f;
+
+		}
+		else if (UPVector.z >= 0.9f) {
+			number = 1.0f;
+
+		}
+		else {
+			number = 6.0f;
+		}
+	}
+	else if (FrontVector.y <= -0.8f) {
+
+		if (RightVector.z <= -0.8f) {
+			number = 4.0f;
+
+		}
+		else if (RightVector.z >= 0.9f) {
+			number = 3.0f;
+
+		}
+		else if (UPVector.z <= 0.8f) {
+			number = 6.0f;
+
+		}
+		else {
+			number = 1.0f;
+		}
+	}
+
+	return number;
+
+	ImGui::Begin("vector");
+	ImGui::Text("Right X %f,Y %f,Z %f", &RightVector.x, RightVector.y, RightVector.z);
+	ImGui::Text("Up X %f,Y %f,Z %f", &UPVector.x, UPVector.y, UPVector.z);
+	ImGui::Text("Front X %f,Y %f,Z %f", &FrontVector.x, FrontVector.y, FrontVector.z);
+	ImGui::End();
 }
