@@ -81,7 +81,7 @@ void Player::Move()
 {
 	
 	if (input_->PushKey(DIK_W)&&MoveFlag==false) {
-		Vector3 move = { 0.0f,0.0f,1.0f };
+		Vector3 move = { 0.0f,0.0f,2.0f };
 	    
 	Quaternion	newquaternion_ = createQuaternion(rad, { -1.0f,0.0f,0.0f });
 	newquaternion_ = Normalize(newquaternion_);
@@ -99,7 +99,7 @@ void Player::Move()
 		
 	}
 	if (input_->PushKey(DIK_S) && MoveFlag == false) {
-		Vector3 move = { 0.0f,0.0f,-1.0f };
+		Vector3 move = { 0.0f,0.0f,-2.0f };
 		Quaternion	newquaternion_ = createQuaternion(rad, { 1.0f,0.0f,0.0f });
 		newquaternion_ = Normalize(newquaternion_);
 		quaternion_ = Multiply(quaternion_, newquaternion_);
@@ -115,7 +115,7 @@ void Player::Move()
 	if (input_->PushKey(DIK_A) && MoveFlag == false) {
 		
 	
-		Vector3 move = { -1.0f,0.0f,0.0f };
+		Vector3 move = { -2.0f,0.0f,0.0f };
 		Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,-1.0f });
 		newquaternion_ = Normalize(newquaternion_);
 		quaternion_ = Multiply(quaternion_, newquaternion_);
@@ -129,7 +129,7 @@ void Player::Move()
 		MoveFlag = true;
 	}
 	if (input_->PushKey(DIK_D) && MoveFlag == false) {
-		Vector3 move = { 1.0f,0.0f,0.0f };
+		Vector3 move = { 2.0f,0.0f,0.0f };
 		Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,1.0f });
 		newquaternion_ = Normalize(newquaternion_);
 		quaternion_ = Multiply(quaternion_, newquaternion_);
