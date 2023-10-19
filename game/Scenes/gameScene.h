@@ -40,7 +40,7 @@ private:
 	void Draw2D();
 	void Draw3D();
 	void ApplyGlobalVariables();
-	//void CheckAllCollision();
+	void CheckAllCollision();
 
 #pragma endregion
 #pragma region ゲームの機能

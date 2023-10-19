@@ -4,7 +4,10 @@
 
 void Player::Initialize(Model* model)
 {
+	
 	worldTransform_.Initialize();
+	worldTransform_.matWorld_.m[3][0] = 2.0f;
+	worldTransform_.matWorld_.m[3][2] = -2.0f;
 	input_ = Input::GetInstance();
 	model_ = model;
 	isHit_ = true;
@@ -14,6 +17,7 @@ void Player::Initialize(Model* model)
 	moveSpeed = 0.0f;
 	goal_= worldTransform_.matWorld_;
 	start_ = worldTransform_.matWorld_;
+	worldTransform_.translation_ = worldTransform_.GetWorldPos();
 	Translation_ = worldTransform_.translation_;
 	quaternion_ = createQuaternion(0.0f, { 0.0f,1.0f,0.0f });
 	quaternion_ = Normalize(quaternion_);
@@ -24,12 +28,11 @@ void Player::Update()
 	if (worldTransform_.matWorld_.m[3][1] < -100.0f) {
 		gameOver = true;
 	}
+	
 	//落ちる処理
 	if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 0) {
 		IsFall();
 	}
-	
-	
 
 	model_->SetColor(color);
 	structSphere_.center = worldTransform_.GetWorldPos();
@@ -38,6 +41,39 @@ void Player::Update()
 		Move();
 	}
 	
+	if (!switch_ ) {
+		for (int i = 0; i < 7; ++i) {
+			for (int j = 0; j < 7; ++j) {
+				 
+				if (map_[i][j] == 2) {
+					map_[i][j] = 1;
+
+				}
+				if (sMap_[i][j] == 3) {
+					map_[i][j] = 3;
+
+				}
+			}
+		}
+		
+	}
+	else {
+		for (int i = 0; i < 7; ++i) {
+			for (int j = 0; j < 7; ++j) {
+
+				if (sMap_[i][j] == 2) {
+					map_[i][j] = 2;
+
+				}
+				if (map_[i][j] == 3) {
+					map_[i][j] = 1;
+
+				}
+				
+			}
+		}
+
+	}
 	
 	
 	Vector3 WorldPos = worldTransform_.GetWorldPos();
@@ -52,11 +88,13 @@ void Player::Update()
 	//worldTransform_.UpdateMatrix();
 	ImGui::Begin("number");
 	ImGui::Text("number %f", number);
-	ImGui::Text(" Hit%d", isHit_);
-	ImGui::Text(" clear%d", gameClear);
+	ImGui::Text("goNumber %f", goalNum_);
+	ImGui::Text(" switch_%d",isHit_);
+	ImGui::Text(" clear%d", map_[(int)PlayerMap.x][(int)PlayerMap.y]);
 	ImGui::End();
 	worldTransform_.TransferMatrix();
 	
+
 }
 
 void Player::Draw(const ViewProjection& view)
@@ -104,11 +142,12 @@ void Player::Setparent(const WorldTransform* parent)
 	
 }
 
-void Player::SetMap(const int map[5][5])
+void Player::SetMap(const int map[7][7])
 {
-	for (int i = 0; i < 5; ++i) {
-		for (int j = 0; j < 5; ++j) {
+	for (int i = 0; i < 7; ++i) {
+		for (int j = 0; j < 7; ++j) {
 			map_[i][j] = map[i][j];
+			sMap_[i][j] = map[i][j];
 		}
 	}
 	
@@ -132,9 +171,23 @@ void Player::IsCollision(const WorldTransform& worldtransform)
 
 void Player::Move()
 {
+
+	if (input_->PushKey(DIK_SPACE) && MoveFlag == false) {
+		if ((sMap_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] != 2) && (sMap_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] != 3)) {
+			if (switch_) {
+				switch_ = false;
+
+			}
+			else {
+				switch_ = true;
+
+			}
+		}
+
+	}
 	
-		if (input_->PushKey(DIK_W) && MoveFlag == false) {
-			if (map_[(int)(PlayerMap.x - 1)][(int)(PlayerMap.y)] != 2 || !blockUp_) {
+	if (input_->PushKey(DIK_W) && MoveFlag == false) {
+		if (map_[(int)(PlayerMap.x - 1)][(int)(PlayerMap.y)] != 2 && map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 3) {
 			Vector3 move = { 0.0f,0.0f,2.0f };
 
 			Quaternion	newquaternion_ = createQuaternion(rad, { -1.0f,0.0f,0.0f });
@@ -151,12 +204,12 @@ void Player::Move()
 			start_ = worldTransform_.matWorld_;
 			MoveFlag = true;
 
-		    }
-	    }
+		}
+	}
 	
 	
-		if (input_->PushKey(DIK_S) && MoveFlag == false) {
-			if (map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 2 || !blockUp_) {
+	if (input_->PushKey(DIK_S) && MoveFlag == false) {
+		if (map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 2 && map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 3) {
 			Vector3 move = { 0.0f,0.0f,-2.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 1.0f,0.0f,0.0f });
 			newquaternion_ = Normalize(newquaternion_);
@@ -173,9 +226,9 @@ void Player::Move()
 	}
 	
 	
-		if (input_->PushKey(DIK_A) && MoveFlag == false) {
+	if (input_->PushKey(DIK_A) && MoveFlag == false) {
 
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y - 1)] != 2||!blockUp_) {
+		if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y - 1)] != 2 && map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 3) {
 			Vector3 move = { -2.0f,0.0f,0.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,-1.0f });
 			newquaternion_ = Normalize(newquaternion_);
@@ -188,12 +241,12 @@ void Player::Move()
 			goal_ = goalmatrix;
 			start_ = worldTransform_.matWorld_;
 			MoveFlag = true;
-		    }
-	    }
+		}
+	}
 	
 	
 		if (input_->PushKey(DIK_D) && MoveFlag == false) {
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 2 || !blockUp_) {
+			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 2 && map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 3) {
 			Vector3 move = { 2.0f,0.0f,0.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,1.0f });
 			newquaternion_ = Normalize(newquaternion_);
@@ -241,13 +294,28 @@ void Player::Move()
 			//サイコロの目を確認(今は、わかりやすいよう上面の番号を表示している)
 			number = CheckNumber();
 			//感圧版の当たり判定
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 3 && switch_ && number == 5) {
-				switch_ = false;
+			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 4 && number == 4 && !goalFlag1_) {
+				goalFlag1_ = true;
+				if (goalFlag2_) {
+					goalNum_ = 4;
+				}
 				
 			}
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 4) {
+
+			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 5 && number == 5 && !goalFlag2_) {
+				goalFlag2_ = true;
+				if (goalFlag1_) {
+					goalNum_ = 5;
+				}
+			}
+
+			//ゴールの当たり判定
+			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 6 && number == goalNum_) {
 				gameClear = true;
 			}
+
+			
+
 		}
 		
 	}

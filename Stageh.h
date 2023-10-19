@@ -29,11 +29,12 @@ public:
 	//bool GetBlockUp() { return blockUp; };
 	bool SetSwitch(const bool up);
 private:
-	WorldTransform worldTransformNormal_[25] = {};
-	WorldTransform worldTransformUp_[25] = {};
+	WorldTransform worldTransformNormal_[49] = {};
+	WorldTransform worldTransformUp_[49] = {};
+	WorldTransform worldTransformDown_[49] = {};
 	Model* modelNormal_;
 
-	int map_[5][5];
+	int map_[7][7];
 	int index = 0;
 	//ブロックの番号
 	enum {
@@ -47,4 +48,5 @@ private:
 	Input* input_ = nullptr;
 	bool blockUp;
 	float Up = 0;
+	float Down = -2.0f;
 };

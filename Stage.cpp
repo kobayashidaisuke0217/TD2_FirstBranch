@@ -4,9 +4,10 @@
 void Stage::Initialize(Model* models) {
 	input_ = Input::GetInstance();
 	modelNormal_= models;
-	for (int i = 0; i < 25; i++) {
+	for (int i = 0; i < 49; i++) {
 		worldTransformNormal_[i].Initialize();
 		worldTransformUp_[i].Initialize();
+		worldTransformDown_[i].Initialize();
 	}
 
 
@@ -18,37 +19,37 @@ void Stage::Update() {
 
 	
 
-	if (input_->PushKey(DIK_SPACE)) {
-		if (blockUp) {
-			blockUp = false;
-
-		}
-		else {
-			blockUp = true;
-
-		}
-
-	}
+	
 
 	if (blockUp) {
 		Up += 0.1f;
+		Down -= 0.1f;
 		if (Up >= 0) {
 			Up = 0;
+		}
+		if (Down <= -2.0f) {
+			Down = -2.0f;
 		}
 	}
 	else {
 		Up -= 0.1f;
+		Down += 0.1f;
 		if (Up <= -2.0f) {
 			Up = -2.0f;
 		}
+		if (Down >= 0) {
+			Down = 0;
+		}
 	}
-	for (int i = 0; i < 25; i++) {
+	for (int i = 0; i < 49; i++) {
 		worldTransformUp_[i].translation_.y = Up;
+		worldTransformDown_[i].translation_.y = Down;
 	}
 	
-	for (int i = 0; i < 25; i++) {
+	for (int i = 0; i <49; i++) {
 	   worldTransformNormal_[i].UpdateMatrix();
 	   worldTransformUp_[i].UpdateMatrix();
+	   worldTransformDown_[i].UpdateMatrix();
 	}
 	ImGui::Begin("Up");
 	ImGui::Text("%f", Up);
@@ -57,35 +58,39 @@ void Stage::Update() {
 
 	ImGui::Begin("box");
 	ImGui::DragFloat4("translation", &worldTransformNormal_[0].translation_.x, 0.01f);
-	
+	ImGui::DragFloat4("translation", &worldTransformNormal_[0].translation_.x, 0.01f);
 	ImGui::End();
 }
 
 void Stage::Draw(const ViewProjection& viewprojection) {
 
-	for (int i = 0; i < 25; i++) {
+	for (int i = 0; i < 49; i++) {
 		modelNormal_->Draw(worldTransformNormal_[i], viewprojection);
 		modelNormal_->Draw(worldTransformUp_[i], viewprojection);
+		modelNormal_->Draw(worldTransformDown_[i], viewprojection);
 	}
 	
 }
 
 void Stage::Stage1Initialize() {
 	index = -1;
-	int map[5][5] = {
-		{1,1,1,1,3},
-	    {1,1,1,1,1},
-	    {1,1,2,0,0},
-	    {1,1,2,1,1},
-	    {1,1,2,1,4},
+	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
+	int map[7][7] = {
+		{0,0,0,0,0,0,0},
+		{0,1,1,1,1,4,0},
+	    {0,1,1,1,1,1,0},
+	    {0,1,1,2,3,3,0},
+	    {0,1,1,2,1,1,0},
+	    {0,5,1,2,1,6,0},
+		{0,0,0,0,0,0,0},
 	};
-	for (int i = 0; i < 5; ++i) {
-		for (int j = 0; j < 5; ++j) {
+	for (int i = 0; i < 7; ++i) {
+		for (int j = 0; j < 7; ++j) {
 			map_[i][j] = map[i][j];
 		}
 	}
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 5; j++) {
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
 			index += 1;
 			if (map_[i][j] == 1) {
 
@@ -99,6 +104,12 @@ void Stage::Stage1Initialize() {
 			}
 			else {
 				worldTransformUp_[index].translation_ = { 100.0f ,0.0f,0.0f };
+			}
+			if (map_[i][j] == 3) {
+				worldTransformDown_[index].translation_ = { 0.0f + j * 2,Down,0.0f - i * 2 };
+			}
+			else {
+				worldTransformDown_[index].translation_ = { 100.0f ,0.0f,0.0f };
 			}
 
 		}
