@@ -4,16 +4,25 @@
 #include "ViewProjection.h"
 #include"ICharactor.h"
 #include <Input.h>
+enum  St {
+	Stages1,
+	Stages2,
+	Stages3,
+	Stages4,
+	Stages5,
 
+};
 class Stage{
 public:
-	void Initialize(Model* models);
+	void Initialize(Model* models,int stagenum);
 	void Update();
 	void Draw(const ViewProjection& view);
 
 	void Stage1Initialize();
 	void Stage2Initialize();
 	void Stage3Initialize();
+	void Stage4Initialize();
+	void Stage5Initialize();
 
 	void stage1();
 	void stage2();

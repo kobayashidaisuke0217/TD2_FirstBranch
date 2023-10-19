@@ -1,7 +1,7 @@
 #include "Stageh.h"
 
 
-void Stage::Initialize(Model* models) {
+void Stage::Initialize(Model* models,int stagenum) {
 	input_ = Input::GetInstance();
 	modelNormal_= models;
 	for (int i = 0; i < 49; i++) {
@@ -10,9 +10,27 @@ void Stage::Initialize(Model* models) {
 		worldTransformDown_[i].Initialize();
 	}
 
+	if (stagenum == Stages1) {
+		Stage1Initialize();
+		stage1();
+	}
+	if (stagenum == Stages2) {
+		Stage2Initialize();
+		
+	}
+	if (stagenum == Stages3) {
+		Stage3Initialize();
+		
+	}
+	if (stagenum == Stages4) {
+		Stage4Initialize();
 
-	Stage1Initialize();
-	stage1();
+	}
+	if (stagenum == Stages5) {
+		Stage5Initialize();
+		
+	}
+	
 }
 
 void Stage::Update() {
@@ -82,6 +100,187 @@ void Stage::Stage1Initialize() {
 	    {0,1,1,2,3,3,0},
 	    {0,1,1,2,1,1,0},
 	    {0,5,1,2,1,6,0},
+		{0,0,0,0,0,0,0},
+	};
+	for (int i = 0; i < 7; ++i) {
+		for (int j = 0; j < 7; ++j) {
+			map_[i][j] = map[i][j];
+		}
+	}
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
+			index += 1;
+			if (map_[i][j] == 1) {
+
+				worldTransformNormal_[index].translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
+			else {
+				worldTransformNormal_[index].translation_ = { 0.0f ,90.0f,0.0f };
+			}
+			if (map_[i][j] == 2) {
+				worldTransformUp_[index].translation_ = { 0.0f + j * 2,Up,0.0f - i * 2 };
+			}
+			else {
+				worldTransformUp_[index].translation_ = { 100.0f ,0.0f,0.0f };
+			}
+			if (map_[i][j] == 3) {
+				worldTransformDown_[index].translation_ = { 0.0f + j * 2,Down,0.0f - i * 2 };
+			}
+			else {
+				worldTransformDown_[index].translation_ = { 100.0f ,0.0f,0.0f };
+			}
+
+		}
+	}
+
+
+}
+
+void Stage::Stage2Initialize() {
+	index = -1;
+	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
+	int map[7][7] = {
+		{0,0,0,0,0,0,0},
+		{0,1,1,1,1,1,0},
+		{0,1,1,1,1,1,0},
+		{0,2,2,2,1,1,0},
+		{0,1,1,2,1,1,0},
+		{0,1,1,2,1,6,0},
+		{0,0,0,0,0,0,0},
+	};
+	for (int i = 0; i < 7; ++i) {
+		for (int j = 0; j < 7; ++j) {
+			map_[i][j] = map[i][j];
+		}
+	}
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
+			index += 1;
+			if (map_[i][j] == 1) {
+
+				worldTransformNormal_[index].translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
+			else {
+				worldTransformNormal_[index].translation_ = { 0.0f ,90.0f,0.0f };
+			}
+			if (map_[i][j] == 2) {
+				worldTransformUp_[index].translation_ = { 0.0f + j * 2,Up,0.0f - i * 2 };
+			}
+			else {
+				worldTransformUp_[index].translation_ = { 100.0f ,0.0f,0.0f };
+			}
+			if (map_[i][j] == 3) {
+				worldTransformDown_[index].translation_ = { 0.0f + j * 2,Down,0.0f - i * 2 };
+			}
+			else {
+				worldTransformDown_[index].translation_ = { 100.0f ,0.0f,0.0f };
+			}
+
+		}
+	}
+
+
+}
+void Stage::Stage3Initialize() {
+	index = -1;
+	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
+	int map[7][7] = {
+		{0,0,0,0,0,0,0},
+		{0,1,1,1,1,1,0},
+		{0,1,1,1,1,1,0},
+		{0,2,2,2,1,1,0},
+		{0,1,1,2,1,1,0},
+		{0,1,1,2,1,6,0},
+		{0,0,0,0,0,0,0},
+	};
+	for (int i = 0; i < 7; ++i) {
+		for (int j = 0; j < 7; ++j) {
+			map_[i][j] = map[i][j];
+		}
+	}
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
+			index += 1;
+			if (map_[i][j] == 1) {
+
+				worldTransformNormal_[index].translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
+			else {
+				worldTransformNormal_[index].translation_ = { 0.0f ,90.0f,0.0f };
+			}
+			if (map_[i][j] == 2) {
+				worldTransformUp_[index].translation_ = { 0.0f + j * 2,Up,0.0f - i * 2 };
+			}
+			else {
+				worldTransformUp_[index].translation_ = { 100.0f ,0.0f,0.0f };
+			}
+			if (map_[i][j] == 3) {
+				worldTransformDown_[index].translation_ = { 0.0f + j * 2,Down,0.0f - i * 2 };
+			}
+			else {
+				worldTransformDown_[index].translation_ = { 100.0f ,0.0f,0.0f };
+			}
+
+		}
+	}
+
+
+}
+void Stage::Stage4Initialize() {
+	index = -1;
+	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
+	int map[7][7] = {
+		{0,0,0,0,0,0,0},
+		{0,1,1,1,1,1,0},
+		{0,1,1,1,1,1,0},
+		{0,2,2,2,1,1,0},
+		{0,1,1,2,1,1,0},
+		{0,1,1,2,1,6,0},
+		{0,0,0,0,0,0,0},
+	};
+	for (int i = 0; i < 7; ++i) {
+		for (int j = 0; j < 7; ++j) {
+			map_[i][j] = map[i][j];
+		}
+	}
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
+			index += 1;
+			if (map_[i][j] == 1) {
+
+				worldTransformNormal_[index].translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
+			else {
+				worldTransformNormal_[index].translation_ = { 0.0f ,90.0f,0.0f };
+			}
+			if (map_[i][j] == 2) {
+				worldTransformUp_[index].translation_ = { 0.0f + j * 2,Up,0.0f - i * 2 };
+			}
+			else {
+				worldTransformUp_[index].translation_ = { 100.0f ,0.0f,0.0f };
+			}
+			if (map_[i][j] == 3) {
+				worldTransformDown_[index].translation_ = { 0.0f + j * 2,Down,0.0f - i * 2 };
+			}
+			else {
+				worldTransformDown_[index].translation_ = { 100.0f ,0.0f,0.0f };
+			}
+
+		}
+	}
+
+
+}
+void Stage::Stage5Initialize() {
+	index = -1;
+	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
+	int map[7][7] = {
+		{0,0,0,0,0,0,0},
+		{0,1,1,1,1,1,0},
+		{0,1,1,1,1,1,0},
+		{0,2,2,2,1,1,0},
+		{0,1,1,2,1,1,0},
+		{0,1,1,2,1,6,0},
 		{0,0,0,0,0,0,0},
 	};
 	for (int i = 0; i < 7; ++i) {

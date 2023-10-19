@@ -40,7 +40,7 @@ void GameScene::Initialize()
 	enemy_->Initialize(enemyModels);
 	BlockModel_.reset(Model::CreateModelFromObj("Resource", "Normal.obj"));
 	stage_ = std::make_unique<Stage>();
-	stage_->Initialize(BlockModel_.get());
+	stage_->Initialize(BlockModel_.get(),Stagenum);
 	int map_[7][7];
 	for (int i = 0; i < 7; ++i) {
 		for (int j = 0; j < 7; ++j) {

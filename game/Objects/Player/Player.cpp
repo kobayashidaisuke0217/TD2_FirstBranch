@@ -92,7 +92,7 @@ void Player::Update()
 	ImGui::Text("number %f", number);
 	ImGui::Text("goNumber %f", goalNum_);
 	ImGui::Text(" switch_%d",isHit_);
-	ImGui::Text(" clear%d", map_[(int)PlayerMap.x][(int)PlayerMap.y]);
+	ImGui::Text(" clear%d", gameClear);
 	ImGui::End();
 	worldTransform_.TransferMatrix();
 	
@@ -441,18 +441,18 @@ void Player::Move()
 			//サイコロの目を確認(今は、わかりやすいよう上面の番号を表示している)
 			number = CheckNumber();
 			//感圧版の当たり判定
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 4 && number == 4 && !goalFlag1_) {
+			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 4 && number == 5 && !goalFlag1_) {
 				goalFlag1_ = true;
 				if (goalFlag2_) {
-					goalNum_ = 4;
+					goalNum_ = 5;
 				}
 				
 			}
 
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 5 && number == 5 && !goalFlag2_) {
+			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 5 && number == 2 && !goalFlag2_) {
 				goalFlag2_ = true;
 				if (goalFlag1_) {
-					goalNum_ = 5;
+					goalNum_ = 2;
 				}
 			}
 
