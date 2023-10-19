@@ -156,6 +156,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="game\Scenes\Iscene.cpp" />
     <ClCompile Include="game\Scenes\TitleScene.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SceneChange.cpp" />
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +198,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="game\Scenes\gameScene.h" />
     <ClInclude Include="game\Scenes\Iscene.h" />
     <ClInclude Include="game\Scenes\TitleScene.h" />
+    <ClInclude Include="SceneChange.h" />
     <ClInclude Include="Stageh.h" />
   </ItemGroup>
   <ItemGroup>

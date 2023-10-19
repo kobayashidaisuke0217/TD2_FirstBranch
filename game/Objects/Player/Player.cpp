@@ -21,6 +21,8 @@ void Player::Initialize(Model* model)
 	Translation_ = worldTransform_.translation_;
 	quaternion_ = createQuaternion(0.0f, { 0.0f,1.0f,0.0f });
 	quaternion_ = Normalize(quaternion_);
+	titleCount_ = 0;
+	JumFlag_ = false;
 }
 
 void Player::Update()
@@ -96,6 +98,151 @@ void Player::Update()
 	
 
 }
+
+void Player::TitleUpdate()
+{
+
+
+
+	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
+	if (MoveFlag == false && JumFlag_ == false) {
+		if (titleCount_ < 3) {
+			Vector3 move = { 0.0f,0.0f,2.0f };
+
+			Quaternion	newquaternion_ = createQuaternion(rad, { -1.0f,0.0f,0.0f });
+			newquaternion_ = Normalize(newquaternion_);
+			quaternion_ = Multiply(quaternion_, newquaternion_);
+			Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
+			//Vector3 rotatedVector = rotateVectorWithQuaternion(quaternion_, Move);
+			Translation_ = Add(move, Translation_);
+			/*	Matrix4x4 a = MakeTranslateMatrix(Translation_);
+				quaternionMat = Multiply(quaternionMat, a);
+				Matrix4x4 goalmatrix = Multiply(worldTransform_.matWorld_, quaternionMat);*/
+			Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
+			goal_ = goalmatrix;
+			start_ = worldTransform_.matWorld_;
+			MoveFlag = true;
+
+		}
+		else if (titleCount_ < 6) {
+
+
+			Vector3 move = { -2.0f,0.0f,0.0f };
+			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,-1.0f });
+			newquaternion_ = Normalize(newquaternion_);
+			quaternion_ = Multiply(quaternion_, newquaternion_);
+			Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
+
+			Translation_ = Add(move, Translation_);
+
+			Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
+			goal_ = goalmatrix;
+			start_ = worldTransform_.matWorld_;
+			MoveFlag = true;
+		}
+		else if (titleCount_ < 9) {
+			Vector3 move = { 0.0f,0.0f,-2.0f };
+			Quaternion	newquaternion_ = createQuaternion(rad, { 1.0f,0.0f,0.0f });
+			newquaternion_ = Normalize(newquaternion_);
+			quaternion_ = Multiply(quaternion_, newquaternion_);
+			Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
+
+			Translation_ = Add(move, Translation_);
+
+			Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
+			goal_ = goalmatrix;
+			start_ = worldTransform_.matWorld_;
+			MoveFlag = true;
+		}
+
+		else if (titleCount_ < 12) {
+			Vector3 move = { 2.0f,0.0f,0.0f };
+			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,1.0f });
+			newquaternion_ = Normalize(newquaternion_);
+			quaternion_ = Multiply(quaternion_, newquaternion_);
+			Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
+
+			Translation_ = Add(move, Translation_);
+
+			Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
+			goal_ = goalmatrix;
+			start_ = worldTransform_.matWorld_;
+			MoveFlag = true;
+		}
+
+
+	}
+	if (input_->PushKey(DIK_RETURN)) {
+		worldTransform_.matWorld_ = goal_;
+		Vector3 move = { 0.0f,2.0f,0.0f };
+		Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,1.0f });
+		newquaternion_ = Normalize(newquaternion_);
+		quaternion_ = Multiply(quaternion_, newquaternion_);
+		Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
+
+		Translation_ = Add(move, Translation_);
+
+		Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
+		goal_ = goalmatrix;
+		start_ = worldTransform_.matWorld_;
+		MoveFlag = false;
+		JumFlag_ = true;
+	}
+	if (MoveFlag == true) {
+		if (moveSpeed <= 1.0f) {
+			moveSpeed += 0.05f;
+		}
+		else
+		{
+			moveSpeed = 1.0f;
+		}
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				worldTransform_.matWorld_.m[i][j] = Lerp(moveSpeed, start_.m[i][j], goal_.m[i][j]);
+			}
+		}if (moveSpeed >= 1.0f) {
+			MoveFlag = false;
+			moveSpeed = 0.0f;
+			titleCount_++;
+		}
+		if (titleCount_ >= 12) {
+			titleCount_ = 0;
+		}
+
+	}
+	if (JumFlag_ == true) {
+		if (moveSpeed <= 1.0f) {
+			moveSpeed += 0.05f;
+		}
+		else
+		{
+			moveSpeed = 1.0f;
+		}
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				worldTransform_.matWorld_.m[i][j] = Lerp(moveSpeed, start_.m[i][j], goal_.m[i][j]);
+			}
+		}if (moveSpeed >= 1.0f) {
+			worldTransform_.matWorld_ = goal_;
+			Vector3 move = { 0.0f,3.0f,0.0f };
+			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,1.0f });
+			newquaternion_ = Normalize(newquaternion_);
+			quaternion_ = Multiply(quaternion_, newquaternion_);
+			Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
+
+			Translation_ = Add(move, Translation_);
+
+			Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
+			goal_ = goalmatrix;
+			start_ = worldTransform_.matWorld_;
+			JumFlag_ = true;
+			moveSpeed = 0.0f;
+		}
+
+	}
+	worldTransform_.TransferMatrix();
+}
+
 
 void Player::Draw(const ViewProjection& view)
 {

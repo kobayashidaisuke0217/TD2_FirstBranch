@@ -3,43 +3,69 @@
 
 TitleScene::~TitleScene()
 {
+
 }
 void TitleScene::Initialize()
-{	
+{
+	viewProjection_.Initialize();
+	viewProjection_.translation_ = { 0.0f,0.0f,-5.0f };
+	textureManager_ = Texturemanager::GetInstance();
+	textureManager_->Initialize();
+	blueMoon_ = BlueMoon::GetInstance();
 	input = Input::GetInstance();
+	Change = SceneChange::GetInstance();
+	Change->Initialize();
 	count = 0;
-
+	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
+	player_ = std::make_unique<Player>();
+	player_->Initialize(playerModel_.get());
+	plane_ = std::make_unique<Plane>();
+	plane_->Initialize();
+	worldTransformPlane_.Initialize();
 }
 
 void TitleScene::Update()
 {
-	
+
 	ImGui::Begin("SceneManager");
 	ImGui::InputInt("SceneNum", &sceneNum);
-	ImGui::Text("count %d",count);
+	ImGui::DragFloat3("plane", &worldTransformPlane_.rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale", &worldTransformPlane_.scale_.x, 0.1f);
+
+	ImGui::DragFloat3("", &worldTransformPlane_.translation_.x, 0.1f);
+	ImGui::Text("count %d", count);
 	ImGui::End();
-	if (input->PushKey(DIK_SPACE)) {
-		sceneNum = GAME_SCENE;
-		count++;
+	player_->TitleUpdate();
+	if (player_->GetWorldTransform().GetWorldPos().y >= 15.0f) {
+		Change->setmoveFlag();
 	}
-	XINPUT_STATE joyState;
-	if (!input->GetJoystickState(0, joyState)) {
-		return;
-	}
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+	Change->Update();
+	if (Change->getchangeFlag() == true) {
 		sceneNum = GAME_SCENE;
 	}
+
 	if (sceneNum < 0) {
 		sceneNum = 0;
-		
+
 	}
+	viewProjection_.translation_ = { 0.0f,20.3f,-2.1f };
+	viewProjection_.rotation_ = { 1.2f, 0.0f, 0.0f };
+	worldTransformPlane_.UpdateMatrix();
 	/*if (count >= 60) {
 		sceneNum=GAME_SCENE;
 	}*/
+	viewProjection_.UpdateMatrix();
+	viewProjection_.TransferMatrix();
 }
 
 void TitleScene::Draw()
 {
+	blueMoon_->ModelPreDraw();
+	player_->Draw(viewProjection_);
+	plane_->Draw(worldTransformPlane_, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, 0);
+	Change->Draw();
+
+
 	ImGui::Begin("TITLE");
 	ImGui::Text("PushA:Start");
 	ImGui::End();

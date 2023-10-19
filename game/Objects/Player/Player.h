@@ -10,6 +10,7 @@ class Player:public Collider
 public:
 	void Initialize( Model* model);
 	void Update();
+	void TitleUpdate();
 	void Draw(const ViewProjection& view);
     WorldTransform GetWorldTransform()override { return worldTransform_; }
 	const WorldTransform& GetWorldTransformBase() { return worldTransform_; }
@@ -65,6 +66,8 @@ private:
 	bool goalFlag1_ = false;
 	bool goalFlag2_ = false;
 	bool goalFlag3_ = false;
+	int titleCount_;
+	bool JumFlag_;
 private:
 	void Move();
 	float CheckNumber();

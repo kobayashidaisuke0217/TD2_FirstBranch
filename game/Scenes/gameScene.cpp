@@ -13,8 +13,11 @@ void GameScene::Initialize()
 	directXCommon_ = DirectXCommon::GetInstance();
 
 	textureManager_ = Texturemanager::GetInstance();
+	textureManager_->Initialize();
 	collisionManager_ = make_unique<CollisionManager>();
 	input_ = Input::GetInstance();
+	Change_ = SceneChange::GetInstance();
+	Change_->Initialize();
 	int a= textureManager_->Load("Resource/tex.png");
 	viewProjection_.Initialize();
 	viewProjection_.translation_ = { 0.0f,0.0f,-5.0f };
@@ -71,7 +74,8 @@ void GameScene::Update()
 	}
 	//player_->SetBlockUp(stage_->GetBlockUp());
 	stage_->SetSwitch(player_->GetSwitch());
-	
+
+	Change_->Update();
 	viewProjection_.UpdateMatrix();
 	followCamera_->Update();
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
