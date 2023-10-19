@@ -1,19 +1,34 @@
 #pragma once
 #include "Iscene.h"
 #include "Input.h"
-class TitleScene:public Iscene
+#include "SceneChange.h"
+#include "BlueMoon.h"
+#include "player.h"
+#include "model.h"
+#include "Plane.h"
+#include "WorldTransform.h"
+class TitleScene :public Iscene
 {
 private:
 	int count;
 public:
 	~TitleScene()override;
-	 void Initialize() override;
+	void Initialize() override;
 
-	 void Update() override;
+	void Update() override;
 
-	 void Draw() override;
-	 void Finalize()override;
+	void Draw() override;
+	void Finalize()override;
 private:
-	Input* input=nullptr;
-};
+	ViewProjection viewProjection_;
+	BlueMoon* blueMoon_;
+	Texturemanager* textureManager_;
+	Input* input = nullptr;
+	SceneChange* Change;
+	WorldTransform worldTransformPlane_;
+	std::unique_ptr<Model> playerModel_ = nullptr;
+	std::unique_ptr<Player> player_;
+	std::unique_ptr<Plane> plane_;
 
+
+};
