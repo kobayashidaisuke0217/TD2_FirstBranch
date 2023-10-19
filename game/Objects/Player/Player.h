@@ -28,7 +28,7 @@ public:
 	void DeleteParent() { worldTransform_.parent_ = nullptr; worldTransform_.translation_ = worldTransform_.GetWorldPos(); }
 	Vector3 GetWorldPosition();
 	Vector3 GetMoveWorldPosition();
-	void SetMap(const int map[5][5]);
+	void SetMap(const int map[7][7]);
 	bool GetSwitch() { return switch_; };
 private:
 	Vector4 color;
@@ -55,11 +55,17 @@ private:
 	float speed_ = 0;
 	Matrix4x4 playerMove_;
 	Matrix4x4 playerNowPos_;
-	int map_[5][5];
-	int moveMap_[5][5];
+	int sMap_[7][7];
+	int map_[7][7];
+	int moveMap_[7][7];
 	Vector2 PlayerMap;
 	bool switch_ = true;
 	bool blockUp_;
+
+	float goalNum_ = 0.0f;
+	bool goalFlag1_ = false;
+	bool goalFlag2_ = false;
+	bool goalFlag3_ = false;
 	int titleCount_;
 	bool JumFlag_;
 private:

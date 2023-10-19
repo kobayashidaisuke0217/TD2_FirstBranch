@@ -41,9 +41,9 @@ void GameScene::Initialize()
 	BlockModel_.reset(Model::CreateModelFromObj("Resource", "Normal.obj"));
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize(BlockModel_.get());
-	int map_[5][5];
-	for (int i = 0; i < 5; ++i) {
-		for (int j = 0; j < 5; ++j) {
+	int map_[7][7];
+	for (int i = 0; i < 7; ++i) {
+		for (int j = 0; j < 7; ++j) {
 			map_[i][j] = stage_->GetMap(i, j);
 		}
 	}
@@ -72,8 +72,9 @@ void GameScene::Update()
 	if (player_->isGameover() == true) {
 		Initialize();
 	}
-	
+	//player_->SetBlockUp(stage_->GetBlockUp());
 	stage_->SetSwitch(player_->GetSwitch());
+
 	Change_->Update();
 	viewProjection_.UpdateMatrix();
 	followCamera_->Update();
