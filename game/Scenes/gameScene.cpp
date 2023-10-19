@@ -38,6 +38,14 @@ void GameScene::Initialize()
 	BlockModel_.reset(Model::CreateModelFromObj("Resource", "Normal.obj"));
 	stage_ = std::make_unique<Stage>();
 	stage_->Initialize(BlockModel_.get());
+	int map_[5][5];
+	for (int i = 0; i < 5; ++i) {
+		for (int j = 0; j < 5; ++j) {
+			map_[i][j] = stage_->GetMap(i, j);
+		}
+	}
+	player_->SetMap(map_);
+	
 	GlovalVariables* globalVariables{};
 	globalVariables = GlovalVariables::GetInstance();
 	blendCount_ = 0;
@@ -46,23 +54,23 @@ void GameScene::Initialize()
 	globalVariables->AddItem(groupName, "Test", 90.0f);
 	ApplyGlobalVariables();
 	count_ = 0;
+
+
+
+	
 }
 
 void GameScene::Update()
 {
 	count_++;
-	
+	stage_->Update();
 	player_->Update();
 	enemy_->Update();
 	if (player_->isGameover() == true) {
 		Initialize();
 	}
-	player_->isHit_ = false;
 	
-	stage_->Update();
-	
-	
-
+	stage_->SetSwitch(player_->GetSwitch());
 	viewProjection_.UpdateMatrix();
 	followCamera_->Update();
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
@@ -90,7 +98,6 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	
 	//3D描画準備
 	blueMoon_->ModelPreDraw();
 	Draw3D();
@@ -127,4 +134,43 @@ void GameScene::Finalize()
 	
 	
 }
+
+/*/使ってない
+void GameScene::CheckAllCollision() {
+	// 判定対象AとBの座標
+	Vector3 posA, posB[25];
+
+	bool Up;
+
+#pragma region 自キャラと地面の当たり判定
+	// 自キャラ座標
+	posA = player_->GetWorldPosition();
+	Up = stage_->GetBlockUp();
+	// 自キャラと敵弾全ての当たり判定
+	for (int i = 0; i < 25; i++) {
+		// 敵弾の座標
+		posB[i] = stage_->GetWorldPositionNormal(i);
+
+		// 距離
+		float distance = (posB[i].x - posA.x) * (posB[i].x - posA.x) +
+			(posB[i].y - posA.y) * (posB[i].y - posA.y) +
+			(posB[i].z - posA.z) * (posB[i].z - posA.z);
+		float R1 = 1.0f;
+		float R2 = 1.0f;
+		if (distance <= (R1 + R2) * (R1 + R2)) {
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision();
+			break;
+			
+		}
+		else {
+			player_->OutCollision();
+		}
+	}
+
+#pragma endregion
+
+
+}
+*/
 

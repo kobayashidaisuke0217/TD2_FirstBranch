@@ -32,6 +32,9 @@ void FollowCamera::Move() {
 		viewprojection_.translation_ = Add(target_->translation_, offset);
 	}*/
 	
+	viewprojection_.translation_ = { -2.8f,32.0f,-20.0f };
+	viewprojection_.rotation_ = { 1.0f,0.5f,0.0f };
+
 	ImGui::Begin("camera");
 	ImGui::DragFloat3("trans", &viewprojection_.translation_.x, 0.1f);
 	ImGui::DragFloat3("rotate", &viewprojection_.rotation_.x, 0.1f);

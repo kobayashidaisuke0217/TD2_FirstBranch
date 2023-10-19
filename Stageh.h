@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include"ICharactor.h"
+#include <Input.h>
 
 class Stage{
 public:
@@ -18,12 +19,22 @@ public:
 	void stage2();
 	void stage3();
 
+	int GetMap(int i, int j);
+
+	// ワールド座標を取得 地面
+	Vector3 GetWorldPositionNormal(int i);
+	// ワールド座標を取得 壁
+	Vector3 GetWorldPositionUp(int i);
+
+	//bool GetBlockUp() { return blockUp; };
+	bool SetSwitch(const bool up);
 private:
 	WorldTransform worldTransformNormal_[25] = {};
+	WorldTransform worldTransformUp_[25] = {};
 	Model* modelNormal_;
 
-	int map[5][5];
-
+	int map_[5][5];
+	int index = 0;
 	//ブロックの番号
 	enum {
 		NORMALBLOCK, // 0
@@ -32,4 +43,8 @@ private:
 		GREENBLOCK,  // 3
 		YELLOWBLOCK  // 4
 	};
+
+	Input* input_ = nullptr;
+	bool blockUp;
+	float Up = 0;
 };
