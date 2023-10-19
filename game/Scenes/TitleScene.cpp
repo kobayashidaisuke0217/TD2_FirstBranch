@@ -3,6 +3,7 @@
 
 TitleScene::~TitleScene()
 {
+
 }
 void TitleScene::Initialize()
 {	
@@ -18,7 +19,9 @@ void TitleScene::Initialize()
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ =std:: make_unique<Player>();
 	player_->Initialize(playerModel_.get());
-
+	plane_ = std::make_unique<Plane>();
+	plane_->Initialize();
+	worldTransformPlane_.Initialize();
 }
 
 void TitleScene::Update()
@@ -26,10 +29,14 @@ void TitleScene::Update()
 
 	ImGui::Begin("SceneManager");
 	ImGui::InputInt("SceneNum", &sceneNum);
+	ImGui::DragFloat3("plane", &worldTransformPlane_.rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale", &worldTransformPlane_.scale_.x, 0.1f);
+
+	ImGui::DragFloat3("", &worldTransformPlane_.translation_.x, 0.1f);
 	ImGui::Text("count %d", count);
 	ImGui::End();
 	player_->TitleUpdate();
-	if (input->PushKey(DIK_SPACE)) {
+	if (player_->GetWorldTransform().GetWorldPos().y>=15.0f) {
 		Change->setmoveFlag();
 	}
 	Change->Update();
@@ -41,8 +48,9 @@ void TitleScene::Update()
 		sceneNum = 0;
 
 	}
-	viewProjection_.translation_ = { 0.0f,9.3f,-2.1f };
+	viewProjection_.translation_ = { 0.0f,20.3f,-2.1f };
 	viewProjection_.rotation_ = { 1.2f, 0.0f, 0.0f };
+	worldTransformPlane_.UpdateMatrix();
 	/*if (count >= 60) {
 		sceneNum=GAME_SCENE;
 	}*/
@@ -52,10 +60,12 @@ void TitleScene::Update()
 
 void TitleScene::Draw()
 {
-	
-	Change->Draw();
 	blueMoon_->ModelPreDraw();
 	player_->Draw(viewProjection_);
+	plane_->Draw(worldTransformPlane_, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, 0);
+	Change->Draw();
+	
+	
 	ImGui::Begin("TITLE");
 	ImGui::Text("PushA:Start");
 	ImGui::End();

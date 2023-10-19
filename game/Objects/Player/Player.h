@@ -41,6 +41,7 @@ private:
 	Quaternion quaternion_;
 	DualQuaternion Dual_;
 	int titleCount_;
+	bool JumFlag_;
 private:
 	void Move();
 
