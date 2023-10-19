@@ -70,6 +70,7 @@ void SceneManager::Initialize()
 	glovalVariables_->LoadFiles();
 	directionallight_ = DirectionalLight::GetInstance();
 	directionallight_->Initialize();
+	
 	sceneArr_[TITLE_SCENE] = std::make_unique <TitleScene>();
 	sceneArr_[GAME_SCENE] = std::make_unique <GameScene>();
 	sceneNum_ = TITLE_SCENE;

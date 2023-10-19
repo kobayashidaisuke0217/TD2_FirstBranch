@@ -7,11 +7,13 @@
 #include "GlobalVariables.h"
 #include "ImGuiManger.h"
 #include"DirectionalLight.h"
+
 #pragma endregion
 #pragma region シーン
 #include <game/Scenes/Iscene.h>
 #include<game/Scenes/gameScene.h>
 #include <game/Scenes/TitleScene.h>
+#include "sceneChange.h"
 #pragma endregion
 class SceneManager
 {
@@ -36,6 +38,7 @@ private:
 	GlovalVariables* glovalVariables_;
 	ImGuiManger* imguiManager_;
 	DirectionalLight* directionallight_;
+	std::unique_ptr<SceneChange>sceneChange_;
 	int sceneNum_;
 	int preSceneNum_;
 

@@ -11,10 +11,13 @@ void GameScene::Initialize()
 	blueMoon_ = BlueMoon::GetInstance();
 
 	directXCommon_ = DirectXCommon::GetInstance();
-
 	textureManager_ = Texturemanager::GetInstance();
+	textureManager_->Initialize();
 	collisionManager_ = make_unique<CollisionManager>();
 	input_ = Input::GetInstance();
+	
+	Change_ = SceneChange::GetInstance();
+	Change_->Initialize();
 	int a= textureManager_->Load("Resource/tex.png");
 	viewProjection_.Initialize();
 	viewProjection_.translation_ = { 0.0f,0.0f,-5.0f };
@@ -51,14 +54,14 @@ void GameScene::Update()
 	
 	player_->Update();
 	enemy_->Update();
-	if (player_->isGameover() == true) {
+	if (Input::GetInstance()->PushKey(DIK_SPACE)) {
 		Initialize();
 	}
 	player_->isHit_ = false;
 	
 
 	
-	
+	Change_->Update();
 
 	viewProjection_.UpdateMatrix();
 	followCamera_->Update();
@@ -114,8 +117,7 @@ void GameScene::ApplyGlobalVariables()
 
 void GameScene::Draw2D() {
 	blueMoon_->SetBlendMode(blendCount_);
-	
-
+	Change_->Draw();
 }
 void GameScene::Finalize()
 {

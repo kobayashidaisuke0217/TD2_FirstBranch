@@ -15,8 +15,8 @@
 #include "SkyDome.h"
 #include "player.h"
 #include"FollowCamera.h"
-
 #include "Enemy.h"
+#include "SceneChange.h"
 using namespace std;
 class GameScene:public Iscene
 {
@@ -35,6 +35,7 @@ private:
 	Texturemanager* textureManager_;
 	Input* input_;
 	ViewProjection viewProjection_;
+	SceneChange* Change_;
 	int blendCount_;
 	void Draw2D();
 	void Draw3D();
