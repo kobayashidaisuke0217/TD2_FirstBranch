@@ -4,7 +4,7 @@
 
 void Player::Initialize(Model* model)
 {
-	
+
 	worldTransform_.Initialize();
 	worldTransform_.matWorld_.m[3][0] = 2.0f;
 	worldTransform_.matWorld_.m[3][2] = -2.0f;
@@ -13,9 +13,9 @@ void Player::Initialize(Model* model)
 	isHit_ = true;
 	SetCollisionAttribute(CollisionConfig::kCollisionAttributePlayer);
 	SetCollisionMask(~CollisionConfig::kCollisionAttributePlayer);
-	color={ 1.0f,1.0f,1.0f,1.0f };
+	color = { 1.0f,1.0f,1.0f,1.0f };
 	moveSpeed = 0.0f;
-	goal_= worldTransform_.matWorld_;
+	goal_ = worldTransform_.matWorld_;
 	start_ = worldTransform_.matWorld_;
 	worldTransform_.translation_ = worldTransform_.GetWorldPos();
 	Translation_ = worldTransform_.translation_;
@@ -23,6 +23,7 @@ void Player::Initialize(Model* model)
 	quaternion_ = Normalize(quaternion_);
 	titleCount_ = 0;
 	JumFlag_ = false;
+	goalNum_ = 0.0f;
 }
 
 void Player::Update()
@@ -30,7 +31,7 @@ void Player::Update()
 	if (worldTransform_.matWorld_.m[3][1] < -100.0f) {
 		gameOver = true;
 	}
-	
+
 	//落ちる処理
 	if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 0) {
 		IsFall();
@@ -39,14 +40,14 @@ void Player::Update()
 	model_->SetColor(color);
 	structSphere_.center = worldTransform_.GetWorldPos();
 	structSphere_.radius = 1.5f;
-	if (worldTransform_.matWorld_.m[3][1]  >= -1.0f) {
+	if (worldTransform_.matWorld_.m[3][1] >= -1.0f) {
 		Move();
 	}
-	
-	if (!switch_ ) {
+
+	if (!switch_) {
 		for (int i = 0; i < 7; ++i) {
 			for (int j = 0; j < 7; ++j) {
-				 
+
 				if (map_[i][j] == 2) {
 					map_[i][j] = 1;
 
@@ -57,7 +58,7 @@ void Player::Update()
 				}
 			}
 		}
-		
+
 	}
 	else {
 		for (int i = 0; i < 7; ++i) {
@@ -71,19 +72,19 @@ void Player::Update()
 					map_[i][j] = 1;
 
 				}
-				
+
 			}
 		}
 
 	}
-	
-	
+
+
 	Vector3 WorldPos = worldTransform_.GetWorldPos();
 	Vector4 Mat1 = { goal_.m[3][0],goal_.m[3][1],goal_.m[3][2],goal_.m[3][3] };
 	Vector4 Mat2 = { start_.m[3][0],start_.m[3][1],start_.m[3][2],start_.m[3][3] };
-	PlayerMap = { (goal_.m[3][2] / 2)*-1,(goal_.m[3][0] / 2)};
+	PlayerMap = { (goal_.m[3][2] / 2) * -1,(goal_.m[3][0] / 2) };
 	ImGui::Begin("player");
-	ImGui::DragFloat4("translation", &WorldPos.x,0.01f);
+	ImGui::DragFloat4("translation", &WorldPos.x, 0.01f);
 	ImGui::DragFloat2("translation", &PlayerMap.x, 0.01f);
 	ImGui::DragFloat4("translation", &Mat2.x, 0.01f);
 	ImGui::End();
@@ -91,11 +92,11 @@ void Player::Update()
 	ImGui::Begin("number");
 	ImGui::Text("number %f", number);
 	ImGui::Text("goNumber %f", goalNum_);
-	ImGui::Text(" switch_%d",isHit_);
+	ImGui::Text(" switch_%d", isHit_);
 	ImGui::Text(" clear%d", gameClear);
 	ImGui::End();
 	worldTransform_.TransferMatrix();
-	
+
 
 }
 
@@ -251,7 +252,7 @@ void Player::Draw(const ViewProjection& view)
 
 void Player::IsFall()
 {
-	
+
 	speed_ += 0.01f;
 	worldTransform_.matWorld_.m[3][1] -= speed_;
 	worldTransform_.translation_.y -= 0.1f;
@@ -265,10 +266,10 @@ void Player::OnCollision()
 
 void Player::OutCollision()
 {
-	
+
 	isHit_ = false;
-	
-	
+
+
 }
 
 void Player::OnWallCollision()
@@ -283,10 +284,10 @@ void Player::OutWallCollision()
 
 void Player::Setparent(const WorldTransform* parent)
 {
-	
-		worldTransform_.parent_ = parent;
-	
-	
+
+	worldTransform_.parent_ = parent;
+
+
 }
 
 void Player::SetMap(const int map[7][7])
@@ -297,7 +298,7 @@ void Player::SetMap(const int map[7][7])
 			sMap_[i][j] = map[i][j];
 		}
 	}
-	
+
 
 }
 
@@ -332,7 +333,7 @@ void Player::Move()
 		}
 
 	}
-	
+
 	if (input_->PushKey(DIK_W) && MoveFlag == false) {
 		if (map_[(int)(PlayerMap.x - 1)][(int)(PlayerMap.y)] != 2 && map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 3) {
 			Vector3 move = { 0.0f,0.0f,2.0f };
@@ -353,8 +354,8 @@ void Player::Move()
 
 		}
 	}
-	
-	
+
+
 	if (input_->PushKey(DIK_S) && MoveFlag == false) {
 		if (map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 2 && map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 3) {
 			Vector3 move = { 0.0f,0.0f,-2.0f };
@@ -371,8 +372,8 @@ void Player::Move()
 			MoveFlag = true;
 		}
 	}
-	
-	
+
+
 	if (input_->PushKey(DIK_A) && MoveFlag == false) {
 
 		if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y - 1)] != 2 && map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 3) {
@@ -390,10 +391,10 @@ void Player::Move()
 			MoveFlag = true;
 		}
 	}
-	
-	
-		if (input_->PushKey(DIK_D) && MoveFlag == false) {
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 2 && map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 3) {
+
+
+	if (input_->PushKey(DIK_D) && MoveFlag == false) {
+		if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 2 && map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 3) {
 			Vector3 move = { 2.0f,0.0f,0.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,1.0f });
 			newquaternion_ = Normalize(newquaternion_);
@@ -406,34 +407,35 @@ void Player::Move()
 			goal_ = goalmatrix;
 			start_ = worldTransform_.matWorld_;
 			MoveFlag = true;
-		    }
-	    }
-	
-	
+		}
+	}
+
+
 	worldTransform_.scale_ = { 1,1,1 };
-	
-	
+
+
 
 	if (MoveFlag == true) {
 		if (moveSpeed <= 1.0f) {
 			moveSpeed += 0.05f;
-		}else
-		 {
+		}
+		else
+		{
 			moveSpeed = 1.0f;
 		}
-		
 
-		
+
+
 		for (int i = 0; i < 4; i++) {
-				for (int j = 0; j < 4; j++) {
-					
-					worldTransform_.matWorld_.m[i][j] = Lerp(moveSpeed, start_.m[i][j], goal_.m[i][j]);
+			for (int j = 0; j < 4; j++) {
+
+				worldTransform_.matWorld_.m[i][j] = Lerp(moveSpeed, start_.m[i][j], goal_.m[i][j]);
 
 
-				}
-			
+			}
+
 		}
-		
+
 
 		if (moveSpeed >= 1.0f) {
 			MoveFlag = false;
@@ -446,7 +448,7 @@ void Player::Move()
 				if (goalFlag2_) {
 					goalNum_ = 5;
 				}
-				
+
 			}
 
 			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 5 && number == 2 && !goalFlag2_) {
@@ -461,10 +463,10 @@ void Player::Move()
 				gameClear = true;
 			}
 
-			
+
 
 		}
-		
+
 	}
 }
 
