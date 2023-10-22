@@ -9,6 +9,7 @@ void Player::Initialize(Model* model)
 	worldTransform_.matWorld_.m[3][0] = 2.0f;
 	worldTransform_.matWorld_.m[3][2] = -2.0f;
 	input_ = Input::GetInstance();
+	efectManager_ = EfectManager::GetInstance();
 	model_ = model;
 	isHit_ = true;
 	SetCollisionAttribute(CollisionConfig::kCollisionAttributePlayer);
@@ -24,6 +25,9 @@ void Player::Initialize(Model* model)
 	titleCount_ = 0;
 	JumFlag_ = false;
 	goalNum_ = 0.0f;
+	goalFlag1_ = false;
+	goalFlag2_ = false;
+	goalFlag3_ = false;
 }
 
 void Player::Update()
@@ -448,7 +452,8 @@ void Player::Move()
 				if (goalFlag2_) {
 					goalNum_ = 5;
 				}
-
+				efectManager_->SetPanelSter();
+				efectManager_->SetSterTransform({ GetWorldPosition().x,GetWorldPosition().y-1.0f,GetWorldPosition().z });
 			}
 
 			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 5 && number == 2 && !goalFlag2_) {
@@ -456,6 +461,9 @@ void Player::Move()
 				if (goalFlag1_) {
 					goalNum_ = 2;
 				}
+				efectManager_->SetPanelHert();
+				efectManager_->SetHertTransform({ GetWorldPosition().x,GetWorldPosition().y - 1.0f,GetWorldPosition().z });
+
 			}
 
 			//ゴールの当たり判定

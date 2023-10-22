@@ -5,6 +5,7 @@
 #include "ViewProjection.h"
 #include "Collider.h"
 #include "CollisionConfig.h"
+#include "EfectManager.h"
 class Player:public Collider
 {
 public:
@@ -31,6 +32,7 @@ public:
 	void SetMap(const int map[7][7]);
 	bool GetSwitch() { return switch_; };
 private:
+	EfectManager* efectManager_;
 	Vector4 color;
 	Input* input_ = nullptr;
 	const ViewProjection* viewProjection_ = nullptr;
