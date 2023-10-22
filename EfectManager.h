@@ -17,6 +17,7 @@ public:
 	void SetPanelSter() { panelSter_ = true; }
 	void SetPanelHert() { panelHert_ = true; }
 	void SetPanelGoal() { panelGoal_ = true; }
+	void SelectGoal(int num);
 	void SetSterTransform(const Vector3& Position) { sterWorldtransform_.translation_ = Position; }
 	void SetHertTransform(const Vector3& Position) { hertWorldtransform_.translation_ = Position; }
 	void SetGoalTransform(const Vector3& Position) { goalWorldtransform_.translation_ = Position; }
@@ -29,6 +30,7 @@ private:
 	WorldTransform goalWorldtransform_;
 	std::unique_ptr<Model>sterModel_;
 	std::unique_ptr<Model>hertModel_;
+	Model* goalModel_;
 	int efectNum = 0;
 private:
 	void MoveSter();

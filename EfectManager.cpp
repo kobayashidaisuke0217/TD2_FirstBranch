@@ -42,6 +42,19 @@ void EfectManager::Draw(const ViewProjection& view)
 	if (panelHert_ == true) {
 		hertModel_->Draw(hertWorldtransform_, view);
 	}
+	if (panelGoal_ == true) {
+		goalModel_->Draw(goalWorldtransform_, view);
+	}
+}
+
+void EfectManager::SelectGoal(int num)
+{
+	if (num == Ster) {
+		goalModel_ = sterModel_.get();
+	}
+	if (num == Hert) {
+		goalModel_ = hertModel_.get();
+	}
 }
 
 void EfectManager::MoveSter()
@@ -72,5 +85,10 @@ void EfectManager::MoveGoal()
 {
 	if (!panelGoal_) {
 		return;
+	}
+	goalWorldtransform_.translation_.y += 0.1f;
+	goalWorldtransform_.rotation_.y += 0.1f;
+	if (goalWorldtransform_.translation_.y >= 15.0f) {
+		panelGoal_ = false;
 	}
 }

@@ -300,6 +300,10 @@ void Player::SetMap(const int map[7][7])
 		for (int j = 0; j < 7; ++j) {
 			map_[i][j] = map[i][j];
 			sMap_[i][j] = map[i][j];
+			if (map_[i][j] == 6) {
+				goalPos_ = { 0.0f + j * 2, -2.0f, 0.0f - i * 2 };
+			}
+
 		}
 	}
 
@@ -451,6 +455,9 @@ void Player::Move()
 				goalFlag1_ = true;
 				if (goalFlag2_) {
 					goalNum_ = 5;
+					efectManager_->SetPanelGoal();
+					efectManager_->SelectGoal(Ster);
+					efectManager_->SetGoalTransform ( goalPos_);
 				}
 				efectManager_->SetPanelSter();
 				efectManager_->SetSterTransform({ GetWorldPosition().x,GetWorldPosition().y-1.0f,GetWorldPosition().z });
@@ -460,6 +467,9 @@ void Player::Move()
 				goalFlag2_ = true;
 				if (goalFlag1_) {
 					goalNum_ = 2;
+					efectManager_->SetPanelGoal();
+					efectManager_->SelectGoal(Hert);
+					efectManager_->SetGoalTransform(goalPos_);
 				}
 				efectManager_->SetPanelHert();
 				efectManager_->SetHertTransform({ GetWorldPosition().x,GetWorldPosition().y - 1.0f,GetWorldPosition().z });

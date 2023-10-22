@@ -70,6 +70,8 @@ private:
 	bool goalFlag3_ = false;
 	int titleCount_;
 	bool JumFlag_;
+
+	Vector3 goalPos_;
 private:
 	void Move();
 	float CheckNumber();
