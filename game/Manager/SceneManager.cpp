@@ -42,10 +42,11 @@ void SceneManager::Run() {
 		sceneArr_[sceneNum_]->Draw();
 		
 
-		
+#ifdef _DEBUG
 		imguiManager_->End();
-	
+
 		imguiManager_->Draw();
+#endif // _DEBUG
 		blueMoon_->EndFrame();
 	}
 	CoUninitialize();
