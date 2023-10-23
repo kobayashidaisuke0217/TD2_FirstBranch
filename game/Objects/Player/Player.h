@@ -31,6 +31,8 @@ public:
 	Vector3 GetMoveWorldPosition();
 	void SetMap(const int map[7][7]);
 	bool GetSwitch() { return switch_; };
+	bool GetHeart() { return heart_; };
+	bool GetDiamond() { return diamond_; };
 private:
 	EfectManager* efectManager_;
 	Vector4 color;
@@ -71,7 +73,17 @@ private:
 	int titleCount_;
 	bool JumFlag_;
 
+
 	Vector3 goalPos_;
+
+	int stepsCount_ = 0;
+	int count_ = 0;
+	int num1_;
+	int num2_;
+
+	bool heart_ = false;
+	bool diamond_ = false;
+
 private:
 	void Move();
 	float CheckNumber();
