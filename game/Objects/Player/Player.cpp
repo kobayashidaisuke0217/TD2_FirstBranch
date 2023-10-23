@@ -104,8 +104,10 @@ void Player::Update()
 	ImGui::Text("NuwNumber %d", map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)]);
 	ImGui::Text("number %f", number);
 	ImGui::Text("goNumber %f", goalNum_);
+
 	ImGui::Text(" clear%d", gameClear);
 	ImGui::Text(" %d%d", num2_,num1_);
+
 	ImGui::End();
 	worldTransform_.TransferMatrix();
 	
@@ -458,7 +460,9 @@ void Player::Move()
 				goalFlag1_ = true;
 				if (goalFlag2_) {
 					goalNum_ = 5;
+
 					diamond_ = true;
+
 				}
 				
 			}
@@ -467,7 +471,9 @@ void Player::Move()
 				goalFlag2_ = true;
 				if (goalFlag1_) {
 					goalNum_ = 2;
+
 					heart_ = true;
+
 				}
 			}
 

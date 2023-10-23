@@ -22,13 +22,14 @@ void TitleScene::Initialize()
 	plane_ = std::make_unique<Plane>();
 	plane_->Initialize();
 	worldTransformPlane_.Initialize();
+	Stagenum = 1;
 }
 
 void TitleScene::Update()
 {
 
 	ImGui::Begin("SceneManager");
-	ImGui::InputInt("SceneNum", &sceneNum);
+	ImGui::InputInt("SceneNum", &Stagenum);
 	ImGui::DragFloat3("plane", &worldTransformPlane_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("scale", &worldTransformPlane_.scale_.x, 0.1f);
 
@@ -42,6 +43,7 @@ void TitleScene::Update()
 	Change->Update();
 	if (Change->getchangeFlag() == true) {
 		sceneNum = GAME_SCENE;
+		
 	}
 
 	if (sceneNum < 0) {

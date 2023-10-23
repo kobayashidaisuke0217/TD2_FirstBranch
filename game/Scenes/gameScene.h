@@ -66,7 +66,7 @@ private:
 	std::unique_ptr<Model> enemyBodyModel = nullptr;
 	std::unique_ptr<Model> enemyL_armModel = nullptr;
 	std::unique_ptr<Model> enemyR_armModel = nullptr;
-
+	
 	//ブロック
 	std::unique_ptr<Model> BlockModel_ = nullptr;
 	std::unique_ptr<Model> HeartModel_ = nullptr;

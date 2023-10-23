@@ -3,6 +3,13 @@ enum  Scene {
 	TITLE_SCENE,
 	GAME_SCENE,
 };
+enum  Stages {
+	St1,
+	St2,
+	St3,
+	St4,
+	St5,
+};
 class Iscene
 {
 public:
@@ -17,7 +24,7 @@ public:
 	 int GetSceneNum() { return sceneNum; }
 
 protected:
-
+	static int Stagenum;
 	static int sceneNum;
 };
 
