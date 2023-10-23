@@ -64,7 +64,7 @@ void TitleScene::Draw()
 {
 	blueMoon_->ModelPreDraw();
 	player_->Draw(viewProjection_);
-	plane_->Draw(worldTransformPlane_, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, 0);
+	plane_->Draw(worldTransformPlane_, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, 1);
 	Change->Draw();
 
 

@@ -5,6 +5,7 @@
 #include "ViewProjection.h"
 #include "Collider.h"
 #include "CollisionConfig.h"
+#include "EfectManager.h"
 class Player:public Collider
 {
 public:
@@ -33,6 +34,7 @@ public:
 	bool GetHeart() { return heart_; };
 	bool GetDiamond() { return diamond_; };
 private:
+	EfectManager* efectManager_;
 	Vector4 color;
 	Input* input_ = nullptr;
 	const ViewProjection* viewProjection_ = nullptr;
@@ -70,6 +72,10 @@ private:
 	bool goalFlag3_ = false;
 	int titleCount_;
 	bool JumFlag_;
+
+
+	Vector3 goalPos_;
+
 	int stepsCount_ = 0;
 	int count_ = 0;
 	int num1_;
@@ -77,6 +83,7 @@ private:
 
 	bool heart_ = false;
 	bool diamond_ = false;
+
 private:
 	void Move();
 	float CheckNumber();

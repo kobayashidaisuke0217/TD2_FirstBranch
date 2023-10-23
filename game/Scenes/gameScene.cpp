@@ -67,7 +67,8 @@ void GameScene::Initialize()
 	ApplyGlobalVariables();
 	count_ = 0;
 
-
+	efectmanager_ = EfectManager::GetInstance();
+	efectmanager_->Initialize();
 
 	
 }
@@ -110,7 +111,7 @@ void GameScene::Update()
 		sceneNum = 1;
 	}
 	ImGui::End();
-
+	efectmanager_->Update();
 	collisionManager_->ClearColliders();
 	collisionManager_->AddCollider(player_.get());
 	collisionManager_->AddCollider(enemy_.get());
@@ -137,6 +138,7 @@ void GameScene::Draw3D()
 	player_->Draw(viewProjection_);
 	
 	enemy_->Draw(viewProjection_);
+	efectmanager_->Draw(viewProjection_);
 }
 
 void GameScene::ApplyGlobalVariables()

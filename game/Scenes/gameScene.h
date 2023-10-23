@@ -19,6 +19,7 @@
 #include "Enemy.h"
 #include <Stageh.h>
 #include "SceneChange.h"
+#include "EfectManager.h"
 using namespace std;
 class GameScene:public Iscene
 {
@@ -69,11 +70,15 @@ private:
 	
 	//ブロック
 	std::unique_ptr<Model> BlockModel_ = nullptr;
+
+	EfectManager* efectmanager_ = nullptr;
+
 	std::unique_ptr<Model> HeartModel_ = nullptr;
 	std::unique_ptr<Model> DiamondModel_ = nullptr;
 	std::unique_ptr<Model> GoalModel_ = nullptr;
 	std::unique_ptr<Model> HeartGoalModel_ = nullptr;
 	std::unique_ptr<Model> DiamondGoalModel_ = nullptr;
+
 #pragma endregion
 };
 
