@@ -2,7 +2,7 @@
 
 
 
-void Stage::Initialize(const std::vector<Model*>& models) {
+void Stage::Initialize(const std::vector<Model*>& models,int stagenum) {
 
 	input_ = Input::GetInstance();
 	modelNormal_= models[0];
@@ -25,7 +25,7 @@ void Stage::Initialize(const std::vector<Model*>& models) {
 
 	if (stagenum == Stages1) {
 		Stage1Initialize();
-		stage1();
+		
 	}
 	if (stagenum == Stages2) {
 		Stage2Initialize();

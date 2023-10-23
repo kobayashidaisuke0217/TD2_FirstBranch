@@ -15,7 +15,7 @@ enum  St {
 class Stage{
 public:
 
-	void Initialize(const std::vector<Model*>& models);
+	void Initialize(const std::vector<Model*>& models, int stagenum);
 
 	void Update();
 	void Draw(const ViewProjection& view);
@@ -60,4 +60,5 @@ private:
 	float Up = 0;
 	float Down = -2.0f;
 	bool shake_;
+
 };

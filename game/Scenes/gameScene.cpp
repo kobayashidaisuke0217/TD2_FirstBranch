@@ -48,7 +48,7 @@ void GameScene::Initialize()
 	stage_ = std::make_unique<Stage>();
 
 	std::vector<Model*>BlockModels = { BlockModel_.get(),HeartModel_.get(),DiamondModel_.get(),GoalModel_.get()};
-	stage_->Initialize(BlockModels);
+	stage_->Initialize(BlockModels,Stagenum);
 
 	int map_[7][7];
 	for (int i = 0; i < 7; ++i) {
