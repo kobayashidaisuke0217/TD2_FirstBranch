@@ -71,6 +71,7 @@ void SceneManager::Initialize()
 	directionallight_ = DirectionalLight::GetInstance();
 	directionallight_->Initialize();
 	sceneArr_[TITLE_SCENE] = std::make_unique <TitleScene>();
+	sceneArr_[STAGESELECT_SCENE] = std::make_unique<StageSelectScene>();
 	sceneArr_[GAME_SCENE] = std::make_unique <GameScene>();
 	sceneNum_ = TITLE_SCENE;
 	sceneArr_[sceneNum_]->Initialize();
