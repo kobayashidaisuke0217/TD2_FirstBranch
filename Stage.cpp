@@ -167,16 +167,17 @@ void Stage::Stage1Initialize() {
 
 }
 
+
 void Stage::Stage2Initialize() {
 	index = -1;
 	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
 	int map[7][7] = {
 		{0,0,0,0,0,0,0},
+		{0,1,1,1,1,4,0},
 		{0,1,1,1,1,1,0},
-		{0,1,1,1,1,1,0},
-		{0,2,2,2,1,1,0},
+		{0,3,3,2,3,3,0},
 		{0,1,1,2,1,1,0},
-		{0,1,1,2,1,6,0},
+		{0,6,1,2,1,5,0},
 		{0,0,0,0,0,0,0},
 	};
 	for (int i = 0; i < 7; ++i) {
@@ -206,7 +207,15 @@ void Stage::Stage2Initialize() {
 			else {
 				worldTransformDown_[index].translation_ = { 100.0f ,0.0f,0.0f };
 			}
-
+			if (map_[i][j] == 4) {
+				worldTransformDiamond_.translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
+			if (map_[i][j] == 5) {
+				worldTransformHeart_.translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
+			if (map_[i][j] == 6) {
+				worldTransformGoal_.translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
 		}
 	}
 
