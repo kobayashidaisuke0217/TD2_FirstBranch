@@ -41,7 +41,7 @@ void GameScene::Initialize()
 	enemy_->Initialize(enemyModels);
 	BlockModel_.reset(Model::CreateModelFromObj("Resource", "glound.obj"));
 	HeartModel_.reset(Model::CreateModelFromObj("Resource", "heart.obj"));
-	DiamondModel_.reset(Model::CreateModelFromObj("Resource", "glound.obj"));
+	DiamondModel_.reset(Model::CreateModelFromObj("Resource", "diamond.obj"));
 	GoalModel_.reset(Model::CreateModelFromObj("Resource", "goal.obj"));
 	HeartGoalModel_.reset(Model::CreateModelFromObj("Resource", "goalHeart.obj"));
 	DiamondGoalModel_.reset(Model::CreateModelFromObj("Resource", "goalDiamond.obj"));
