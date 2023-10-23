@@ -23,6 +23,7 @@ void Player::Initialize(Model* model)
 	quaternion_ = Normalize(quaternion_);
 	titleCount_ = 0;
 	JumFlag_ = false;
+	stepsCount_ = 0;
 }
 
 void Player::Update()
@@ -77,6 +78,16 @@ void Player::Update()
 
 	}
 	
+	if (count_ < stepsCount_) {
+		if (num2_ != 9) {
+			num1_ += 1;
+			if (num1_ > 9) {
+				num1_ = 0;
+				num2_ += 1;
+			}
+		}
+		count_ = stepsCount_;
+	}
 	
 	Vector3 WorldPos = worldTransform_.GetWorldPos();
 	Vector4 Mat1 = { goal_.m[3][0],goal_.m[3][1],goal_.m[3][2],goal_.m[3][3] };
@@ -89,10 +100,12 @@ void Player::Update()
 	ImGui::End();
 	//worldTransform_.UpdateMatrix();
 	ImGui::Begin("number");
+	ImGui::Text("step %d", stepsCount_);
+	ImGui::Text("NuwNumber %d", map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)]);
 	ImGui::Text("number %f", number);
 	ImGui::Text("goNumber %f", goalNum_);
-	ImGui::Text(" switch_%d",isHit_);
-	ImGui::Text(" clear%d", map_[(int)PlayerMap.x][(int)PlayerMap.y]);
+	ImGui::Text(" clear%d", gameClear);
+	ImGui::Text(" %d%d", num2_,num1_);
 	ImGui::End();
 	worldTransform_.TransferMatrix();
 	
@@ -334,7 +347,7 @@ void Player::Move()
 	}
 	
 	if (input_->PushKey(DIK_W) && MoveFlag == false) {
-		if (map_[(int)(PlayerMap.x - 1)][(int)(PlayerMap.y)] != 2 && map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 3) {
+		if (map_[(int)(PlayerMap.x - 1)][(int)(PlayerMap.y)] != 2 && map_[(int)(PlayerMap.x - 1)][(int)(PlayerMap.y)] != 3) {
 			Vector3 move = { 0.0f,0.0f,2.0f };
 
 			Quaternion	newquaternion_ = createQuaternion(rad, { -1.0f,0.0f,0.0f });
@@ -356,7 +369,7 @@ void Player::Move()
 	
 	
 	if (input_->PushKey(DIK_S) && MoveFlag == false) {
-		if (map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 2 && map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 3) {
+		if (map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 2 && map_[(int)(PlayerMap.x +1 )][(int)(PlayerMap.y)] != 3) {
 			Vector3 move = { 0.0f,0.0f,-2.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 1.0f,0.0f,0.0f });
 			newquaternion_ = Normalize(newquaternion_);
@@ -375,7 +388,7 @@ void Player::Move()
 	
 	if (input_->PushKey(DIK_A) && MoveFlag == false) {
 
-		if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y - 1)] != 2 && map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 3) {
+		if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y - 1)] != 2 && map_[(int)(PlayerMap.x)][(int)(PlayerMap.y-1)] != 3) {
 			Vector3 move = { -2.0f,0.0f,0.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,-1.0f });
 			newquaternion_ = Normalize(newquaternion_);
@@ -441,18 +454,20 @@ void Player::Move()
 			//サイコロの目を確認(今は、わかりやすいよう上面の番号を表示している)
 			number = CheckNumber();
 			//感圧版の当たり判定
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 4 && number == 4 && !goalFlag1_) {
+			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 4 && number == 5 && !goalFlag1_) {
 				goalFlag1_ = true;
 				if (goalFlag2_) {
-					goalNum_ = 4;
+					goalNum_ = 5;
+					diamond_ = true;
 				}
 				
 			}
 
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 5 && number == 5 && !goalFlag2_) {
+			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 5 && number == 2 && !goalFlag2_) {
 				goalFlag2_ = true;
 				if (goalFlag1_) {
-					goalNum_ = 5;
+					goalNum_ = 2;
+					heart_ = true;
 				}
 			}
 
@@ -461,7 +476,7 @@ void Player::Move()
 				gameClear = true;
 			}
 
-			
+			stepsCount_ += 1;
 
 		}
 		
