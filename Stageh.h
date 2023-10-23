@@ -14,7 +14,9 @@ enum  St {
 };
 class Stage{
 public:
-	void Initialize(Model* models,int stagenum);
+
+	void Initialize(const std::vector<Model*>& models);
+
 	void Update();
 	void Draw(const ViewProjection& view);
 
@@ -24,9 +26,7 @@ public:
 	void Stage4Initialize();
 	void Stage5Initialize();
 
-	void stage1();
-	void stage2();
-	void stage3();
+	
 
 	int GetMap(int i, int j);
 
@@ -35,27 +35,29 @@ public:
 	// ワールド座標を取得 壁
 	Vector3 GetWorldPositionUp(int i);
 
-	//bool GetBlockUp() { return blockUp; };
+	//bool GetBlockUp() { return blockUp; }
 	bool SetSwitch(const bool up);
+	bool GetShake() { return shake_; }
+
+	void SetGoalModel(Model* model);
+
 private:
 	WorldTransform worldTransformNormal_[49] = {};
 	WorldTransform worldTransformUp_[49] = {};
 	WorldTransform worldTransformDown_[49] = {};
+	WorldTransform worldTransformHeart_;
+	WorldTransform worldTransformDiamond_;
+	WorldTransform worldTransformGoal_;
 	Model* modelNormal_;
-
+	Model* modelHeart_;
+	Model* modelDiamond_;
+	Model* modelGoal_;
 	int map_[7][7];
 	int index = 0;
-	//ブロックの番号
-	enum {
-		NORMALBLOCK, // 0
-		REDBLOCK,    // 1
-		BLUEBLOCK,   // 2
-		GREENBLOCK,  // 3
-		YELLOWBLOCK  // 4
-	};
-
+	
 	Input* input_ = nullptr;
 	bool blockUp;
 	float Up = 0;
 	float Down = -2.0f;
+	bool shake_;
 };

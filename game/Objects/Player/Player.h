@@ -30,6 +30,8 @@ public:
 	Vector3 GetMoveWorldPosition();
 	void SetMap(const int map[7][7]);
 	bool GetSwitch() { return switch_; };
+	bool GetHeart() { return heart_; };
+	bool GetDiamond() { return diamond_; };
 private:
 	Vector4 color;
 	Input* input_ = nullptr;
@@ -68,6 +70,13 @@ private:
 	bool goalFlag3_ = false;
 	int titleCount_;
 	bool JumFlag_;
+	int stepsCount_ = 0;
+	int count_ = 0;
+	int num1_;
+	int num2_;
+
+	bool heart_ = false;
+	bool diamond_ = false;
 private:
 	void Move();
 	float CheckNumber();
