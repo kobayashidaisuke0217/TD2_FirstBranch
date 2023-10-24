@@ -24,7 +24,7 @@ void TitleScene::Initialize()
 	worldTransformPlane_.Initialize();
 	worldTransformPlane_.translation_ = { 0.0f,-13.9f,10.8f };
 	worldTransformPlane_.scale_ = { 53.9f,31.0f,1.0f };
-	worldTransformPlane_.rotation_ = { 0.0f,-13.9f,10.8f };
+	worldTransformPlane_.rotation_ = { 1.2f,0.0f,0.0f };
 	Stagenum = 0;
 	texturehandle = textureManager_->Load("Resource/uvChecker.png");
 }
