@@ -100,7 +100,7 @@ void GameScene::Initialize()
 
 	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1123.0f,20.0f,1.0f} };
 	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1039.0f,20.0f,1.0f} };
-
+	fireworksMove_ = false; 
 	SpriteuvTransform =
 	{
 		{1.0f,1.0f,1.0f},
@@ -131,7 +131,9 @@ void GameScene::Update()
 		Initialize();
 	}
 	//player_->SetBlockUp(stage_->GetBlockUp());
+
 	stage_->SetSwitch(player_->GetSwitch());
+
 	if (player_->GetHeart() && !player_->GetDiamond()) {
 		stage_->SetGoalModel(HeartGoalModel_.get());
 		fireworksModel_ = hertModel_.get();
@@ -208,13 +210,13 @@ void GameScene::ApplyGlobalVariables()
 
 void GameScene::Draw2D() {
 	blueMoon_->SetBlendMode(blendCount_);
-
-	Change_->Draw();
 	//一桁目
 
 	num_[0]->Draw(transform1_, SpriteuvTransform, material, numTexture_[player_->Getnum1()]);
 	//二桁目
 	num_[1]->Draw(transform2_, SpriteuvTransform, material, numTexture_[player_->Getnum2()]);
+	Change_->Draw();
+	
 	
 	
 }
