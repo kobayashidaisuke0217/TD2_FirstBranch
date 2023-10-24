@@ -33,5 +33,6 @@ private:
 	int index;
 	int preRightMoveCount_;
 	int preLeftMoveCount_;
+	Vector3 PlayerRespornPos[5];
 };
 

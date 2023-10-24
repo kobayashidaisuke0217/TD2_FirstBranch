@@ -12,7 +12,7 @@ void EfectManager::Initialize()
 	hertWorldtransform_.Initialize();
 	goalWorldtransform_.Initialize();
 	sterModel_.reset(Model::CreateModelFromObj("Resource", "star.obj"));
-	hertModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
+	hertModel_.reset(Model::CreateModelFromObj("Resource", "heartEfect.obj"));
 	panelGoal_ = false;
 	panelHert_ = false;
 	panelSter_ = false;
