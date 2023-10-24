@@ -9,8 +9,8 @@ void Stage::Initialize(const std::vector<Model*>& models,int stagenum) {
 	modelHeart_ = models[1];
 	modelDiamond_ = models[2];
 	modelGoal_ = models[3];
-
-
+	blockUp = false;
+	shake_ = false;
 	for (int i = 0; i < 49; i++) {
 		worldTransformNormal_[i].Initialize();
 		worldTransformUp_[i].Initialize();

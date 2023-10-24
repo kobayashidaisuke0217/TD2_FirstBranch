@@ -44,6 +44,7 @@ public:
 
 	bool GetHeart() { return heart_; };
 	bool GetDiamond() { return diamond_; };
+	bool GetGameClear() { return gameClear; };
 private:
 	Texturemanager* textureManager_;
 	EfectManager* efectManager_;

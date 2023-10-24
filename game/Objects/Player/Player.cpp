@@ -26,7 +26,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	quaternion_ = Normalize(quaternion_);
 	titleCount_ = 0;
 	JumFlag_ = false;
-
+	switch_ = true;
 	goalNum_ = 0.0f;
 	goalFlag1_ = false;
 	goalFlag2_ = false;
@@ -35,6 +35,8 @@ void Player::Initialize(Model* model,Vector3 pos)
 	stageSelectMoveLeftCoumt_ = 0;
 	stageSelectMoveRightCoumt_ = 0;
 	stageSelectCount_ = 0;
+    heart_ = false;
+    diamond_ = false;
 
 
 	stepsCount_ = 0;
@@ -508,7 +510,7 @@ void Player::IsCollision(const WorldTransform& worldtransform)
 void Player::Move()
 {
 
-	if (input_->PushKey(DIK_SPACE) && MoveFlag == false) {
+	if (input_->PushKey(DIK_SPACE) && MoveFlag == false && !gameClear) {
 		if ((sMap_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] != 2) && (sMap_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] != 3)) {
 			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[3]);
 			if (switch_) {
@@ -642,7 +644,9 @@ void Player::Move()
 		if (moveSpeed >= 1.0f) {
 			MoveFlag = false;
 			moveSpeed = 0.0f;
-			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0]);
+			if (!gameClear) {
+				audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0]);
+			}
 			//サイコロの目を確認(今は、わかりやすいよう上面の番号を表示している)
 			number = CheckNumber();
 			//感圧版の当たり判定
