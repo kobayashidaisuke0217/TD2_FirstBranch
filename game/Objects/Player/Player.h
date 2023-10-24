@@ -34,7 +34,7 @@ public:
 	Vector3 GetMoveWorldPosition();
 	void SetMap(const int map[7][7]);
 	bool GetSwitch() { return switch_; };
-
+	void SetStageSelectNum(int count) { stageSelectCount_ = count; }
 	int GetStageSelectLeft() { return stageSelectMoveLeftCoumt_; }
 	int GetStageSelectRight() { return stageSelectMoveRightCoumt_; }
 	void  SetTranslation(Vector3 translation);
