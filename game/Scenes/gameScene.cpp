@@ -151,6 +151,10 @@ void GameScene::Update()
 	if (count_ >= 5) {
 		collisionManager_->CheckAllCollision();
 	}
+	ImGui::Begin("tex");
+	ImGui::DragFloat3("1", &transform1_.translate.x, 0.1f);
+	ImGui::DragFloat3("2", &transform2_.translate.x, 0.1f);
+	ImGui::End();
 }
 
 
@@ -184,9 +188,10 @@ void GameScene::ApplyGlobalVariables()
 
 void GameScene::Draw2D() {
 	blueMoon_->SetBlendMode(blendCount_);
-	Change_->Draw();
+	
 	num_[0]->Draw(transform1_, SpriteuvTransform, material, numTexture_[player_->Getnum1()]);
 	num_[1]->Draw(transform2_, SpriteuvTransform, material, numTexture_[player_->Getnum2()]);
+	Change_->Draw();
 }
 void GameScene::Finalize()
 {
