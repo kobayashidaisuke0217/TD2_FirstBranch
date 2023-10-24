@@ -32,7 +32,20 @@ void FollowCamera::Move() {
 		viewprojection_.translation_ = Add(target_->translation_, offset);
 	}*/
 	
-	viewprojection_.translation_ = { -2.8f,32.0f,-20.0f };
+
+
+
+	if (shake_) {
+		random.x = static_cast<float>(std::rand() % randomRange + 1);
+		random.y = static_cast<float>(std::rand() % randomRange + 1);
+		random.z = static_cast<float>(std::rand() % randomRange + 1);
+		viewprojection_.translation_ = { -2.8f+random.x,32.0f-random.y,-20.0f+random.y };
+	}
+	else {
+		viewprojection_.translation_ = { -2.8f,32.0f,-20.0f };
+	}
+
+	
 	viewprojection_.rotation_ = { 1.0f,0.5f,0.0f };
 
 	ImGui::Begin("camera");
@@ -48,4 +61,9 @@ void FollowCamera::Rotate() {
 		const float kRotateSpeed = 0.02f;
 		viewprojection_.rotation_.y += (float)joystate.Gamepad.sThumbRX / SHRT_MAX * kRotateSpeed;
 	}
+}
+bool FollowCamera::SetShake(bool const shake) {
+	shake_ = shake;
+
+	return shake_;
 }

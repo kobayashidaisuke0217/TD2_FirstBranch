@@ -24,6 +24,7 @@ void GameScene::Initialize()
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ = make_unique<Player>();
 	player_->Initialize(playerModel_.get());
+
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 	followCamera_->SetTarget(&player_->GetWorldTransformBase());
@@ -38,9 +39,17 @@ void GameScene::Initialize()
 	enemyR_armModel.reset(Model::CreateModelFromObj("Resource", "float_R_arm.obj"));
 	std::vector<Model*>enemyModels = { enemyBodyModel.get(),enemyHeadModel.get(),enemyL_armModel.get(),enemyR_armModel.get() };
 	enemy_->Initialize(enemyModels);
-	BlockModel_.reset(Model::CreateModelFromObj("Resource", "Normal.obj"));
+	BlockModel_.reset(Model::CreateModelFromObj("Resource", "glound.obj"));
+	HeartModel_.reset(Model::CreateModelFromObj("Resource", "heart.obj"));
+	DiamondModel_.reset(Model::CreateModelFromObj("Resource", "diamond.obj"));
+	GoalModel_.reset(Model::CreateModelFromObj("Resource", "goal.obj"));
+	HeartGoalModel_.reset(Model::CreateModelFromObj("Resource", "goalHeart.obj"));
+	DiamondGoalModel_.reset(Model::CreateModelFromObj("Resource", "goalDiamond.obj"));
 	stage_ = std::make_unique<Stage>();
-	stage_->Initialize(BlockModel_.get(),Stagenum);
+
+	std::vector<Model*>BlockModels = { BlockModel_.get(),HeartModel_.get(),DiamondModel_.get(),GoalModel_.get()};
+	stage_->Initialize(BlockModels,Stagenum);
+
 	int map_[7][7];
 	for (int i = 0; i < 7; ++i) {
 		for (int j = 0; j < 7; ++j) {
@@ -75,13 +84,23 @@ void GameScene::Update()
 	}
 	//player_->SetBlockUp(stage_->GetBlockUp());
 	stage_->SetSwitch(player_->GetSwitch());
+	if (player_->GetHeart() && !player_->GetDiamond()) {
+		stage_->SetGoalModel(HeartGoalModel_.get());
 
+	}else if (!player_->GetHeart() && player_->GetDiamond()) {
+		stage_->SetGoalModel(DiamondGoalModel_.get());
+
+	}
+
+	followCamera_->SetShake(stage_->GetShake());
 	Change_->Update();
 	viewProjection_.UpdateMatrix();
 	followCamera_->Update();
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.TransferMatrix();
+
+
 
 	ImGui::Begin("Scene");
 

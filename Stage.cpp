@@ -1,18 +1,31 @@
 #include "Stageh.h"
 
 
-void Stage::Initialize(Model* models,int stagenum) {
+
+void Stage::Initialize(const std::vector<Model*>& models,int stagenum) {
+
 	input_ = Input::GetInstance();
-	modelNormal_= models;
+	modelNormal_= models[0];
+	modelHeart_ = models[1];
+	modelDiamond_ = models[2];
+	modelGoal_ = models[3];
+
+
 	for (int i = 0; i < 49; i++) {
 		worldTransformNormal_[i].Initialize();
 		worldTransformUp_[i].Initialize();
 		worldTransformDown_[i].Initialize();
 	}
 
+	worldTransformHeart_.Initialize();
+	worldTransformDiamond_.Initialize();
+	worldTransformGoal_.Initialize();
+
+	
+
 	if (stagenum == Stages1) {
 		Stage1Initialize();
-		stage1();
+		
 	}
 	if (stagenum == Stages2) {
 		Stage2Initialize();
@@ -30,6 +43,7 @@ void Stage::Initialize(Model* models,int stagenum) {
 		Stage5Initialize();
 		
 	}
+
 	
 }
 
@@ -40,23 +54,27 @@ void Stage::Update() {
 	
 
 	if (blockUp) {
-		Up += 0.1f;
-		Down -= 0.1f;
+		shake_ = true;
+		Up += 0.05f;
+		Down -= 0.05f;
 		if (Up >= 0) {
 			Up = 0;
 		}
 		if (Down <= -2.0f) {
 			Down = -2.0f;
+			shake_ = false;
 		}
 	}
 	else {
-		Up -= 0.1f;
-		Down += 0.1f;
+		shake_ = true;
+		Up -= 0.05f;
+		Down += 0.05f;
 		if (Up <= -2.0f) {
 			Up = -2.0f;
 		}
 		if (Down >= 0) {
 			Down = 0;
+			shake_ = false;
 		}
 	}
 	for (int i = 0; i < 49; i++) {
@@ -69,6 +87,9 @@ void Stage::Update() {
 	   worldTransformUp_[i].UpdateMatrix();
 	   worldTransformDown_[i].UpdateMatrix();
 	}
+	worldTransformHeart_.UpdateMatrix();
+	worldTransformDiamond_.UpdateMatrix();
+	worldTransformGoal_.UpdateMatrix();
 	ImGui::Begin("Up");
 	ImGui::Text("%f", Up);
 	
@@ -87,7 +108,9 @@ void Stage::Draw(const ViewProjection& viewprojection) {
 		modelNormal_->Draw(worldTransformUp_[i], viewprojection);
 		modelNormal_->Draw(worldTransformDown_[i], viewprojection);
 	}
-	
+	modelHeart_->Draw(worldTransformHeart_, viewprojection);
+	modelDiamond_->Draw(worldTransformDiamond_, viewprojection);
+	modelGoal_->Draw(worldTransformGoal_, viewprojection);
 }
 
 void Stage::Stage1Initialize() {
@@ -129,23 +152,32 @@ void Stage::Stage1Initialize() {
 			else {
 				worldTransformDown_[index].translation_ = { 100.0f ,0.0f,0.0f };
 			}
-
+			if (map_[i][j] == 4) {
+				worldTransformDiamond_.translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
+			if (map_[i][j] == 5) {
+				worldTransformHeart_.translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
+			if (map_[i][j] == 6) {
+				worldTransformGoal_.translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
 		}
 	}
 
 
 }
 
+
 void Stage::Stage2Initialize() {
 	index = -1;
 	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
 	int map[7][7] = {
 		{0,0,0,0,0,0,0},
+		{0,1,1,1,1,4,0},
 		{0,1,1,1,1,1,0},
-		{0,1,1,1,1,1,0},
-		{0,2,2,2,1,1,0},
+		{0,3,3,2,3,3,0},
 		{0,1,1,2,1,1,0},
-		{0,1,1,2,1,6,0},
+		{0,6,1,2,1,5,0},
 		{0,0,0,0,0,0,0},
 	};
 	for (int i = 0; i < 7; ++i) {
@@ -175,7 +207,15 @@ void Stage::Stage2Initialize() {
 			else {
 				worldTransformDown_[index].translation_ = { 100.0f ,0.0f,0.0f };
 			}
-
+			if (map_[i][j] == 4) {
+				worldTransformDiamond_.translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
+			if (map_[i][j] == 5) {
+				worldTransformHeart_.translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
+			if (map_[i][j] == 6) {
+				worldTransformGoal_.translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
+			}
 		}
 	}
 
@@ -318,11 +358,6 @@ void Stage::Stage5Initialize() {
 }
 
 
-void Stage::stage1() {
-	
-	
-}
-
 bool Stage::SetSwitch(const bool up) {
 	blockUp = up;
 	return blockUp;
@@ -360,4 +395,8 @@ Vector3 Stage::GetWorldPositionUp(int i) {
 	return worldPos;
 
 
+}
+
+void Stage::SetGoalModel(Model* model) {
+	modelGoal_ = model;
 }
