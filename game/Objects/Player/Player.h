@@ -49,7 +49,9 @@ private:
 	EfectManager* efectManager_;
 	Vector4 color;
 	Input* input_ = nullptr;
+
   Audio* audio_ = nullptr;
+
 	const ViewProjection* viewProjection_ = nullptr;
 	Model* model_;
 	StructSphere structSphere_;
