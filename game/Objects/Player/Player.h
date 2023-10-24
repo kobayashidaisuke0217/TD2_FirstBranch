@@ -7,6 +7,7 @@
 #include "CollisionConfig.h"
 #include "EfectManager.h"
 #include <Sprite.h>
+#include <Audio.h>
 class Player:public Collider
 {
 public:
@@ -54,6 +55,7 @@ private:
 	bool gameOver = false;
 	bool gameClear = false;
 	WorldTransform worldTransform_;
+	
 	Matrix4x4 goal_;
 	Matrix4x4 start_;
 	Vector3 Translation_;
@@ -100,9 +102,13 @@ private:
 	bool heart_ = false;
 	bool diamond_ = false;
 
+	Audio* audio_;
 	
-	
-	
+	//動く音
+	SoundData moveSEData_;
+	uint32_t moveSEHandle_ = 0;
+
+
 private:
 	void Move();
 	float CheckNumber();
