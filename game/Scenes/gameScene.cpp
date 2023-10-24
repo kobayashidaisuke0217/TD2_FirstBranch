@@ -23,7 +23,7 @@ void GameScene::Initialize()
 	viewProjection_.translation_ = { 0.0f,0.0f,-5.0f };
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ = make_unique<Player>();
-	player_->Initialize(playerModel_.get());
+	player_->Initialize(playerModel_.get(), { 2.0f, 30.0f, -2.0f });
 
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
@@ -79,7 +79,11 @@ void GameScene::Update()
 	stage_->Update();
 	player_->Update();
 	enemy_->Update();
-	if (player_->isGameover() == true) {
+	skyDome_->Update();
+
+
+
+	if (player_->isGameover() == true||input_->PushKey(DIK_ESCAPE)) {
 		Initialize();
 	}
 	//player_->SetBlockUp(stage_->GetBlockUp());
