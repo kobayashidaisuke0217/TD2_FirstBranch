@@ -18,7 +18,7 @@ void TitleScene::Initialize()
 	count = 0;
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ = std::make_unique<Player>();
-	player_->Initialize(playerModel_.get());
+	player_->Initialize(playerModel_.get(),{2.0f,0.0f,-2.0f});
 	plane_ = std::make_unique<Plane>();
 	plane_->Initialize();
 	worldTransformPlane_.Initialize();

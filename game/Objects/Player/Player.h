@@ -9,7 +9,7 @@
 class Player:public Collider
 {
 public:
-	void Initialize( Model* model);
+	void Initialize( Model* model,Vector3 pos);
 	void Update();
 	void TitleUpdate();
 	void SelectUpdate();
@@ -55,7 +55,7 @@ private:
 	bool MoveFlag = false;
 	float moveSpeed;
 	//!< 回転角度(90度の回転）
-	float rad = 90 * 3.14f / 180;
+	float rad = 1.5708f;
 	Quaternion quaternion_;
 	float number;
 
@@ -94,7 +94,7 @@ private:
 
 	bool heart_ = false;
 	bool diamond_ = false;
-
+	bool isfallFlag = false;
 
 private:
 	void Move();

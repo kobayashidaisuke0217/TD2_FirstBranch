@@ -25,7 +25,7 @@ void StageSelectScene::Initialize()
 	cameraPos[4] = { 89.5f,0.0f,-12.0f };
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ = std::make_unique<Player>();
-	player_->Initialize(playerModel_.get());
+	player_->Initialize(playerModel_.get(), { 2.0f,0.0f,-2.0f });
 	for (int i = 0; i < 5; i++) {
 		plane_[i] = std::make_unique<Plane>();
 		plane_[i]->Initialize();
@@ -75,7 +75,7 @@ void StageSelectScene::Update()
 	}
 	if (index >= 5) {
 		index = 0;
-		//player_->SetTranslation({ -8.0f,0.0f,0.0f });
+	
 	}
 	if (index < 0) {
 		index = 4;
