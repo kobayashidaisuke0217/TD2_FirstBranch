@@ -20,7 +20,11 @@ void SceneManager::Run() {
 		if (winApp_->Procesmessage()) {
 			break;
 		}
-		imguiManager_->Begin();
+
+        imguiManager_->Begin();
+
+
+		
         input->Update();
 		glovalVariables_->Update();
 		directionallight_->Update();
@@ -42,10 +46,11 @@ void SceneManager::Run() {
 		sceneArr_[sceneNum_]->Draw();
 		
 
-		
-		imguiManager_->End();
+imguiManager_->End();
 	
 		imguiManager_->Draw();
+
+		
 		blueMoon_->EndFrame();
 	}
 	CoUninitialize();

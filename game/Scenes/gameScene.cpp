@@ -132,7 +132,7 @@ void GameScene::ApplyGlobalVariables()
 
 void GameScene::Draw2D() {
 	blueMoon_->SetBlendMode(blendCount_);
-	
+	Change_->Draw();
 
 }
 void GameScene::Finalize()

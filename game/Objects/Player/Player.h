@@ -12,6 +12,7 @@ public:
 	void Initialize( Model* model);
 	void Update();
 	void TitleUpdate();
+	void SelectUpdate();
 	void Draw(const ViewProjection& view);
     WorldTransform GetWorldTransform()override { return worldTransform_; }
 	const WorldTransform& GetWorldTransformBase() { return worldTransform_; }
@@ -31,6 +32,9 @@ public:
 	Vector3 GetMoveWorldPosition();
 	void SetMap(const int map[7][7]);
 	bool GetSwitch() { return switch_; };
+	int GetStageSelectLeft() { return stageSelectMoveLeftCoumt_; }
+	int GetStageSelectRight() { return stageSelectMoveRightCoumt_; }
+	void  SetTranslation(Vector3 translation);
 private:
 	EfectManager* efectManager_;
 	Vector4 color;
@@ -72,6 +76,9 @@ private:
 	bool JumFlag_;
 
 	Vector3 goalPos_;
+	int stageSelectMoveLeftCoumt_;
+	int stageSelectMoveRightCoumt_;
+	int stageSelectCount_;
 private:
 	void Move();
 	float CheckNumber();
