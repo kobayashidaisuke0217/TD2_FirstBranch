@@ -45,6 +45,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	audio_->soundDatas[0] = audio_->SoundLoadWave("resource/Audio/playerSE.wav");
 	audio_->soundDatas[1] = audio_->SoundLoadWave("resource/Audio/PressurePlate.wav");
 	audio_->soundDatas[2] = audio_->SoundLoadWave("resource/Audio/PressureClearPlate.wav");
+	audio_->soundDatas[3] = audio_->SoundLoadWave("resource/Audio/moveGround_.wav");
 	
 }
 
@@ -508,6 +509,7 @@ void Player::Move()
 
 	if (input_->PushKey(DIK_SPACE) && MoveFlag == false) {
 		if ((sMap_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] != 2) && (sMap_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] != 3)) {
+			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[3]);
 			if (switch_) {
 				switch_ = false;
 
