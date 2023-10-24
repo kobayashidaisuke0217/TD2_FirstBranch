@@ -95,8 +95,8 @@ void GameScene::Initialize()
 	//花火エフェクト用
 	sterModel_.reset(Model::CreateModelFromObj("Resource", "star.obj"));
 	hertModel_.reset(Model::CreateModelFromObj("Resource", "heartEfect.obj"));
-	
-
+	fireworksMove_ = false;
+	changeTimer_ = 10.0f;
 
 	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1123.0f,20.0f,1.0f} };
 	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1039.0f,20.0f,1.0f} };
@@ -131,13 +131,15 @@ void GameScene::Update()
 		Initialize();
 	}
 	//player_->SetBlockUp(stage_->GetBlockUp());
-	stage_->SetSwitch(player_->GetSwitch()/* && !fireworksMove_*/);
+
+	stage_->SetSwitch(player_->GetSwitch());
+
 	if (player_->GetHeart() && !player_->GetDiamond()) {
 		stage_->SetGoalModel(HeartGoalModel_.get());
 		fireworksModel_ = hertModel_.get();
 		fireworksMove_ = true;
 
-	}else if (!player_->GetHeart() && player_->GetDiamond() && !fireworksMove_) {
+	}else if (!player_->GetHeart() && player_->GetDiamond() ) {
 		stage_->SetGoalModel(DiamondGoalModel_.get());
 		fireworksModel_ = sterModel_.get();
 		fireworksMove_ = true;
@@ -228,8 +230,6 @@ void GameScene::Finalize()
 
 void GameScene::trueFireworks() {
 	
-	
-
 	if (player_->GetGameClear()) {
 		--changeTimer_;
 		for (int i = 0; i < 10; ++i) {
@@ -252,8 +252,8 @@ void GameScene::trueFireworks() {
 			fireworks->Update();
 		}
 
-		if (changeTimer_ < -60) {
-			
+		if (changeTimer_ < -50) {
+
 			fireworks_.remove_if([](Fireworks* fireworks) {
 				delete fireworks;
 				return true;

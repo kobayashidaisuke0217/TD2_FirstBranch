@@ -14,6 +14,7 @@ void Fireworks::Initialize(
 	worldTransform_.rotation_ = rotation;
 	// 引数で受け取った速度をメンバ変数に代入
 	velocity_ = velocity;
+	isDead_ = false;
 };
 
 /// <summary>
@@ -21,10 +22,7 @@ void Fireworks::Initialize(
 /// </summary>
 void Fireworks::Update() {
 
-	// 時間経過でデス
-	if (--deathTimer_ <= 0) {
-		isDead_ = true;
-	}
+	
 
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 
