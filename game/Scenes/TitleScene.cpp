@@ -22,7 +22,7 @@ void TitleScene::Initialize()
 	plane_ = std::make_unique<Plane>();
 	plane_->Initialize();
 	worldTransformPlane_.Initialize();
-	Stagenum = 1;
+	Stagenum = 0;
 }
 
 void TitleScene::Update()
@@ -42,7 +42,7 @@ void TitleScene::Update()
 	}
 	Change->Update();
 	if (Change->getchangeFlag() == true) {
-		sceneNum = GAME_SCENE;
+		sceneNum = STAGESELECT_SCENE;
 		
 	}
 

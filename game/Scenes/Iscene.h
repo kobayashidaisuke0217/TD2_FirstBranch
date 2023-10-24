@@ -1,6 +1,7 @@
 #pragma once
 enum  Scene {
 	TITLE_SCENE,
+	STAGESELECT_SCENE,
 	GAME_SCENE,
 };
 enum  Stages {
