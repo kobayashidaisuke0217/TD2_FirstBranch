@@ -91,13 +91,16 @@ void GameScene::Initialize()
 
 	efectmanager_ = EfectManager::GetInstance();
 	efectmanager_->Initialize();
+
 	//花火エフェクト用
 	sterModel_.reset(Model::CreateModelFromObj("Resource", "star.obj"));
 	hertModel_.reset(Model::CreateModelFromObj("Resource", "heartEfect.obj"));
 	
-	//sprite
-	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{130.0f,20.0f,0.0f} };
-	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{50.0f,20.0f,0.0f} };
+
+
+	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1123.0f,20.0f,1.0f} };
+	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1039.0f,20.0f,1.0f} };
+
 	SpriteuvTransform =
 	{
 		{1.0f,1.0f,1.0f},
@@ -155,15 +158,7 @@ void GameScene::Update()
 
 	
 
-	ImGui::Begin("Scene");
-
-	ImGui::InputInt("blendCount", &blendCount_);
-	ImGui::InputFloat3("rotate", &viewProjection_.rotation_.x);
-	ImGui::InputInt("SceneNum", &sceneNum);
-	if (sceneNum > 2) {
-		sceneNum = 2;
-	}
-	ImGui::End();
+	
 	efectmanager_->Update();
 	collisionManager_->ClearColliders();
 	collisionManager_->AddCollider(player_.get());
@@ -171,6 +166,10 @@ void GameScene::Update()
 	if (count_ >= 5) {
 		collisionManager_->CheckAllCollision();
 	}
+	ImGui::Begin("tex");
+	ImGui::DragFloat3("1", &transform1_.translate.x, 0.1f);
+	ImGui::DragFloat3("2", &transform2_.translate.x, 0.1f);
+	ImGui::End();
 }
 
 
@@ -209,11 +208,15 @@ void GameScene::ApplyGlobalVariables()
 
 void GameScene::Draw2D() {
 	blueMoon_->SetBlendMode(blendCount_);
+
 	Change_->Draw();
 	//一桁目
+
 	num_[0]->Draw(transform1_, SpriteuvTransform, material, numTexture_[player_->Getnum1()]);
 	//二桁目
 	num_[1]->Draw(transform2_, SpriteuvTransform, material, numTexture_[player_->Getnum2()]);
+	
+	
 }
 
 void GameScene::Finalize()

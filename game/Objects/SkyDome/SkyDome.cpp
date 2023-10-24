@@ -9,7 +9,7 @@ void SkyDome::Initialize(Model* model) {
 }
 
 void SkyDome::Update() {
-	worldTransform_.rotation_.y += 0.5f;
+	//worldTransform_.rotation_.y += 0.5f;
 	worldTransform_.UpdateMatrix();
 }
 
