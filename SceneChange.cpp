@@ -12,7 +12,7 @@ void SceneChange::Initialize()
 	sprite_ = std::make_unique<Sprite>();
 	sprite_->Initialize({ 0.0f,0.0f,0.0f,0.0f }, { 1280.0f,720.0f,0.0f,0.0f });
 	tex = texturManager_->Load("Resource/wi.png");
-	saikorotransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1.0f,1.0f,1.0f} };
+	saikorotransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	SpriteuvTransform =
 	{
 		{1.0f,1.0f,1.0f},

@@ -11,7 +11,7 @@
 class Player:public Collider
 {
 public:
-	void Initialize( Model* model);
+	void Initialize( Model* model,Vector3 pos);
 	void Update();
 	void TitleUpdate();
 	void SelectUpdate();
@@ -49,6 +49,7 @@ private:
 	EfectManager* efectManager_;
 	Vector4 color;
 	Input* input_ = nullptr;
+  Audio* audio_　= nullptr;
 	const ViewProjection* viewProjection_ = nullptr;
 	Model* model_;
 	StructSphere structSphere_;
@@ -62,7 +63,7 @@ private:
 	bool MoveFlag = false;
 	float moveSpeed;
 	//!< 回転角度(90度の回転）
-	float rad = 90 * 3.14f / 180;
+	float rad = 1.5708f;
 	Quaternion quaternion_;
 	float number;
 
@@ -102,12 +103,11 @@ private:
 	bool heart_ = false;
 	bool diamond_ = false;
 
-	Audio* audio_;
-	
-	//動く音
-	SoundData moveSEData_;
-	uint32_t moveSEHandle_ = 0;
 
+	
+	
+	bool isfallFlag = false;
+	bool titleIsMove;
 
 private:
 	void Move();
