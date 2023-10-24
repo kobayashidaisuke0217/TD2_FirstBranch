@@ -2,12 +2,13 @@
 #include "ImguiManger.h"
 #include "mymath.h"
 
-void Player::Initialize(Model* model)
+void Player::Initialize(Model* model,Vector3 pos)
 {
 
 	worldTransform_.Initialize();
-	worldTransform_.matWorld_.m[3][0] = 2.0f;
-	worldTransform_.matWorld_.m[3][2] = -2.0f;
+	worldTransform_.matWorld_.m[3][0] = pos.x;
+	worldTransform_.matWorld_.m[3][1] = pos.y;
+	worldTransform_.matWorld_.m[3][2] = pos.z;
 	input_ = Input::GetInstance();
 	efectManager_ = EfectManager::GetInstance();
 	model_ = model;
@@ -29,7 +30,7 @@ void Player::Initialize(Model* model)
 	goalFlag1_ = false;
 	goalFlag2_ = false;
 	goalFlag3_ = false;
-
+	titleIsMove = true;
 	stageSelectMoveLeftCoumt_ = 0;
 	stageSelectMoveRightCoumt_ = 0;
 	stageSelectCount_ = 0;
@@ -47,8 +48,10 @@ void Player::Update()
 	}
 
 	//落ちる処理
-	if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 0) {
+	if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 0||worldTransform_.matWorld_.m[3][1]>0.0f&&!gameClear) {
 		IsFall();
+		worldTransform_.translation_ = worldTransform_.GetWorldPos();
+		Translation_ = worldTransform_.translation_;
 	}
 
 	model_->SetColor(color);
@@ -138,7 +141,7 @@ void Player::TitleUpdate()
 
 
 	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
-	if (MoveFlag == false && JumFlag_ == false) {
+	if (MoveFlag == false && titleIsMove == true) {
 		if (titleCount_ < 3) {
 			Vector3 move = { 0.0f,0.0f,2.0f };
 
@@ -208,7 +211,7 @@ void Player::TitleUpdate()
 
 	}
 	if (input_->PushKey(DIK_RETURN)) {
-		if (MoveFlag == false) {
+		/*if (MoveFlag == false) {
 			
 			Vector3 move = { 0.0f,2.0f,0.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,0.0f });
@@ -221,11 +224,12 @@ void Player::TitleUpdate()
 			Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
 			goal_ = goalmatrix;
 			start_ = worldTransform_.matWorld_;
-		}
+		}*/
 		//MoveFlag = false;
 		JumFlag_ = true;
 	}
 	if (MoveFlag == true) {
+		titleIsMove = true;
 		if (moveSpeed <= 1.0f) {
 			moveSpeed += 0.05f;
 		}
@@ -238,15 +242,16 @@ void Player::TitleUpdate()
 				worldTransform_.matWorld_.m[i][j] = Lerp(moveSpeed, start_.m[i][j], goal_.m[i][j]);
 			}
 		}if (moveSpeed >= 1.0f) {
+			
 			MoveFlag = false;
 			moveSpeed = 0.0f;
 			titleCount_++;
-			if (JumFlag_ == true) {
-
+			if (JumFlag_ == true &&titleCount_==5) {
+				titleIsMove = false;
 				Vector3 move = { 0.0f,2.0f,0.0f };
-				Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,0.0f });
+			/*	Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,0.0f });
 				newquaternion_ = Normalize(newquaternion_);
-				quaternion_ = Multiply(quaternion_, newquaternion_);
+				quaternion_ = Multiply(quaternion_, newquaternion_);*/
 				Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
 
 				Translation_ = Add(move, Translation_);
@@ -261,7 +266,9 @@ void Player::TitleUpdate()
 		}
 
 	}
-	if (JumFlag_ == true) {
+
+	if (JumFlag_ == true && titleIsMove == false) {
+	
 		if (moveSpeed <= 1.0f) {
 			moveSpeed += 0.05f;
 		}
@@ -276,9 +283,9 @@ void Player::TitleUpdate()
 		}if (moveSpeed >= 1.0f) {
 			worldTransform_.matWorld_ = goal_;
 			Vector3 move = { 0.0f,3.0f,0.0f };
-			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,0.0f });
+			/*Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,0.0f });
 			newquaternion_ = Normalize(newquaternion_);
-			quaternion_ = Multiply(quaternion_, newquaternion_);
+			quaternion_ = Multiply(quaternion_, newquaternion_);*/
 			Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
 
 			Translation_ = Add(move, Translation_);
@@ -292,6 +299,9 @@ void Player::TitleUpdate()
 
 	}
 	worldTransform_.TransferMatrix();
+	ImGui::Begin("aaaaa");
+	ImGui::DragInt("aaaaaa", &titleCount_);
+	ImGui::End();
 }
 
 void Player::SelectUpdate()
@@ -411,6 +421,7 @@ void Player::IsFall()
 	speed_ += 0.01f;
 	worldTransform_.matWorld_.m[3][1] -= speed_;
 	worldTransform_.translation_.y -= 0.1f;
+
 }
 
 void Player::OnCollision()
@@ -573,7 +584,24 @@ void Player::Move()
 			MoveFlag = true;
 		}
 	}
+	if (gameClear==true) {
+		if (MoveFlag == false) {
 
+			Vector3 move = { 0.0f,2.0f,0.0f };
+			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,0.0f });
+			newquaternion_ = Normalize(newquaternion_);
+			quaternion_ = Multiply(quaternion_, newquaternion_);
+			Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
+
+			Translation_ = Add(move, Translation_);
+
+			Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
+			goal_ = goalmatrix;
+			start_ = worldTransform_.matWorld_;
+		}
+		//MoveFlag = false;
+		JumFlag_ = true;
+	}
 
 	worldTransform_.scale_ = { 1,1,1 };
 
@@ -647,6 +675,37 @@ void Player::Move()
 		}
 
 	}
+	if (JumFlag_ == true) {
+		if (moveSpeed <= 1.0f) {
+			moveSpeed += 0.05f;
+		}
+		else
+		{
+			moveSpeed = 1.0f;
+		}
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				worldTransform_.matWorld_.m[i][j] = Lerp(moveSpeed, start_.m[i][j], goal_.m[i][j]);
+			}
+		}if (moveSpeed >= 1.0f) {
+			worldTransform_.matWorld_ = goal_;
+			Vector3 move = { 0.0f,3.0f,0.0f };
+			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,0.0f });
+			newquaternion_ = Normalize(newquaternion_);
+			quaternion_ = Multiply(quaternion_, newquaternion_);
+			Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
+
+			Translation_ = Add(move, Translation_);
+
+			Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
+			goal_ = goalmatrix;
+			start_ = worldTransform_.matWorld_;
+			JumFlag_ = true;
+			moveSpeed = 0.0f;
+		}
+
+	}
+
 }
 
 float Player::CheckNumber() {

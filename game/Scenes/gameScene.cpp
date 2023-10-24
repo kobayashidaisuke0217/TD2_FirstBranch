@@ -23,7 +23,7 @@ void GameScene::Initialize()
 	viewProjection_.translation_ = { 0.0f,0.0f,-5.0f };
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ = make_unique<Player>();
-	player_->Initialize(playerModel_.get());
+	player_->Initialize(playerModel_.get(), { 2.0f, 30.0f, -2.0f });
 
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
@@ -75,11 +75,22 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
+	Change_->Update();
 	count_++;
 	stage_->Update();
 	player_->Update();
 	enemy_->Update();
-	if (player_->isGameover() == true) {
+	skyDome_->Update();
+
+
+	if (player_->GetWorldPosition().y >= 100.0f) {
+		Change_->setmoveFlag();
+	}
+	if (Change_->getchangeFlag() == true) {
+		sceneNum = STAGESELECT_SCENE;
+
+	}
+	if (player_->isGameover() == true||input_->PushKey(DIK_ESCAPE)) {
 		Initialize();
 	}
 	//player_->SetBlockUp(stage_->GetBlockUp());
@@ -93,7 +104,7 @@ void GameScene::Update()
 	}
 
 	followCamera_->SetShake(stage_->GetShake());
-	Change_->Update();
+	
 	viewProjection_.UpdateMatrix();
 	followCamera_->Update();
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;
