@@ -15,7 +15,7 @@
 #include "SkyDome.h"
 #include "player.h"
 #include"FollowCamera.h"
-
+#include "Fireworks.h"
 #include "Enemy.h"
 #include <Stageh.h>
 #include "SceneChange.h"
@@ -48,7 +48,7 @@ private:
 	void Draw3D();
 	void ApplyGlobalVariables();
 	void CheckAllCollision();
-
+	void trueFireworks();
 #pragma endregion
 #pragma region ゲームの機能
 	int count_;
@@ -86,6 +86,14 @@ private:
 	Transform transform2_;
 	Transform SpriteuvTransform;
 	Vector4 material;
+
+	//花火のエフェクト
+	std::unique_ptr<Model>sterModel_;
+	std::unique_ptr<Model>hertModel_;
+	Model* fireworksModel_;
+	std::list<Fireworks*> fireworks_;
+	float changeTimer_ = 10.0f;
+	bool fireworksMove_ = false;
 #pragma endregion
 };
 
