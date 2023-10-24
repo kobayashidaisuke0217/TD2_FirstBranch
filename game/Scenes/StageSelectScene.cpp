@@ -11,7 +11,7 @@ void StageSelectScene::Initialize()
 	stageTextueHandle[2] = textureManager_->Load("Resource/Stage_3.png");
 	stageTextueHandle[3] = textureManager_->Load("Resource/Stage_4.png");
 	stageTextueHandle[4] = textureManager_->Load("Resource/Stage_5.png");
-	
+	index = Stagenum;
 	blueMoon_ = BlueMoon::GetInstance();
 	input = Input::GetInstance();
 	Change = SceneChange::GetInstance();
@@ -43,7 +43,7 @@ void StageSelectScene::Initialize()
 	worldTransformPlane_[3].translation_ = { 59.7f,3.2f,2.8f };
 	worldTransformPlane_[4].translation_ = { 81.6f,3.2f,2.8f };
 	
-	
+	player_->SetStageSelectNum(index);
 }
 
 void StageSelectScene::Update()
@@ -54,7 +54,8 @@ void StageSelectScene::Update()
 	}
 	if (player_->GetStageSelectLeft() == 0 && player_->GetStageSelectRight() == 0) {
 		Change->Update();
-	}Change->SelectUpdate();
+	}
+	Change->SelectUpdate();
 	if (Change->getchangeFlag() == true) {
 		sceneNum = GAME_SCENE;
 

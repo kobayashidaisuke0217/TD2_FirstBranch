@@ -7,7 +7,7 @@
 #include "CollisionConfig.h"
 #include "EfectManager.h"
 #include <Sprite.h>
-#include <Audio.h>
+#include "Audio.h"
 class Player:public Collider
 {
 public:
@@ -34,7 +34,7 @@ public:
 	Vector3 GetMoveWorldPosition();
 	void SetMap(const int map[7][7]);
 	bool GetSwitch() { return switch_; };
-
+	void SetStageSelectNum(int count) { stageSelectCount_ = count; }
 	int GetStageSelectLeft() { return stageSelectMoveLeftCoumt_; }
 	int GetStageSelectRight() { return stageSelectMoveRightCoumt_; }
 	void  SetTranslation(Vector3 translation);
@@ -49,7 +49,9 @@ private:
 	EfectManager* efectManager_;
 	Vector4 color;
 	Input* input_ = nullptr;
-   Audio* audio_= nullptr;
+
+  Audio* audio_ = nullptr;
+
 	const ViewProjection* viewProjection_ = nullptr;
 	Model* model_;
 	StructSphere structSphere_;

@@ -24,7 +24,9 @@ void GameScene::Initialize()
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ = make_unique<Player>();
 
-	player_->Initialize(playerModel_.get(), {2.0f,30.0f,-2.0f});
+
+	player_->Initialize(playerModel_.get(),  { 2.0f, 30.0f, -2.0f });
+
 	numTexture_[0] = textureManager_->Load("Resource/number0.png");
 	numTexture_[1] = textureManager_->Load("Resource/number1.png");
 	numTexture_[2] = textureManager_->Load("Resource/number2.png");
