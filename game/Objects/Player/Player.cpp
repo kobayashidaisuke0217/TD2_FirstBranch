@@ -30,7 +30,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	goalFlag1_ = false;
 	goalFlag2_ = false;
 	goalFlag3_ = false;
-
+	titleIsMove = true;
 	stageSelectMoveLeftCoumt_ = 0;
 	stageSelectMoveRightCoumt_ = 0;
 	stageSelectCount_ = 0;
@@ -141,7 +141,7 @@ void Player::TitleUpdate()
 
 
 	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
-	if (MoveFlag == false && JumFlag_ == false) {
+	if (MoveFlag == false && titleIsMove == true) {
 		if (titleCount_ < 3) {
 			Vector3 move = { 0.0f,0.0f,2.0f };
 
@@ -211,7 +211,7 @@ void Player::TitleUpdate()
 
 	}
 	if (input_->PushKey(DIK_RETURN)) {
-		if (MoveFlag == false) {
+		/*if (MoveFlag == false) {
 			
 			Vector3 move = { 0.0f,2.0f,0.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,0.0f });
@@ -224,11 +224,12 @@ void Player::TitleUpdate()
 			Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
 			goal_ = goalmatrix;
 			start_ = worldTransform_.matWorld_;
-		}
+		}*/
 		//MoveFlag = false;
 		JumFlag_ = true;
 	}
 	if (MoveFlag == true) {
+		titleIsMove = true;
 		if (moveSpeed <= 1.0f) {
 			moveSpeed += 0.05f;
 		}
@@ -241,11 +242,12 @@ void Player::TitleUpdate()
 				worldTransform_.matWorld_.m[i][j] = Lerp(moveSpeed, start_.m[i][j], goal_.m[i][j]);
 			}
 		}if (moveSpeed >= 1.0f) {
+			
 			MoveFlag = false;
 			moveSpeed = 0.0f;
 			titleCount_++;
-			if (JumFlag_ == true) {
-
+			if (JumFlag_ == true &&titleCount_==5) {
+				titleIsMove = false;
 				Vector3 move = { 0.0f,2.0f,0.0f };
 			/*	Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,1.0f,0.0f });
 				newquaternion_ = Normalize(newquaternion_);
@@ -264,7 +266,9 @@ void Player::TitleUpdate()
 		}
 
 	}
-	if (JumFlag_ == true) {
+
+	if (JumFlag_ == true && titleIsMove == false) {
+	
 		if (moveSpeed <= 1.0f) {
 			moveSpeed += 0.05f;
 		}
@@ -295,6 +299,9 @@ void Player::TitleUpdate()
 
 	}
 	worldTransform_.TransferMatrix();
+	ImGui::Begin("aaaaa");
+	ImGui::DragInt("aaaaaa", &titleCount_);
+	ImGui::End();
 }
 
 void Player::SelectUpdate()

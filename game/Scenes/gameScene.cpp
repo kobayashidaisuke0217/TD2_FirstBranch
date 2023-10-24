@@ -75,6 +75,7 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
+	Change_->Update();
 	count_++;
 	stage_->Update();
 	player_->Update();
@@ -82,7 +83,13 @@ void GameScene::Update()
 	skyDome_->Update();
 
 
+	if (player_->GetWorldPosition().y >= 100.0f) {
+		Change_->setmoveFlag();
+	}
+	if (Change_->getchangeFlag() == true) {
+		sceneNum = STAGESELECT_SCENE;
 
+	}
 	if (player_->isGameover() == true||input_->PushKey(DIK_ESCAPE)) {
 		Initialize();
 	}
@@ -97,7 +104,7 @@ void GameScene::Update()
 	}
 
 	followCamera_->SetShake(stage_->GetShake());
-	Change_->Update();
+	
 	viewProjection_.UpdateMatrix();
 	followCamera_->Update();
 	viewProjection_.matView = followCamera_->GetViewProjection().matView;

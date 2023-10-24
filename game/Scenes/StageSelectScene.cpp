@@ -16,6 +16,11 @@ void StageSelectScene::Initialize()
 	input = Input::GetInstance();
 	Change = SceneChange::GetInstance();
 	Change->Initialize();
+	PlayerRespornPos[0] = { 2.0f,0.0f,-2.0f };
+	PlayerRespornPos[1] = { 24.0f,0.0f,-2.0f };
+	PlayerRespornPos[2] = { 46.0f,0.0f,-2.0f };
+	PlayerRespornPos[3] = { 68.0f,0.0f,-2.0f };
+	PlayerRespornPos[4] = { 90.0f,0.0f,-2.0f };
 	viewProjection_.translation_ = { 2.0f,0.0f,-12.0f };
 	viewProjection_.rotation_ = { 0.0f, 0.0f, 0.0f };
 	cameraPos[0]= { 1.9f,0.0f,-12.0f };
@@ -25,7 +30,7 @@ void StageSelectScene::Initialize()
 	cameraPos[4] = { 89.5f,0.0f,-12.0f };
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ = std::make_unique<Player>();
-	player_->Initialize(playerModel_.get(), { 2.0f,0.0f,-2.0f });
+	player_->Initialize(playerModel_.get(),PlayerRespornPos[Stagenum]);
 	for (int i = 0; i < 5; i++) {
 		plane_[i] = std::make_unique<Plane>();
 		plane_[i]->Initialize();
@@ -37,8 +42,7 @@ void StageSelectScene::Initialize()
 	worldTransformPlane_[2].translation_ = { 37.8f,3.2f,2.8f };
 	worldTransformPlane_[3].translation_ = { 59.7f,3.2f,2.8f };
 	worldTransformPlane_[4].translation_ = { 81.6f,3.2f,2.8f };
-	Stagenum = 0;
-	index = 0;
+	
 	
 }
 
@@ -82,9 +86,10 @@ void StageSelectScene::Update()
 	}
 	viewProjection_.translation_ = cameraPos[index];
 	Stagenum = index;
+	Vector3 pos = player_->GetWorldPosition();
 	ImGui::Begin("SceneManager");
 	ImGui::InputInt("SceneNum", &Stagenum);
-	ImGui::DragFloat3("rotate4", &worldTransformPlane_[3].rotation_.x, 0.1f);
+	ImGui::DragFloat3("rotate4", &pos.x, 0.1f);
 	ImGui::DragFloat3("scale4", &worldTransformPlane_[3].scale_.x, 0.1f);
 	ImGui::DragFloat3("trans4", &worldTransformPlane_[3].translation_.x, 0.1f);
 	ImGui::DragFloat3("rotate5", &worldTransformPlane_[4].rotation_.x, 0.1f);

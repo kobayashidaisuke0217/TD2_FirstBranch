@@ -95,7 +95,7 @@ private:
 	bool heart_ = false;
 	bool diamond_ = false;
 	bool isfallFlag = false;
-
+	bool titleIsMove;
 private:
 	void Move();
 	float CheckNumber();
