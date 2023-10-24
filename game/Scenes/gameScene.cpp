@@ -192,6 +192,7 @@ void GameScene::Draw2D() {
 	num_[0]->Draw(transform1_, SpriteuvTransform, material, numTexture_[player_->Getnum1()]);
 	num_[1]->Draw(transform2_, SpriteuvTransform, material, numTexture_[player_->Getnum2()]);
 	Change_->Draw();
+	
 }
 void GameScene::Finalize()
 {
