@@ -11,11 +11,13 @@ public:
 
 	void Initialize();
 	void Update();
+	void SelectUpdate();
 	void Draw();
 
 	void setmoveFlag() { moveFlag_ = true; }
+	void setSelectMoveFlag() { selectmoveFlag_ = true; }
 	bool getchangeFlag() { return ChangeFlag_; }
-
+	float GetMaterialArufa() { return material.w; }
 private:
 	Texturemanager* texturManager_;
 	bool moveFlag_;
@@ -29,4 +31,7 @@ private:
 	Transform saikorotransform_;
 	Transform 	SpriteuvTransform;
 	Vector4 material;
+	bool selectmoveFlag_;
+	bool selectarfaUp_;
+	
 };

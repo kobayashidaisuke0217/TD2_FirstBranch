@@ -107,8 +107,8 @@ void GameScene::Update()
 	ImGui::InputInt("blendCount", &blendCount_);
 	ImGui::InputFloat3("rotate", &viewProjection_.rotation_.x);
 	ImGui::InputInt("SceneNum", &sceneNum);
-	if (sceneNum > 1) {
-		sceneNum = 1;
+	if (sceneNum > 2) {
+		sceneNum = 2;
 	}
 	ImGui::End();
 	efectmanager_->Update();
@@ -151,7 +151,7 @@ void GameScene::ApplyGlobalVariables()
 
 void GameScene::Draw2D() {
 	blueMoon_->SetBlendMode(blendCount_);
-	
+	Change_->Draw();
 
 }
 void GameScene::Finalize()

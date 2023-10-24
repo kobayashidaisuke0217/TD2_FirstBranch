@@ -22,7 +22,11 @@ void TitleScene::Initialize()
 	plane_ = std::make_unique<Plane>();
 	plane_->Initialize();
 	worldTransformPlane_.Initialize();
-	Stagenum = 1;
+	worldTransformPlane_.translation_ = { 0.0f,-13.9f,10.8f };
+	worldTransformPlane_.scale_ = { 53.9f,31.0f,1.0f };
+	worldTransformPlane_.rotation_ = { 1.2f,0.0f,0.0f };
+	Stagenum = 0;
+	texturehandle = textureManager_->Load("Resource/uvChecker.png");
 }
 
 void TitleScene::Update()
@@ -33,7 +37,7 @@ void TitleScene::Update()
 	ImGui::DragFloat3("plane", &worldTransformPlane_.rotation_.x, 0.1f);
 	ImGui::DragFloat3("scale", &worldTransformPlane_.scale_.x, 0.1f);
 
-	ImGui::DragFloat3("", &worldTransformPlane_.translation_.x, 0.1f);
+	ImGui::DragFloat3("Z", &worldTransformPlane_.translation_.x, 0.1f);
 	ImGui::Text("count %d", count);
 	ImGui::End();
 	player_->TitleUpdate();
@@ -42,7 +46,7 @@ void TitleScene::Update()
 	}
 	Change->Update();
 	if (Change->getchangeFlag() == true) {
-		sceneNum = GAME_SCENE;
+		sceneNum = STAGESELECT_SCENE;
 		
 	}
 
@@ -64,7 +68,7 @@ void TitleScene::Draw()
 {
 	blueMoon_->ModelPreDraw();
 	player_->Draw(viewProjection_);
-	plane_->Draw(worldTransformPlane_, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, 1);
+	plane_->Draw(worldTransformPlane_, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, texturehandle);
 	Change->Draw();
 
 

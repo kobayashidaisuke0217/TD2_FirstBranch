@@ -12,6 +12,7 @@ public:
 	void Initialize( Model* model);
 	void Update();
 	void TitleUpdate();
+	void SelectUpdate();
 	void Draw(const ViewProjection& view);
     WorldTransform GetWorldTransform()override { return worldTransform_; }
 	const WorldTransform& GetWorldTransformBase() { return worldTransform_; }
@@ -31,6 +32,11 @@ public:
 	Vector3 GetMoveWorldPosition();
 	void SetMap(const int map[7][7]);
 	bool GetSwitch() { return switch_; };
+
+	int GetStageSelectLeft() { return stageSelectMoveLeftCoumt_; }
+	int GetStageSelectRight() { return stageSelectMoveRightCoumt_; }
+	void  SetTranslation(Vector3 translation);
+
 	bool GetHeart() { return heart_; };
 	bool GetDiamond() { return diamond_; };
 private:
@@ -76,6 +82,11 @@ private:
 
 	Vector3 goalPos_;
 
+	int stageSelectMoveLeftCoumt_;
+	int stageSelectMoveRightCoumt_;
+	int stageSelectCount_;
+
+
 	int stepsCount_ = 0;
 	int count_ = 0;
 	int num1_;
@@ -83,6 +94,7 @@ private:
 
 	bool heart_ = false;
 	bool diamond_ = false;
+
 
 private:
 	void Move();

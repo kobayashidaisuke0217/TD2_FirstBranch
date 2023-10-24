@@ -19,7 +19,7 @@ void SceneChange::Initialize()
 		{0.0f,0.0f,0.0f},
 		{0.0f,0.0f,0.0f},
 	};
-
+	
 }
 
 void SceneChange::Update()
@@ -35,7 +35,31 @@ void SceneChange::Update()
 		arfaUp_ = false;
 	}
 	ImGui::Begin("change");
-	ImGui::DragFloat3("translate", &saikorotransform_.scale.x);
+	ImGui::DragFloat4("mat", &material.x);
+	ImGui::End();
+}
+
+void SceneChange::SelectUpdate()
+{
+	if (selectmoveFlag_ == true) {
+		if (selectarfaUp_ == true) {
+			material.w += 0.02f;
+		}
+		else {
+			material.w -= 0.02f;
+		}
+	}
+	if (material.w < 0.0f) {
+		selectmoveFlag_ = false;
+		selectarfaUp_ = true;
+		material.w = 0.0f;
+	}
+	if (material.w >= 1.0f) {
+		
+		selectarfaUp_ = false;
+	}
+	ImGui::Begin("change");
+	ImGui::DragFloat4("translate", &material.x);
 	ImGui::End();
 }
 
