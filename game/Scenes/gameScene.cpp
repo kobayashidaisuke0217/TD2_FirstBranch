@@ -131,7 +131,7 @@ void GameScene::Update()
 		Initialize();
 	}
 	//player_->SetBlockUp(stage_->GetBlockUp());
-	stage_->SetSwitch(player_->GetSwitch() && !fireworksMove_);
+	stage_->SetSwitch(player_->GetSwitch()/* && !fireworksMove_*/);
 	if (player_->GetHeart() && !player_->GetDiamond()) {
 		stage_->SetGoalModel(HeartGoalModel_.get());
 		fireworksModel_ = hertModel_.get();
