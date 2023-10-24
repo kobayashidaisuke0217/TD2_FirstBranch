@@ -51,5 +51,5 @@ public:
 	void SoundPlayloop(IXAudio2* xAudio2, const SoundData& soundData);
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;
 	IXAudio2MasteringVoice* masterVoice;
-	SoundData soundDatas[10];
+	SoundData soundDatas[20];
 };

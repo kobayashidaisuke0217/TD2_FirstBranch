@@ -4,12 +4,13 @@
 
 void Player::Initialize(Model* model,Vector3 pos)
 {
-
+	
 	worldTransform_.Initialize();
 	worldTransform_.matWorld_.m[3][0] = pos.x;
 	worldTransform_.matWorld_.m[3][1] = pos.y;
 	worldTransform_.matWorld_.m[3][2] = pos.z;
 	input_ = Input::GetInstance();
+	
 	efectManager_ = EfectManager::GetInstance();
 	model_ = model;
 	isHit_ = true;
@@ -38,7 +39,13 @@ void Player::Initialize(Model* model,Vector3 pos)
 
 	stepsCount_ = 0;
 
-
+	audio_ = Audio::GetInstance();
+	audio_->Initialize();
+	//サウンドデータ
+	audio_->soundDatas[0] = audio_->SoundLoadWave("resource/Audio/playerSE.wav");
+	audio_->soundDatas[1] = audio_->SoundLoadWave("resource/Audio/PressurePlate.wav");
+	audio_->soundDatas[2] = audio_->SoundLoadWave("resource/Audio/PressureClearPlate.wav");
+	
 }
 
 void Player::Update()
@@ -412,6 +419,7 @@ void Player::SelectUpdate()
 
 void Player::Draw(const ViewProjection& view)
 {
+	
 	model_->Draw(worldTransform_, view);
 }
 
@@ -593,6 +601,7 @@ void Player::Move()
 			quaternion_ = Multiply(quaternion_, newquaternion_);
 			Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
 
+
 			Translation_ = Add(move, Translation_);
 
 			Matrix4x4 goalmatrix = MakeQuatAffineMatrix({ 1.0f,1.0f,1.0f }, quaternionMat, Translation_);
@@ -602,6 +611,7 @@ void Player::Move()
 		//MoveFlag = false;
 		JumFlag_ = true;
 	}
+
 
 	worldTransform_.scale_ = { 1,1,1 };
 
@@ -615,9 +625,6 @@ void Player::Move()
 		{
 			moveSpeed = 1.0f;
 		}
-
-
-
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 
@@ -632,6 +639,7 @@ void Player::Move()
 		if (moveSpeed >= 1.0f) {
 			MoveFlag = false;
 			moveSpeed = 0.0f;
+			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0]);
 			//サイコロの目を確認(今は、わかりやすいよう上面の番号を表示している)
 			number = CheckNumber();
 			//感圧版の当たり判定
@@ -639,12 +647,15 @@ void Player::Move()
 				goalFlag1_ = true;
 				if (goalFlag2_) {
 					goalNum_ = 5;
-          diamond_ = true;
+                    diamond_ = true;
 					efectManager_->SetPanelGoal();
 					efectManager_->SelectGoal(Ster);
 					efectManager_->SetGoalTransform ( goalPos_);
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[2]);
 
-
+				}
+				else {
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[1]);
 				}
 				efectManager_->SetPanelSter();
 				efectManager_->SetSterTransform({ GetWorldPosition().x,GetWorldPosition().y-1.0f,GetWorldPosition().z });
@@ -654,12 +665,17 @@ void Player::Move()
 				goalFlag2_ = true;
 				if (goalFlag1_) {
 					goalNum_ = 2;
-          heart_ = true;
+                    heart_ = true;
 					efectManager_->SetPanelGoal();
 					efectManager_->SelectGoal(Hert);
 					efectManager_->SetGoalTransform(goalPos_);
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[2]);
+				}
+				else {
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[1]);
 
 				}
+				
 				efectManager_->SetPanelHert();
 				efectManager_->SetHertTransform({ GetWorldPosition().x,GetWorldPosition().y - 1.0f,GetWorldPosition().z });
 

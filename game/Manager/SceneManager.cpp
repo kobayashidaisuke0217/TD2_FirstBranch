@@ -11,6 +11,9 @@ SceneManager::~SceneManager()
 	imguiManager_->Finalize();
 	audio_->xAudio2.Reset();
 	audio_->SoundUnload(&audio_->soundDatas[0]);
+	audio_->SoundUnload(&audio_->soundDatas[1]);
+	audio_->SoundUnload(&audio_->soundDatas[2]);
+
 }
 void SceneManager::Run() {
 	Initialize();

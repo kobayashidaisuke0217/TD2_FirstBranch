@@ -23,7 +23,27 @@ void GameScene::Initialize()
 	viewProjection_.translation_ = { 0.0f,0.0f,-5.0f };
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ = make_unique<Player>();
+
+	player_->Initialize(playerModel_.get());
+	numTexture_[0] = textureManager_->Load("Resource/number0.png");
+	numTexture_[1] = textureManager_->Load("Resource/number1.png");
+	numTexture_[2] = textureManager_->Load("Resource/number2.png");
+	numTexture_[3] = textureManager_->Load("Resource/number3.png");
+	numTexture_[4] = textureManager_->Load("Resource/number4.png");
+	numTexture_[5] = textureManager_->Load("Resource/number5.png");
+	numTexture_[6] = textureManager_->Load("Resource/number6.png");
+	numTexture_[7] = textureManager_->Load("Resource/number7.png");
+	numTexture_[8] = textureManager_->Load("Resource/number8.png");
+	numTexture_[9] = textureManager_->Load("Resource/number9.png");
+
+	for (int i = 0; i < 2; i++) {
+		num_[i] = std::make_unique<Sprite>();
+		num_[i]->Initialize({ 0.0f,0.0f,0.0f,0.0f }, { 100.0f,100.0f,0.0f,0.0f });
+	}
+
+
 	player_->Initialize(playerModel_.get(), { 2.0f, 30.0f, -2.0f });
+
 
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
@@ -70,7 +90,15 @@ void GameScene::Initialize()
 	efectmanager_ = EfectManager::GetInstance();
 	efectmanager_->Initialize();
 
-	
+	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{130.0f,20.0f,1.0f} };
+	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{50.0f,20.0f,1.0f} };
+	SpriteuvTransform =
+	{
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
+	material = { 1.0f,1.0f,1.0f,1.0f };
 }
 
 void GameScene::Update()
@@ -163,7 +191,8 @@ void GameScene::ApplyGlobalVariables()
 void GameScene::Draw2D() {
 	blueMoon_->SetBlendMode(blendCount_);
 	Change_->Draw();
-
+	num_[0]->Draw(transform1_, SpriteuvTransform, material, numTexture_[player_->Getnum1()]);
+	num_[1]->Draw(transform2_, SpriteuvTransform, material, numTexture_[player_->Getnum2()]);
 }
 void GameScene::Finalize()
 {
