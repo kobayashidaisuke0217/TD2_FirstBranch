@@ -63,14 +63,17 @@ void Player::Update()
 		worldTransform_.translation_ = worldTransform_.GetWorldPos();
 		Translation_ = worldTransform_.translation_;
 	}
+	else {
+		if (worldTransform_.matWorld_.m[3][1] >= -1.0f) {
+			Move();
+		}
+
+	}
 
 	model_->SetColor(color);
 	structSphere_.center = worldTransform_.GetWorldPos();
 	structSphere_.radius = 1.5f;
-	if (worldTransform_.matWorld_.m[3][1] >= -1.0f) {
-		Move();
-	}
-
+	
 	if (!switch_) {
 		for (int i = 0; i < 7; ++i) {
 			for (int j = 0; j < 7; ++j) {

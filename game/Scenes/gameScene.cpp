@@ -100,7 +100,7 @@ void GameScene::Initialize()
 
 	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1123.0f,20.0f,1.0f} };
 	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1039.0f,20.0f,1.0f} };
-
+	fireworksMove_ = false; 
 	SpriteuvTransform =
 	{
 		{1.0f,1.0f,1.0f},
