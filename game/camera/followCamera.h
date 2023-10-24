@@ -17,7 +17,7 @@ private:
 
 	Vector3 random{};
 	int randomRange = 2;
-
+	float ofset;
 	bool shake_ = false;
 private:
 	void Move();

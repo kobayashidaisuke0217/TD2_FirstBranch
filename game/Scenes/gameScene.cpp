@@ -143,15 +143,7 @@ void GameScene::Update()
 
 
 
-	ImGui::Begin("Scene");
-
-	ImGui::InputInt("blendCount", &blendCount_);
-	ImGui::InputFloat3("rotate", &viewProjection_.rotation_.x);
-	ImGui::InputInt("SceneNum", &sceneNum);
-	if (sceneNum > 2) {
-		sceneNum = 2;
-	}
-	ImGui::End();
+	
 	efectmanager_->Update();
 	collisionManager_->ClearColliders();
 	collisionManager_->AddCollider(player_.get());
