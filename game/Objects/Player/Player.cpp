@@ -4,7 +4,7 @@
 
 void Player::Initialize(Model* model)
 {
-
+	
 	worldTransform_.Initialize();
 	worldTransform_.matWorld_.m[3][0] = 2.0f;
 	worldTransform_.matWorld_.m[3][2] = -2.0f;
@@ -36,8 +36,7 @@ void Player::Initialize(Model* model)
 
 
 	stepsCount_ = 0;
-
-
+	
 }
 
 void Player::Update()
@@ -402,6 +401,7 @@ void Player::SelectUpdate()
 
 void Player::Draw(const ViewProjection& view)
 {
+	
 	model_->Draw(worldTransform_, view);
 }
 

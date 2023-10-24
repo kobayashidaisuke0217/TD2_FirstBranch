@@ -79,6 +79,13 @@ private:
 	std::unique_ptr<Model> HeartGoalModel_ = nullptr;
 	std::unique_ptr<Model> DiamondGoalModel_ = nullptr;
 
+	uint32_t numTexture_[10];
+	std::unique_ptr<Sprite> num_[2] = { nullptr };
+
+	Transform transform1_;
+	Transform transform2_;
+	Transform SpriteuvTransform;
+	Vector4 material;
 #pragma endregion
 };
 

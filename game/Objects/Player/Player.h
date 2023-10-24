@@ -6,6 +6,7 @@
 #include "Collider.h"
 #include "CollisionConfig.h"
 #include "EfectManager.h"
+#include <Sprite.h>
 class Player:public Collider
 {
 public:
@@ -37,9 +38,13 @@ public:
 	int GetStageSelectRight() { return stageSelectMoveRightCoumt_; }
 	void  SetTranslation(Vector3 translation);
 
+	int Getnum1() { return num1_; };
+	int Getnum2() { return num2_; };
+
 	bool GetHeart() { return heart_; };
 	bool GetDiamond() { return diamond_; };
 private:
+	Texturemanager* textureManager_;
 	EfectManager* efectManager_;
 	Vector4 color;
 	Input* input_ = nullptr;
@@ -95,7 +100,9 @@ private:
 	bool heart_ = false;
 	bool diamond_ = false;
 
-
+	
+	
+	
 private:
 	void Move();
 	float CheckNumber();
