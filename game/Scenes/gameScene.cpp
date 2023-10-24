@@ -92,8 +92,8 @@ void GameScene::Initialize()
 	efectmanager_ = EfectManager::GetInstance();
 	efectmanager_->Initialize();
 
-	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{130.0f,20.0f,1.0f} };
-	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{50.0f,20.0f,1.0f} };
+	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1123.0f,20.0f,1.0f} };
+	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1039.0f,20.0f,1.0f} };
 	SpriteuvTransform =
 	{
 		{1.0f,1.0f,1.0f},

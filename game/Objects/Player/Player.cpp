@@ -250,7 +250,7 @@ void Player::TitleUpdate()
 				worldTransform_.matWorld_.m[i][j] = Lerp(moveSpeed, start_.m[i][j], goal_.m[i][j]);
 			}
 		}if (moveSpeed >= 1.0f) {
-			
+			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0]);
 			MoveFlag = false;
 			moveSpeed = 0.0f;
 			titleCount_++;
@@ -396,6 +396,7 @@ void Player::SelectUpdate()
 
 
 		if (moveSpeed >= 1.0f) {
+			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0]);
 			MoveFlag = false;
 			moveSpeed = 0.0f;
 			if (stageSelectMoveRightCoumt_ >= 11) {
