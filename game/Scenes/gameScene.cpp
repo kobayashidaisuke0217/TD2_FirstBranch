@@ -133,7 +133,7 @@ void GameScene::Initialize()
 	IsClearLevelmove = false;
 	kanbanMoveSpeed = 0.0f;
 	IsMovetab = false;
-	tabMoveSpeed_ = 0.0f;
+	tabMoveSpeed_ = 1.0f;
 }
 
 void GameScene::Update()
