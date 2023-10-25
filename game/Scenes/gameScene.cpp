@@ -125,14 +125,20 @@ void GameScene::Update()
 		Change_->setmoveFlag();
 	}
 	if (Change_->getchangeFlag() == true) {
-		sceneNum = STAGESELECT_SCENE;
+		if (player_->GetGameClear()) {
+			sceneNum = STAGESELECT_SCENE;
+		}
+		else {
+			Initialize();
+		}
 
 	}
 	if (player_->isGameover() == true||input_->PushKey(DIK_ESCAPE)) {
-		Initialize();
+		Change_->setmoveFlag();
 	}
+	
 	//player_->SetBlockUp(stage_->GetBlockUp());
-
+	stage_->SetCountOver(player_->GetCountOver());
 	stage_->SetSwitch(player_->GetSwitch());
 
 	if (player_->GetHeart() && !player_->GetDiamond()) {
@@ -150,7 +156,7 @@ void GameScene::Update()
 	
 	//花火のエフェクト
 	trueFireworks();
-
+	
 	followCamera_->SetShake(stage_->GetShake());
 	
 	viewProjection_.UpdateMatrix();

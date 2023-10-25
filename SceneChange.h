@@ -16,8 +16,10 @@ public:
 
 	void setmoveFlag() { moveFlag_ = true; }
 	void setSelectMoveFlag() { selectmoveFlag_ = true; }
+	bool GetSelectMoveFlag() { return selectmoveFlag_; }
 	bool getchangeFlag() { return ChangeFlag_; }
 	float GetMaterialArufa() { return material.w; }
+	void SetMaterialArufa(float arufa) { material.w = arufa; }
 private:
 	Texturemanager* texturManager_;
 	bool moveFlag_;

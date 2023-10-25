@@ -44,7 +44,10 @@ void Stage::Initialize(const std::vector<Model*>& models,int stagenum) {
 		
 	}
 
-	
+	for (int i = 0; i < 53; i++) {
+		move[i] = (std::rand() % 3 / 10.0f)+0.1f;
+	}
+	shakeCount_ = 0;
 }
 
 void Stage::Update() {
@@ -77,9 +80,29 @@ void Stage::Update() {
 			shake_ = false;
 		}
 	}
-	for (int i = 0; i < 49; i++) {
-		worldTransformUp_[i].translation_.y = Up;
-		worldTransformDown_[i].translation_.y = Down;
+	if (!countOver_) {
+		for (int i = 0; i < 49; i++) {
+			worldTransformUp_[i].translation_.y = Up;
+			worldTransformDown_[i].translation_.y = Down;
+		}
+	}
+	if (countOver_) {
+		shakeCount_++;
+		if (shakeCount_ < 15) {
+			shake_ = true;
+		}
+		else {
+			shake_ = false;
+
+			for (int i = 0; i < 49; i++) {
+				worldTransformNormal_[i].translation_.y -= move[i];
+				worldTransformUp_[i].translation_.y -= move[i];
+				worldTransformDown_[i].translation_.y -= move[i];
+			}
+			worldTransformHeart_.translation_.y -= move[50];
+			worldTransformDiamond_.translation_.y -= move[51];
+			worldTransformGoal_.translation_.y -= move[52];
+		}
 	}
 	
 	for (int i = 0; i <49; i++) {
@@ -87,6 +110,7 @@ void Stage::Update() {
 	   worldTransformUp_[i].UpdateMatrix();
 	   worldTransformDown_[i].UpdateMatrix();
 	}
+	
 	worldTransformHeart_.UpdateMatrix();
 	worldTransformDiamond_.UpdateMatrix();
 	worldTransformGoal_.UpdateMatrix();
