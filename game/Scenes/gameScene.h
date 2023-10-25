@@ -94,6 +94,7 @@ private:
 	std::list<Fireworks*> fireworks_;
 	float changeTimer_ = 10.0f;
 	bool fireworksMove_ = false;
+	Audio* audio_ = nullptr;
 #pragma endregion
 };
 

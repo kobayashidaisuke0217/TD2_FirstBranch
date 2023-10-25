@@ -48,7 +48,7 @@ public:
 	// 音声再生
 	void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData,float volume);
 	//ループ再生
-	void SoundPlayloop(IXAudio2* xAudio2, const SoundData& soundData);
+	void SoundPlayloop(IXAudio2* xAudio2, const SoundData& soundData, float volume);
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;
 	IXAudio2MasteringVoice* masterVoice;
 	SoundData soundDatas[20];

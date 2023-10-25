@@ -108,12 +108,13 @@ void Audio::SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData, float v
 	result = pSourceVoice->Start();
 	
 }
-void Audio::SoundPlayloop(IXAudio2* xAudio2, const SoundData& soundData) {
+void Audio::SoundPlayloop(IXAudio2* xAudio2, const SoundData& soundData, float volume) {
 	HRESULT result;
 
 	//波形フォーマットもとにSourceVoiceの生成
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
 	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
+	pSourceVoice->SetVolume(volume);
 	assert(SUCCEEDED(result));
 
 	// 再生する波形データの設定

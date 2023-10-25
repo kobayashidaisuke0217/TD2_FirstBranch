@@ -41,6 +41,7 @@ void SceneChange::Update()
 
 void SceneChange::SelectUpdate()
 {
+	
 	if (selectmoveFlag_ == true) {
 		if (selectarfaUp_ == true) {
 			material.w += 0.02f;
@@ -48,7 +49,9 @@ void SceneChange::SelectUpdate()
 		else {
 			material.w -= 0.02f;
 		}
+		
 	}
+	
 	if (material.w < 0.0f) {
 		selectmoveFlag_ = false;
 		selectarfaUp_ = true;
@@ -81,5 +84,7 @@ void SceneChange::Move()
 		else {
 			material.w -= 0.01f;
 		}
+		
 	}
+	
 }

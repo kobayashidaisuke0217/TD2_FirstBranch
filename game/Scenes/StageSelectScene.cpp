@@ -56,12 +56,12 @@ void StageSelectScene::Initialize()
 	worldTransformPlane_[0].translation_ = { -3.6f,2.4f,2.2f };
 	worldTransformPlane_[1].translation_ = { 18.3f,2.4f,2.2f };
 	worldTransformPlane_[2].translation_ = { 40.2f,2.4f,2.2f };
-	worldTransformPlane_[3].translation_ = { 64.1f,2.4f,2.2f };
+	worldTransformPlane_[3].translation_ = { 62.1f,2.4f,2.2f };
 	worldTransformPlane_[4].translation_ = { 84.0f,2.4f,2.2f };
 	worldTransformPlane_[5].translation_ = { 6.8f,3.2f,2.2f };
 	worldTransformPlane_[6].translation_ = { 28.7f,3.2f,2.2f };
 	worldTransformPlane_[7].translation_ = { 50.6f,3.2f,2.2f };
-	worldTransformPlane_[8].translation_ = { 73.5f,3.2f,2.2f };
+	worldTransformPlane_[8].translation_ = { 72.5f,3.2f,2.2f };
 	worldTransformPlane_[9].translation_ = { 94.4f,3.2f,2.2f };
 	worldTransformPlane_[10].translation_ = { 1.9f,0.0f,2.8f };
 	worldTransformPlane_[11].translation_ = { 23.8f,0.0f,2.8f };
@@ -70,6 +70,7 @@ void StageSelectScene::Initialize()
 	worldTransformPlane_[14].translation_ = { 89.5f,0.0f,2.8f };
 	player_->SetStageSelectNum(index);
 	LerpTimer = 0.0f;
+	
 }
 
 void StageSelectScene::Update()
