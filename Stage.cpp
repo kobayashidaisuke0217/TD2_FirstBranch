@@ -191,7 +191,7 @@ void Stage::Stage1Initialize() {
 	}
 	
 	Clearlevel2_ = 50;
-	Clearlevel3_ = 18;
+	Clearlevel3_ = 10;
 
 }
 
@@ -246,7 +246,8 @@ void Stage::Stage2Initialize() {
 			}
 		}
 	}
-
+	Clearlevel2_ = 50;
+	Clearlevel3_ = 14;
 
 }
 void Stage::Stage3Initialize() {
@@ -299,7 +300,8 @@ void Stage::Stage3Initialize() {
 			}
 		}
 	}
-
+	Clearlevel2_ = 50;
+	Clearlevel3_ = 22;
 
 }
 void Stage::Stage4Initialize() {
@@ -352,7 +354,8 @@ void Stage::Stage4Initialize() {
 			}
 		}
 	}
-
+	Clearlevel2_ = 50;
+	Clearlevel3_ = 19;
 
 }
 void Stage::Stage5Initialize() {
@@ -405,7 +408,8 @@ void Stage::Stage5Initialize() {
 			}
 		}
 	}
-
+	Clearlevel2_ = 50;
+	Clearlevel3_ = 30;
 
 }
 
