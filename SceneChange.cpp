@@ -49,13 +49,9 @@ void SceneChange::SelectUpdate()
 		else {
 			material.w -= 0.02f;
 		}
-		material.x = 0.0f;
-		material.y = 0.0f;
-		material.z = 0.0f;
+		
 	}
-	else {
-		material = { 1.0f,1.0f,1.0f,0.0f };
-	}
+	
 	if (material.w < 0.0f) {
 		selectmoveFlag_ = false;
 		selectarfaUp_ = true;
@@ -88,11 +84,7 @@ void SceneChange::Move()
 		else {
 			material.w -= 0.01f;
 		}
-		material.x = 0.0f;
-		material.y = 0.0f;
-		material.z = 0.0f;
+		
 	}
-	else {
-		material = { 1.0f,1.0f,1.0f,0.0f };
-	}
+	
 }
