@@ -61,5 +61,5 @@ private:
 	bool shake_ = false;
 	bool countOver_;
 	float move[53];
-	
+	int shakeCount_;
 };

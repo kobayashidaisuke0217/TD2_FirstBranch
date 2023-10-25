@@ -47,6 +47,7 @@ void Stage::Initialize(const std::vector<Model*>& models,int stagenum) {
 	for (int i = 0; i < 53; i++) {
 		move[i] = (std::rand() % 3 / 10.0f)+0.1f;
 	}
+	shakeCount_ = 0;
 }
 
 void Stage::Update() {
@@ -86,15 +87,24 @@ void Stage::Update() {
 		}
 	}
 	if (countOver_) {
-		for (int i = 0; i < 49; i++) {
-			worldTransformNormal_[i].translation_.y -= move[i];
-			worldTransformUp_[i].translation_.y -= move[i];
-			worldTransformDown_[i].translation_.y -= move[i];
+		shakeCount_++;
+		if (shakeCount_ < 15) {
+			shake_ = true;
 		}
-		worldTransformHeart_.translation_.y -= move[50];
-		worldTransformDiamond_.translation_.y -= move[51];
-		worldTransformGoal_.translation_.y -= move[52];
+		else {
+			shake_ = false;
+
+			for (int i = 0; i < 49; i++) {
+				worldTransformNormal_[i].translation_.y -= move[i];
+				worldTransformUp_[i].translation_.y -= move[i];
+				worldTransformDown_[i].translation_.y -= move[i];
+			}
+			worldTransformHeart_.translation_.y -= move[50];
+			worldTransformDiamond_.translation_.y -= move[51];
+			worldTransformGoal_.translation_.y -= move[52];
+		}
 	}
+	
 	for (int i = 0; i <49; i++) {
 	   worldTransformNormal_[i].UpdateMatrix();
 	   worldTransformUp_[i].UpdateMatrix();
