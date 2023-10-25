@@ -24,15 +24,16 @@ private:
 	Texturemanager* textureManager_;
 	Input* input = nullptr;
 	SceneChange* Change;
-	WorldTransform worldTransformPlane_[5];
+	WorldTransform worldTransformPlane_[10];
 	std::unique_ptr<Model> playerModel_  =nullptr;
 	std::unique_ptr<Player> player_;
-	std::unique_ptr<Plane> plane_[5];
-	uint32_t stageTextueHandle[5];
+	std::unique_ptr<Plane> plane_[10];
+	uint32_t stageTextueHandle[10];
 	Vector3 cameraPos[5];
 	int index;
 	int preRightMoveCount_;
 	int preLeftMoveCount_;
 	Vector3 PlayerRespornPos[5];
+	float LerpTimer;
 };
 
