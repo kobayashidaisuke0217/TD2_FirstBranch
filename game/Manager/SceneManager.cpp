@@ -13,6 +13,7 @@ SceneManager::~SceneManager()
 	audio_->SoundUnload(&audio_->soundDatas[0]);
 	audio_->SoundUnload(&audio_->soundDatas[1]);
 	audio_->SoundUnload(&audio_->soundDatas[2]);
+	audio_->SoundUnload(&audio_->soundDatas[3]);
 
 }
 void SceneManager::Run() {
@@ -88,7 +89,7 @@ void SceneManager::Initialize()
 	
 	audio_ = Audio::GetInstance();
 	audio_->Initialize();
-	audio_->soundDatas[0] = audio_->SoundLoadWave("resource/Alarm01.wav");
+	//audio_->soundDatas[0] = audio_->SoundLoadWave("resource/Alarm01.wav");
 }
 
 

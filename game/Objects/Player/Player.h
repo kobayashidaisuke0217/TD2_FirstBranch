@@ -44,12 +44,15 @@ public:
 
 	bool GetHeart() { return heart_; };
 	bool GetDiamond() { return diamond_; };
+	bool GetGameClear() { return gameClear; };
 private:
 	Texturemanager* textureManager_;
 	EfectManager* efectManager_;
 	Vector4 color;
 	Input* input_ = nullptr;
+
   Audio* audio_ = nullptr;
+
 	const ViewProjection* viewProjection_ = nullptr;
 	Model* model_;
 	StructSphere structSphere_;

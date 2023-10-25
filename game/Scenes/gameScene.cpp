@@ -24,7 +24,9 @@ void GameScene::Initialize()
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ = make_unique<Player>();
 
+
 	player_->Initialize(playerModel_.get(),  { 2.0f, 30.0f, -2.0f });
+
 	numTexture_[0] = textureManager_->Load("Resource/number0.png");
 	numTexture_[1] = textureManager_->Load("Resource/number1.png");
 	numTexture_[2] = textureManager_->Load("Resource/number2.png");
@@ -90,8 +92,15 @@ void GameScene::Initialize()
 	efectmanager_ = EfectManager::GetInstance();
 	efectmanager_->Initialize();
 
-	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{130.0f,20.0f,1.0f} };
-	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{50.0f,20.0f,1.0f} };
+	//花火エフェクト用
+	sterModel_.reset(Model::CreateModelFromObj("Resource", "star.obj"));
+	hertModel_.reset(Model::CreateModelFromObj("Resource", "heartEfect.obj"));
+	fireworksMove_ = false;
+	changeTimer_ = 10.0f;
+
+	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1123.0f,20.0f,1.0f} };
+	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1039.0f,20.0f,1.0f} };
+	fireworksMove_ = false; 
 	SpriteuvTransform =
 	{
 		{1.0f,1.0f,1.0f},
@@ -99,6 +108,7 @@ void GameScene::Initialize()
 		{0.0f,0.0f,0.0f},
 	};
 	material = { 1.0f,1.0f,1.0f,1.0f };
+
 }
 
 void GameScene::Update()
@@ -122,14 +132,24 @@ void GameScene::Update()
 		Initialize();
 	}
 	//player_->SetBlockUp(stage_->GetBlockUp());
+
 	stage_->SetSwitch(player_->GetSwitch());
+
 	if (player_->GetHeart() && !player_->GetDiamond()) {
 		stage_->SetGoalModel(HeartGoalModel_.get());
+		fireworksModel_ = hertModel_.get();
+		fireworksMove_ = true;
 
-	}else if (!player_->GetHeart() && player_->GetDiamond()) {
+	}else if (!player_->GetHeart() && player_->GetDiamond() ) {
 		stage_->SetGoalModel(DiamondGoalModel_.get());
+		fireworksModel_ = sterModel_.get();
+		fireworksMove_ = true;
 
 	}
+
+	
+	//花火のエフェクト
+	trueFireworks();
 
 	followCamera_->SetShake(stage_->GetShake());
 	
@@ -139,17 +159,9 @@ void GameScene::Update()
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.TransferMatrix();
 
+	
 
-
-	ImGui::Begin("Scene");
-
-	ImGui::InputInt("blendCount", &blendCount_);
-	ImGui::InputFloat3("rotate", &viewProjection_.rotation_.x);
-	ImGui::InputInt("SceneNum", &sceneNum);
-	if (sceneNum > 2) {
-		sceneNum = 2;
-	}
-	ImGui::End();
+	
 	efectmanager_->Update();
 	collisionManager_->ClearColliders();
 	collisionManager_->AddCollider(player_.get());
@@ -157,6 +169,10 @@ void GameScene::Update()
 	if (count_ >= 5) {
 		collisionManager_->CheckAllCollision();
 	}
+	ImGui::Begin("tex");
+	ImGui::DragFloat3("1", &transform1_.translate.x, 0.1f);
+	ImGui::DragFloat3("2", &transform2_.translate.x, 0.1f);
+	ImGui::End();
 }
 
 
@@ -178,6 +194,11 @@ void GameScene::Draw3D()
 	
 	enemy_->Draw(viewProjection_);
 	efectmanager_->Draw(viewProjection_);
+
+	// 弾の描画
+	for (Fireworks* firework : fireworks_) {
+		firework->Draw(viewProjection_);
+	}
 }
 
 void GameScene::ApplyGlobalVariables()
@@ -190,10 +211,17 @@ void GameScene::ApplyGlobalVariables()
 
 void GameScene::Draw2D() {
 	blueMoon_->SetBlendMode(blendCount_);
-	Change_->Draw();
+	//一桁目
+
 	num_[0]->Draw(transform1_, SpriteuvTransform, material, numTexture_[player_->Getnum1()]);
+	//二桁目
 	num_[1]->Draw(transform2_, SpriteuvTransform, material, numTexture_[player_->Getnum2()]);
+	Change_->Draw();
+	
+	
+	
 }
+
 void GameScene::Finalize()
 {
 	
@@ -201,42 +229,36 @@ void GameScene::Finalize()
 	
 }
 
-/*/使ってない
-void GameScene::CheckAllCollision() {
-	// 判定対象AとBの座標
-	Vector3 posA, posB[25];
+void GameScene::trueFireworks() {
+	
+	if (player_->GetGameClear()) {
+		--changeTimer_;
+		for (int i = 0; i < 10; ++i) {
+			Vector3 velocity = { 0, 0, 0 };
+			float numberX = (rand() % 11 - 5) / 5.0f;
+			float numberY = (rand() % 11 - 5) / 5.0f;
+			float numberZ = (rand() % 11 - 5) / 5.0f;
+			velocity = { numberX, numberY, numberZ };
+			// 弾を生成、初期化
+			Fireworks* newFireworks = new Fireworks();
+			newFireworks->Initialize(
+				fireworksModel_, player_->GetWorldPosition(), {0.5f, 0.5f, 0.5f},
+				velocity, velocity);
 
-	bool Up;
-
-#pragma region 自キャラと地面の当たり判定
-	// 自キャラ座標
-	posA = player_->GetWorldPosition();
-	Up = stage_->GetBlockUp();
-	// 自キャラと敵弾全ての当たり判定
-	for (int i = 0; i < 25; i++) {
-		// 敵弾の座標
-		posB[i] = stage_->GetWorldPositionNormal(i);
-
-		// 距離
-		float distance = (posB[i].x - posA.x) * (posB[i].x - posA.x) +
-			(posB[i].y - posA.y) * (posB[i].y - posA.y) +
-			(posB[i].z - posA.z) * (posB[i].z - posA.z);
-		float R1 = 1.0f;
-		float R2 = 1.0f;
-		if (distance <= (R1 + R2) * (R1 + R2)) {
-			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision();
-			break;
-			
+			fireworks_.push_back(newFireworks);
 		}
-		else {
-			player_->OutCollision();
+
+		for (Fireworks* fireworks : fireworks_) {
+
+			fireworks->Update();
+		}
+
+		if (changeTimer_ < -50) {
+
+			fireworks_.remove_if([](Fireworks* fireworks) {
+				delete fireworks;
+				return true;
+			});
 		}
 	}
-
-#pragma endregion
-
-
 }
-*/
-

@@ -56,9 +56,9 @@ private:
 	int index = 0;
 	
 	Input* input_ = nullptr;
-	bool blockUp;
+	bool blockUp = false;
 	float Up = 0;
 	float Down = -2.0f;
-	bool shake_;
+	bool shake_ = false;
 
 };

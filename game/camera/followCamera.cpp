@@ -6,6 +6,8 @@ void FollowCamera::Initialize() {
 	input_ = Input::GetInstance();
 	viewprojection_.translation_ = { 0.0f,7.3f,-2.1f };
 	viewprojection_.rotation_ = { 1.2f,0.0f,0.0f };
+	ofset =  1.0f;
+	
 }
 
 void FollowCamera::Update() {
@@ -14,6 +16,12 @@ void FollowCamera::Update() {
 	Rotate();
 	viewprojection_.UpdateViewMatrix();
 	viewprojection_.TransferMatrix();
+	ImGui::Begin("Scene");
+	ImGui::DragFloat3("trans", &viewprojection_.translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate", &viewprojection_.rotation_.x, 0.1f);
+	ImGui::End();
+	
+	
 }
 
 void FollowCamera::SetTarget(const WorldTransform* target) {
@@ -39,17 +47,19 @@ void FollowCamera::Move() {
 		random.x = static_cast<float>(std::rand() % randomRange + 1);
 		random.y = static_cast<float>(std::rand() % randomRange + 1);
 		random.z = static_cast<float>(std::rand() % randomRange + 1);
-		viewprojection_.translation_ = { -2.8f+random.x,32.0f-random.y,-20.0f+random.y };
+		//viewprojection_.translation_ = { -2.8f+random.x,32.0f-random.y,-20.0f+random.y };
+		viewprojection_.translation_ = { 1.6f + random.x,13.8f - random.y,-14.7f + random.y };
 	}
 	else {
-		viewprojection_.translation_ = { -2.8f,32.0f,-20.0f };
+		
+		viewprojection_.translation_ = { 1.6f,13.8f,-14.7f };
 	}
 
 	
 	viewprojection_.rotation_ = { 1.0f,0.5f,0.0f };
 
 	ImGui::Begin("camera");
-	ImGui::DragFloat3("trans", &viewprojection_.translation_.x, 0.1f);
+	ImGui::DragFloat3("ofset", &ofset, 0.1f);
 	ImGui::DragFloat3("rotate", &viewprojection_.rotation_.x, 0.1f);
 	ImGui::End();
 }
