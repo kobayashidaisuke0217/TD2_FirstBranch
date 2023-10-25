@@ -84,6 +84,7 @@ private:
 	std::unique_ptr<Model> GoalModel_ = nullptr;
 	std::unique_ptr<Model> HeartGoalModel_ = nullptr;
 	std::unique_ptr<Model> DiamondGoalModel_ = nullptr;
+	std::unique_ptr<Model> floorMoveModel_ = nullptr;
 	bool nextTitle_;
 	uint32_t numTexture_[10];
 	uint32_t tabTexture_;
@@ -110,6 +111,7 @@ private:
 	std::list<Fireworks*> fireworks_;
 	float changeTimer_ = 10.0f;
 	bool fireworksMove_ = false;
+	Audio* audio_ = nullptr;
 #pragma endregion
 };
 

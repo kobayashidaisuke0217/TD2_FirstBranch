@@ -16,6 +16,7 @@ void Sprite::SetColor() {
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 	materialData_->uvTransform = MakeIdentity4x4();
 }
+
 void Sprite::Draw(const Transform&transform, const Transform& uvTransform, const Vector4& material,uint32_t texIndex)
 {
 

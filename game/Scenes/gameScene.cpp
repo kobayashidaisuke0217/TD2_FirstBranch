@@ -15,6 +15,7 @@ void GameScene::Initialize()
 	textureManager_ = Texturemanager::GetInstance();
 	textureManager_->Initialize();
 	collisionManager_ = make_unique<CollisionManager>();
+	
 	input_ = Input::GetInstance();
 	Change_ = SceneChange::GetInstance();
 	Change_->Initialize();
@@ -70,9 +71,10 @@ void GameScene::Initialize()
 	GoalModel_.reset(Model::CreateModelFromObj("Resource", "goal.obj"));
 	HeartGoalModel_.reset(Model::CreateModelFromObj("Resource", "goalHeart.obj"));
 	DiamondGoalModel_.reset(Model::CreateModelFromObj("Resource", "goalDiamond.obj"));
+	floorMoveModel_.reset(Model::CreateModelFromObj("Resource", "floorMove.obj"));
 	stage_ = std::make_unique<Stage>();
 
-	std::vector<Model*>BlockModels = { BlockModel_.get(),HeartModel_.get(),DiamondModel_.get(),GoalModel_.get()};
+	std::vector<Model*>BlockModels = { BlockModel_.get(),HeartModel_.get(),DiamondModel_.get(),GoalModel_.get(),floorMoveModel_ .get()};
 	stage_->Initialize(BlockModels,Stagenum);
 	tabSprite_ = make_unique<Sprite>();
 	tabSprite_->Initialize({ 0.0f,0.0f,0.0f,0.0f }, { 2000.0f,720.0f,0.0f,0.0f });
@@ -113,6 +115,7 @@ void GameScene::Initialize()
 	};
 	material = { 1.0f,1.0f,1.0f,1.0f };
 	nextTitle_ = false;
+
 	for (int i = 0; i< 3; i++) {
 		plane_[i] =std::make_unique<Plane>();
 		plane_[i]->Initialize();
@@ -129,10 +132,12 @@ void GameScene::Initialize()
 	ClearLevelprev_ = Clearlevel_;
 	IsClearLevelmove = false;
 	kanbanMoveSpeed = 0.0f;
+
 }
 
 void GameScene::Update()
 {
+	
 	Change_->Update();
 	count_++;
 	stage_->Update();

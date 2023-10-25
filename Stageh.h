@@ -48,6 +48,7 @@ private:
 	WorldTransform worldTransformDiamond_;
 	WorldTransform worldTransformGoal_;
 	Model* modelNormal_;
+	Model* modelFloorMove_;
 	Model* modelHeart_;
 	Model* modelDiamond_;
 	Model* modelGoal_;

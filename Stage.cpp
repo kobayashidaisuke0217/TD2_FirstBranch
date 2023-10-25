@@ -9,6 +9,7 @@ void Stage::Initialize(const std::vector<Model*>& models,int stagenum) {
 	modelHeart_ = models[1];
 	modelDiamond_ = models[2];
 	modelGoal_ = models[3];
+	modelFloorMove_ = models[4];
 	/*blockUp = false;
 	shake_ = false;*/
 	for (int i = 0; i < 49; i++) {
@@ -130,8 +131,8 @@ void Stage::Draw(const ViewProjection& viewprojection) {
 
 	for (int i = 0; i < 49; i++) {
 		modelNormal_->Draw(worldTransformNormal_[i], viewprojection);
-		modelNormal_->Draw(worldTransformUp_[i], viewprojection);
-		modelNormal_->Draw(worldTransformDown_[i], viewprojection);
+		modelFloorMove_->Draw(worldTransformUp_[i], viewprojection);
+		modelFloorMove_->Draw(worldTransformDown_[i], viewprojection);
 	}
 	modelHeart_->Draw(worldTransformHeart_, viewprojection);
 	modelDiamond_->Draw(worldTransformDiamond_, viewprojection);
@@ -143,11 +144,11 @@ void Stage::Stage1Initialize() {
 	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
 	int map[7][7] = {
 		{0,0,0,0,0,0,0},
-		{0,1,1,1,1,5,0},
-	    {0,1,1,1,1,1,0},
-	    {0,1,1,2,3,3,0},
+		{0,1,1,2,1,5,0},
 	    {0,1,1,2,1,1,0},
-	    {0,4,1,2,1,6,0},
+	    {0,1,1,3,1,4,0},
+	    {0,1,1,1,1,1,0},
+	    {0,1,1,6,1,1,0},
 		{0,0,0,0,0,0,0},
 	};
 	for (int i = 0; i < 7; ++i) {

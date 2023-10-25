@@ -18,6 +18,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	SetCollisionMask(~CollisionConfig::kCollisionAttributePlayer);
 	color = { 1.0f,1.0f,1.0f,1.0f };
 	moveSpeed = 0.0f;
+	
 	goal_ = worldTransform_.matWorld_;
 	start_ = worldTransform_.matWorld_;
 	playerNowPos_ = worldTransform_.matWorld_;
@@ -34,6 +35,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	goalFlag2_ = false;
 	goalFlag3_ = false;
 	titleIsMove = true;
+	lnding_ = false;
 	stageSelectMoveLeftCoumt_ = 0;
 	stageSelectMoveRightCoumt_ = 0;
 	stageSelectCount_ = 0;
@@ -46,12 +48,15 @@ void Player::Initialize(Model* model,Vector3 pos)
 	stepsCount_ = 0;
 	isOverCount_ = 0;
 	audio_ = Audio::GetInstance();
-	audio_->Initialize();
+	
 	//サウンドデータ
 	audio_->soundDatas[0] = audio_->SoundLoadWave("resource/Audio/playerSE.wav");
 	audio_->soundDatas[1] = audio_->SoundLoadWave("resource/Audio/PressurePlate.wav");
 	audio_->soundDatas[2] = audio_->SoundLoadWave("resource/Audio/PressureClearPlate.wav");
 	audio_->soundDatas[3] = audio_->SoundLoadWave("resource/Audio/moveGround_.wav");
+	audio_->soundDatas[4] = audio_->SoundLoadWave("resource/Audio/Fall.wav");
+	audio_->soundDatas[5] = audio_->SoundLoadWave("resource/Audio/Clear.wav");
+	audio_->soundDatas[6] = audio_->SoundLoadWave("resource/Audio/landing2.wav");
 	isCountOver = false;
 }
 
@@ -74,6 +79,7 @@ void Player::Update()
 		worldTransform_.translation_ = worldTransform_.GetWorldPos();
 		Translation_ = worldTransform_.translation_;
 	}
+	
 	//落ちる処理
 	if (map_[(int)(playerNowPos_.m[3][2] / 2) * -1][(int)(playerNowPos_.m[3][0] / 2)] == 0 || worldTransform_.matWorld_.m[3][1]>0.0f && !gameClear) {
 		IsFall();
@@ -81,10 +87,18 @@ void Player::Update()
 		Translation_ = worldTransform_.translation_;
 	}
 	else {
-		if (worldTransform_.matWorld_.m[3][1] >= -1.0f/*&& stepsCount_< 99*/) {
+		
+		if (worldTransform_.matWorld_.m[3][1] >= -1.0f&& isOverCount_ < 40) {
+			speed_ = 0.0f;
 			Move();
 		}
 
+	}
+
+	//着地音
+	if (worldTransform_.translation_.y <= 0 && !lnding_) {
+		lnding_ = true;
+		audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[6], 1.5f);
 	}
 
 	model_->SetColor(color);
@@ -136,7 +150,10 @@ void Player::Update()
 		}
 		count_ = stepsCount_;
 	}
-	
+	if (num2_ > 9) {
+		num1_ = 9;
+		num2_ = 9;
+	}
 
 	Vector3 WorldPos = worldTransform_.GetWorldPos();
 	Vector4 Mat1 = { goal_.m[3][0],goal_.m[3][1],goal_.m[3][2],goal_.m[3][3] };
@@ -425,6 +442,7 @@ void Player::SelectUpdate()
 			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0], volume[0]);
 			MoveFlag = false;
 			moveSpeed = 0.0f;
+			
 			if (stageSelectMoveRightCoumt_ >= 11) {
 				stageSelectMoveRightCoumt_ = 0;
 				stageSelectCount_++;
@@ -454,6 +472,10 @@ void Player::Draw(const ViewProjection& view)
 void Player::IsFall()
 {
 
+	if (speed_ <= 0) {
+		audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[4], volume[0]);
+	}
+	
 	speed_ += 0.01f;
 	worldTransform_.matWorld_.m[3][1] -= speed_;
 	worldTransform_.translation_.y =worldTransform_.GetWorldPos().y;
@@ -682,11 +704,11 @@ void Player::Move()
 					efectManager_->SetPanelGoal();
 					efectManager_->SelectGoal(Ster);
 					efectManager_->SetGoalTransform ( goalPos_);
-					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[2], volume[2]);
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[2], 0.5f);
 
 				}
 				else {
-					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[1], volume[1]);
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[1], 1.5f);
 				}
 				efectManager_->SetPanelSter();
 				efectManager_->SetSterTransform({ GetWorldPosition().x,GetWorldPosition().y-1.0f,GetWorldPosition().z });
@@ -700,10 +722,10 @@ void Player::Move()
 					efectManager_->SetPanelGoal();
 					efectManager_->SelectGoal(Hert);
 					efectManager_->SetGoalTransform(goalPos_);
-					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[2], volume[2]);
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[2], 0.5f);
 				}
 				else {
-					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[1], volume[1]);
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[1], 1.5f);
 
 				}
 				
@@ -714,6 +736,7 @@ void Player::Move()
 
 			//ゴールの当たり判定
 			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 6 && number == goalNum_) {
+				audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[5], volume[2]);
 				gameClear = true;
 			}
 

@@ -14,12 +14,16 @@ SceneManager::~SceneManager()
 	audio_->SoundUnload(&audio_->soundDatas[1]);
 	audio_->SoundUnload(&audio_->soundDatas[2]);
 	audio_->SoundUnload(&audio_->soundDatas[3]);
-
+	audio_->SoundUnload(&audio_->soundDatas[4]);
+	audio_->SoundUnload(&audio_->soundDatas[5]);
+	audio_->SoundUnload(&audio_->soundDatas[6]);
+	audio_->SoundUnload(&audio_->soundDatas[7]);
 }
 void SceneManager::Run() {
 	Initialize();
-
+	
 	while (true) {
+		
 		// メッセージ処理
 		if (winApp_->Procesmessage()) {
 			break;
@@ -27,7 +31,7 @@ void SceneManager::Run() {
 
         imguiManager_->Begin();
 
-
+		
 		
         input->Update();
 		glovalVariables_->Update();
@@ -95,7 +99,8 @@ void SceneManager::Initialize()
 	
 	audio_ = Audio::GetInstance();
 	audio_->Initialize();
-	//audio_->soundDatas[0] = audio_->SoundLoadWave("resource/Alarm01.wav");
+	audio_->soundDatas[7] = audio_->SoundLoadWave("resource/Audio/BGM.wav");
+	audio_->SoundPlayloop(audio_->xAudio2.Get(), audio_->soundDatas[7], 0.1f);
 }
 
 
