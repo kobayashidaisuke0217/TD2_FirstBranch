@@ -45,6 +45,7 @@ public:
 	bool GetHeart() { return heart_; };
 	bool GetDiamond() { return diamond_; };
 	bool GetGameClear() { return gameClear; };
+	bool GetCountOver() { return isCountOver; }
 private:
 	Texturemanager* textureManager_;
 	EfectManager* efectManager_;
@@ -108,7 +109,7 @@ private:
 
 
 	
-	
+	bool isCountOver = false;
 	bool isfallFlag = false;
 	bool titleIsMove;
 

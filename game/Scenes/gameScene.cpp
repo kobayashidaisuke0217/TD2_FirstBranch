@@ -132,7 +132,7 @@ void GameScene::Update()
 		Initialize();
 	}
 	//player_->SetBlockUp(stage_->GetBlockUp());
-
+	stage_->SetCountOver(player_->GetCountOver());
 	stage_->SetSwitch(player_->GetSwitch());
 
 	if (player_->GetHeart() && !player_->GetDiamond()) {
@@ -150,7 +150,7 @@ void GameScene::Update()
 	
 	//花火のエフェクト
 	trueFireworks();
-
+	
 	followCamera_->SetShake(stage_->GetShake());
 	
 	viewProjection_.UpdateMatrix();
