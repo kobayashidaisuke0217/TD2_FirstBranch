@@ -383,7 +383,7 @@ void Stage::Stage5Initialize() {
 				worldTransformNormal_[index].translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
 			}
 			else {
-				worldTransformNormal_[index].translation_ = { 4.0f ,-2.0f,-4.0f };
+				worldTransformNormal_[index].translation_ = { 4.0f ,-2.0f,-2.0f };
 			}
 			if (map_[i][j] == 2) {
 				worldTransformUp_[index].translation_ = { 0.0f + j * 2,Up,0.0f - i * 2 };
