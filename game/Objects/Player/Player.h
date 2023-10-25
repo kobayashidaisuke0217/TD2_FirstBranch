@@ -107,7 +107,7 @@ private:
 	bool heart_ = false;
 	bool diamond_ = false;
 
-
+	bool lnding_ = false;
 	
 	bool isCountOver = false;
 	bool isfallFlag = false;

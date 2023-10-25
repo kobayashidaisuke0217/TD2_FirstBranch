@@ -12,6 +12,7 @@ void TitleScene::Initialize()
 	textureManager_ = Texturemanager::GetInstance();
 	textureManager_->Initialize();
 	blueMoon_ = BlueMoon::GetInstance();
+	
 	input = Input::GetInstance();
 	Change = SceneChange::GetInstance();
 	Change->Initialize();
@@ -28,6 +29,8 @@ void TitleScene::Initialize()
 	Stagenum = 0;
 	texturehandle = textureManager_->Load("Resource/uvChecker.png");
 	sceneNum = 0;
+
+	
 }
 
 void TitleScene::Update()
