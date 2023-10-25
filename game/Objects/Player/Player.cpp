@@ -671,10 +671,10 @@ void Player::Move()
 			//サイコロの目を確認(今は、わかりやすいよう上面の番号を表示している)
 			number = CheckNumber();
 			//感圧版の当たり判定
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 4 && number == 5 && !goalFlag1_) {
+			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 4 && number == 2 && !goalFlag1_) {
 				goalFlag1_ = true;
 				if (goalFlag2_) {
-					goalNum_ = 5;
+					goalNum_ = 2;
                     diamond_ = true;
 					efectManager_->SetPanelGoal();
 					efectManager_->SelectGoal(Ster);
@@ -689,10 +689,10 @@ void Player::Move()
 				efectManager_->SetSterTransform({ GetWorldPosition().x,GetWorldPosition().y-1.0f,GetWorldPosition().z });
 			}
 
-			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 5 && number == 2 && !goalFlag2_) {
+			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 5 && number == 5 && !goalFlag2_) {
 				goalFlag2_ = true;
 				if (goalFlag1_) {
-					goalNum_ = 2;
+					goalNum_ = 5;
                     heart_ = true;
 					efectManager_->SetPanelGoal();
 					efectManager_->SelectGoal(Hert);
