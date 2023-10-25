@@ -281,7 +281,7 @@ void GameScene::Draw3D()
 	enemy_->Draw(viewProjection_);
 	efectmanager_->Draw(viewProjection_);
 	
-	//	plane_[0]->Draw(PlaneWorldTransform, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, nowLevelTexture_);
+	//plane_[0]->Draw(PlaneWorldTransform, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, nowLevelTexture_);
 	
 	
 	// 弾の描画
