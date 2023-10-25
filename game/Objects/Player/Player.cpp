@@ -44,7 +44,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	}
 	volume[0] = 0.1f;
 	stepsCount_ = 0;
-
+	isOverCount_ = 0;
 	audio_ = Audio::GetInstance();
 	audio_->Initialize();
 	//サウンドデータ
@@ -66,11 +66,14 @@ void Player::Update()
 	}
 	
 	if (isCountOver) {
+		isOverCount_++;
+		
+	}
+	if (isOverCount_ > 40) {
 		IsFall();
 		worldTransform_.translation_ = worldTransform_.GetWorldPos();
 		Translation_ = worldTransform_.translation_;
 	}
-
 	//落ちる処理
 	if (map_[(int)(playerNowPos_.m[3][2] / 2) * -1][(int)(playerNowPos_.m[3][0] / 2)] == 0 || worldTransform_.matWorld_.m[3][1]>0.0f && !gameClear) {
 		IsFall();
@@ -453,7 +456,7 @@ void Player::IsFall()
 
 	speed_ += 0.01f;
 	worldTransform_.matWorld_.m[3][1] -= speed_;
-	worldTransform_.translation_.y -= 0.1f;
+	worldTransform_.translation_.y =worldTransform_.GetWorldPos().y;
 
 }
 

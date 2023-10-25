@@ -45,7 +45,7 @@ void Stage::Initialize(const std::vector<Model*>& models,int stagenum) {
 	}
 
 	for (int i = 0; i < 53; i++) {
-		move[i] = (std::rand() % 3 / 10.0f)+0.1f;
+		move[i] = (std::rand() % 3 / 10.0f)+0.2f;
 	}
 	shakeCount_ = 0;
 }
@@ -98,6 +98,7 @@ void Stage::Update() {
 				worldTransformNormal_[i].translation_.y -= move[i];
 				worldTransformUp_[i].translation_.y -= move[i];
 				worldTransformDown_[i].translation_.y -= move[i];
+				move[i] += 0.015f;
 			}
 			worldTransformHeart_.translation_.y -= move[50];
 			worldTransformDiamond_.translation_.y -= move[51];
@@ -142,11 +143,11 @@ void Stage::Stage1Initialize() {
 	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
 	int map[7][7] = {
 		{0,0,0,0,0,0,0},
-		{0,1,1,1,1,4,0},
+		{0,1,1,1,1,5,0},
 	    {0,1,1,1,1,1,0},
 	    {0,1,1,2,3,3,0},
 	    {0,1,1,2,1,1,0},
-	    {0,5,1,2,1,6,0},
+	    {0,4,1,2,1,6,0},
 		{0,0,0,0,0,0,0},
 	};
 	for (int i = 0; i < 7; ++i) {
@@ -162,7 +163,7 @@ void Stage::Stage1Initialize() {
 				worldTransformNormal_[index].translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
 			}
 			else {
-				worldTransformNormal_[index].translation_ = { 0.0f ,90.0f,0.0f };
+				worldTransformNormal_[index].translation_ = { 4.0f ,-2.0f,-4.0f };
 			}
 			if (map_[i][j] == 2) {
 				worldTransformUp_[index].translation_ = { 0.0f + j * 2,Up,0.0f - i * 2 };
@@ -197,11 +198,11 @@ void Stage::Stage2Initialize() {
 	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
 	int map[7][7] = {
 		{0,0,0,0,0,0,0},
-		{0,1,1,1,1,4,0},
+		{0,1,1,1,1,5,0},
 		{0,1,1,1,1,1,0},
 		{0,3,3,2,3,3,0},
 		{0,1,1,2,1,1,0},
-		{0,6,1,2,1,5,0},
+		{0,6,1,2,1,4,0},
 		{0,0,0,0,0,0,0},
 	};
 	for (int i = 0; i < 7; ++i) {
@@ -251,9 +252,9 @@ void Stage::Stage3Initialize() {
 	int map[7][7] = {
 		{0,0,0,0,0,0,0},
 		{0,1,1,1,1,1,0},
-		{0,1,1,1,3,5,0},
+		{0,1,1,1,3,4,0},
 		{0,2,2,1,3,1,0},
-		{0,4,3,3,1,0,0},
+		{0,5,3,3,1,0,0},
 		{0,1,0,1,1,6,0},
 		{0,0,0,0,0,0,0},
 	};
@@ -304,10 +305,10 @@ void Stage::Stage4Initialize() {
 	int map[7][7] = {
 		{0,0,0,0,0,0,0},
 		{0,1,3,1,1,2,0},
-		{0,6,1,4,1,1,0},
+		{0,6,1,5,1,1,0},
 		{0,1,0,1,1,0,0},
 		{0,1,1,2,2,1,0},
-		{0,1,3,1,5,1,0},
+		{0,1,3,1,4,1,0},
 		{0,0,0,0,0,0,0},
 	};
 	for (int i = 0; i < 7; ++i) {
@@ -357,8 +358,8 @@ void Stage::Stage5Initialize() {
 	int map[7][7] = {
 		{0,0,0,0,0,0,0},
 		{0,1,1,1,1,1,0},
-		{0,3,2,0,5,1,0},
-		{0,1,4,1,0,1,0},
+		{0,3,2,0,4,1,0},
+		{0,1,5,1,0,1,0},
 		{0,0,0,1,2,1,0},
 		{0,6,1,3,1,1,0},
 		{0,0,0,0,0,0,0},

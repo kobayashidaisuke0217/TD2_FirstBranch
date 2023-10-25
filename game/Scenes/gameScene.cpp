@@ -108,7 +108,7 @@ void GameScene::Initialize()
 		{0.0f,0.0f,0.0f},
 	};
 	material = { 1.0f,1.0f,1.0f,1.0f };
-
+	nextTitle_ = false;
 }
 
 void GameScene::Update()
@@ -121,11 +121,12 @@ void GameScene::Update()
 	skyDome_->Update();
 
 
-	if (player_->GetWorldPosition().y >= 100.0f) {
+	if (player_->GetWorldPosition().y >= 100.0f || input_->PushKey(DIK_ESCAPE)) {
 		Change_->setmoveFlag();
+		nextTitle_ = true;
 	}
 	if (Change_->getchangeFlag() == true) {
-		if (player_->GetGameClear()) {
+		if (nextTitle_) {
 			sceneNum = STAGESELECT_SCENE;
 		}
 		else {
@@ -133,7 +134,7 @@ void GameScene::Update()
 		}
 
 	}
-	if (player_->isGameover() == true||input_->PushKey(DIK_ESCAPE)) {
+	if (player_->isGameover() == true) {
 		Change_->setmoveFlag();
 	}
 	

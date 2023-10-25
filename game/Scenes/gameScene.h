@@ -78,7 +78,7 @@ private:
 	std::unique_ptr<Model> GoalModel_ = nullptr;
 	std::unique_ptr<Model> HeartGoalModel_ = nullptr;
 	std::unique_ptr<Model> DiamondGoalModel_ = nullptr;
-
+	bool nextTitle_;
 	uint32_t numTexture_[10];
 	std::unique_ptr<Sprite> num_[2] = { nullptr };
 
