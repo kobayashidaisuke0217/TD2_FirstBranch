@@ -36,7 +36,12 @@ void TitleScene::Initialize()
 		spriteTransform_[i] = { { 1.0f,1.0f,1.0f},{ 0.0f,0.0f,0.0f} ,{ 1.0f,1.0f,1.0f} };
 	}
 	sceneNum = 0;
-
+	SpriteuvTransform =
+	{
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
 	
 }
 

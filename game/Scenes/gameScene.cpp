@@ -42,12 +42,17 @@ void GameScene::Initialize()
 	Leveltexture_[0] = textureManager_->Load("Resource/hosi1.png");
 	Leveltexture_[1] = textureManager_->Load("Resource/hosi2.png");
 	Leveltexture_[2] = textureManager_->Load("Resource/hosi3.png");
+	spacenum[0] = textureManager_->Load("Resource/supeno.png");
+	spacenum[1] = textureManager_->Load("Resource/supeosi.png");
 	for (int i = 0; i < 2; i++) {
 		num_[i] = std::make_unique<Sprite>();
 		num_[i]->Initialize({ 0.0f,0.0f,0.0f,0.0f }, { 100.0f,100.0f,0.0f,0.0f });
 	}
 
+	SpaceSprite_ = std::make_unique<Sprite>();
+	SpaceSprite_->Initialize({ 0.0f,0.0f,0.0f,0.0f }, { 240.0f,100.0f,0.0f,0.0f });
 
+	spaceTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{100.0f,614.0f,0.0f} };
 	player_->Initialize(playerModel_.get(), { 2.0f, 30.0f, -2.0f });
 
 
@@ -143,7 +148,7 @@ void GameScene::Update()
 	count_++;
 	stage_->Update();
 	player_->Update();
-	enemy_->Update();
+	
 	skyDome_->Update();
 	ClearLevelprev_ = Clearlevel_;
 	ImGui::Begin("Clearlevel");
@@ -253,7 +258,7 @@ void GameScene::Update()
 	}
 	ImGui::Begin("tex");
 	ImGui::DragFloat3("1tr", &PlaneWorldTransform.rotation_.x, 0.1f);
-	ImGui::DragFloat3("2", &tabTransform_.translate.x);
+	ImGui::DragFloat3("2", &spaceTransform_.translate.x);
 	ImGui::End();
 	
 		PlaneWorldTransform.UpdateMatrix();
@@ -278,7 +283,7 @@ void GameScene::Draw3D()
 	stage_->Draw(viewProjection_);
 	player_->Draw(viewProjection_);
 	
-	enemy_->Draw(viewProjection_);
+	
 	efectmanager_->Draw(viewProjection_);
 	
 	plane_[0]->Draw(PlaneWorldTransform, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, nowLevelTexture_);
@@ -307,6 +312,12 @@ void GameScene::Draw2D() {
 	num_[1]->Draw(transform2_, SpriteuvTransform, material, numTexture_[player_->Getnum2()]);
 	
 		tabSprite_->Draw(tabTransform_, SpriteuvTransform, material, tabTexture_);
+		if (player_->GetSwitch()) {
+			SpaceSprite_->Draw(spaceTransform_, SpriteuvTransform, material, spacenum[0]);
+		}
+		else {
+			SpaceSprite_->Draw(spaceTransform_, SpriteuvTransform, material, spacenum[1]);
+		}
 	Change_->Draw();
 	
 	

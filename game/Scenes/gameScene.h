@@ -92,11 +92,14 @@ private:
 	float kanbanMoveSpeed = 0.0f;
 	std::unique_ptr<Sprite> num_[2] = { nullptr };
 	unique_ptr<Sprite> tabSprite_;
+	unique_ptr<Sprite> SpaceSprite_;
 	Transform transform1_;
 	Transform transform2_;
 	Transform tabTransform_;
+	Transform spaceTransform_;
 	Transform SpriteuvTransform;
 	Vector4 material;
+	int spacenum[2];
 	bool IsMovetab = false;
 	float tabMoveSpeed_;
 	//花火のエフェクト
