@@ -39,8 +39,10 @@ void Player::Initialize(Model* model,Vector3 pos)
 	stageSelectCount_ = 0;
     heart_ = false;
     diamond_ = false;
-	
-
+	for (int i = 0; i < 20; i++) {
+		volume[i] = 1.0f;
+	}
+	volume[0] = 0.3f;
 	stepsCount_ = 0;
 
 	audio_ = Audio::GetInstance();
@@ -138,6 +140,10 @@ void Player::Update()
 	Vector4 Mat2 = { start_.m[3][0],start_.m[3][1],start_.m[3][2],start_.m[3][3] };
 	PlayerMap = { goal_.m[3][2] / 2 * -1,goal_.m[3][0] / 2 };/* { (playerNowPos_.m[3][2] / 2) * -1,(playerNowPos_.m[3][0] / 2) };*/
 	ImGui::Begin("player");
+	ImGui::DragFloat("sound1", &volume[0], 0.01f);
+	ImGui::DragFloat("sound2", &volume[1], 0.01f);
+	ImGui::DragFloat("sound3", &volume[2], 0.01f);
+	ImGui::DragFloat("sound4", &volume[3], 0.01f);
 	ImGui::DragFloat4("translation", &WorldPos.x, 0.01f);
 	ImGui::DragFloat2("translation", &PlayerMap.x, 0.01f);
 	ImGui::DragFloat4("translation", &Mat2.x, 0.01f);
@@ -267,7 +273,7 @@ void Player::TitleUpdate()
 				worldTransform_.matWorld_.m[i][j] = Lerp(moveSpeed, start_.m[i][j], goal_.m[i][j]);
 			}
 		}if (moveSpeed >= 1.0f) {
-			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0]);
+			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0],volume[0]);
 			MoveFlag = false;
 			moveSpeed = 0.0f;
 			titleCount_++;
@@ -325,7 +331,7 @@ void Player::TitleUpdate()
 	}
 	worldTransform_.TransferMatrix();
 	ImGui::Begin("aaaaa");
-	ImGui::DragInt("aaaaaa", &titleCount_);
+	ImGui::DragFloat("aaaaaa", &volume[0], 0.1f);
 	ImGui::End();
 }
 
@@ -413,7 +419,7 @@ void Player::SelectUpdate()
 
 
 		if (moveSpeed >= 1.0f) {
-			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0]);
+			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0], volume[0]);
 			MoveFlag = false;
 			moveSpeed = 0.0f;
 			if (stageSelectMoveRightCoumt_ >= 11) {
@@ -527,7 +533,7 @@ void Player::Move()
 
 	if (input_->PushKey(DIK_SPACE) && MoveFlag == false && !gameClear) {
 		if ((sMap_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] != 2) && (sMap_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] != 3)) {
-			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[3]);
+			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[3], volume[3]);
 			if (switch_) {
 				switch_ = false;
 
@@ -660,7 +666,7 @@ void Player::Move()
 			MoveFlag = false;
 			moveSpeed = 0.0f;
 			if (!gameClear) {
-				audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0]);
+				audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0], volume[0]);
 			}
 			//サイコロの目を確認(今は、わかりやすいよう上面の番号を表示している)
 			number = CheckNumber();
@@ -673,11 +679,11 @@ void Player::Move()
 					efectManager_->SetPanelGoal();
 					efectManager_->SelectGoal(Ster);
 					efectManager_->SetGoalTransform ( goalPos_);
-					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[2]);
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[2], volume[2]);
 
 				}
 				else {
-					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[1]);
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[1], volume[1]);
 				}
 				efectManager_->SetPanelSter();
 				efectManager_->SetSterTransform({ GetWorldPosition().x,GetWorldPosition().y-1.0f,GetWorldPosition().z });
@@ -691,10 +697,10 @@ void Player::Move()
 					efectManager_->SetPanelGoal();
 					efectManager_->SelectGoal(Hert);
 					efectManager_->SetGoalTransform(goalPos_);
-					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[2]);
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[2], volume[2]);
 				}
 				else {
-					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[1]);
+					audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[1], volume[1]);
 
 				}
 				

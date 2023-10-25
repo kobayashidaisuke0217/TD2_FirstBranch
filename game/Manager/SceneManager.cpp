@@ -43,9 +43,7 @@ void SceneManager::Run() {
 			
 		}
 		sceneArr_[sceneNum_]->Update();
-		if (input->PushKey(DIK_1)) {
-			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[0]);
-		}
+		
 		
 		sceneArr_[sceneNum_]->Draw();
 		
