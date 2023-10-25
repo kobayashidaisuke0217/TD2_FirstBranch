@@ -193,7 +193,7 @@ void Player::TitleUpdate()
 
 	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 	if (MoveFlag == false && titleIsMove == true) {
-		if (titleCount_ < 3) {
+		if (titleCount_ < 2) {
 			Vector3 move = { 0.0f,0.0f,2.0f };
 
 			Quaternion	newquaternion_ = createQuaternion(rad, { -1.0f,0.0f,0.0f });
@@ -211,7 +211,7 @@ void Player::TitleUpdate()
 			MoveFlag = true;
 			
 		}
-		else if (titleCount_ < 6) {
+		else if (titleCount_ < 10) {
 
 
 			Vector3 move = { -2.0f,0.0f,0.0f };
@@ -229,7 +229,7 @@ void Player::TitleUpdate()
 			start_ = worldTransform_.matWorld_;
 			MoveFlag = true;
 		}
-		else if (titleCount_ < 9) {
+		else if (titleCount_ < 12) {
 			Vector3 move = { 0.0f,0.0f,-2.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 1.0f,0.0f,0.0f });
 			newquaternion_ = Normalize(newquaternion_);
@@ -244,7 +244,7 @@ void Player::TitleUpdate()
 			MoveFlag = true;
 		}
 
-		else if (titleCount_ < 12) {
+		else if (titleCount_ < 20) {
 			Vector3 move = { 2.0f,0.0f,0.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,1.0f });
 			newquaternion_ = Normalize(newquaternion_);
@@ -312,7 +312,7 @@ void Player::TitleUpdate()
 				start_ = worldTransform_.matWorld_;
 			}
 		}
-		if (titleCount_ >= 12) {
+		if (titleCount_ >= 20) {
 			titleCount_ = 0;
 		}
 

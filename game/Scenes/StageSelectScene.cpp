@@ -11,16 +11,16 @@ void StageSelectScene::Initialize()
 	stageTextueHandle[2] = textureManager_->Load("Resource/Stage_3.png");
 	stageTextueHandle[3] = textureManager_->Load("Resource/Stage_4.png");
 	stageTextueHandle[4] = textureManager_->Load("Resource/Stage_5.png");
-	stageTextueHandle[5] = textureManager_->Load("Resource/Stage_1.png");
-	stageTextueHandle[6] = textureManager_->Load("Resource/Stage_2.png");
-	stageTextueHandle[7] = textureManager_->Load("Resource/Stage_3.png");
-	stageTextueHandle[8] = textureManager_->Load("Resource/Stage_4.png");
-	stageTextueHandle[9] = textureManager_->Load("Resource/Stage_5.png");
-	backGroundhandle[0] = textureManager_->Load("Resource/StageSelect_1.png");
-	backGroundhandle[1] = textureManager_->Load("Resource/StageSelect_2.png");
-	backGroundhandle[2] = textureManager_->Load("Resource/StageSelect_3.png");
-	backGroundhandle[3] = textureManager_->Load("Resource/StageSelect_4.png");
-	backGroundhandle[4] = textureManager_->Load("Resource/StageSelect_5.png");
+	stageTextueHandle[5] = textureManager_->Load("Resource/StageSelect_1.png");
+	stageTextueHandle[6] = textureManager_->Load("Resource/StageSelect_2.png");
+	stageTextueHandle[7] = textureManager_->Load("Resource/StageSelect_3.png");
+	stageTextueHandle[8] = textureManager_->Load("Resource/StageSelect_4.png");
+	stageTextueHandle[9] = textureManager_->Load("Resource/StageSelect_5.png");
+	backGroundhandle[0] = textureManager_->Load("Resource/BG1.png");
+	backGroundhandle[1] = textureManager_->Load("Resource/BG2.png");
+	backGroundhandle[2] = textureManager_->Load("Resource/BG3.png");
+	backGroundhandle[3] = textureManager_->Load("Resource/BG4.png");
+	backGroundhandle[4] = textureManager_->Load("Resource/BG5.png");
 	arrowR = textureManager_->Load("Resource/arrowR.png");
 	arrowL = textureManager_->Load("Resource/arrowL.png");
 

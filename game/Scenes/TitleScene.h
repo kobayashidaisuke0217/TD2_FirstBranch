@@ -29,6 +29,10 @@ private:
 	std::unique_ptr<Model> playerModel_ = nullptr;
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<Plane> plane_;
+	std::unique_ptr<Sprite> sprite_[2];
 	int texturehandle = 0;
+	int titleHandle_[2];
+	Transform spriteTransform_[2];
+	Transform SpriteuvTransform;
 	Audio* audio_ = nullptr;
 };
