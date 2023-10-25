@@ -22,6 +22,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	start_ = worldTransform_.matWorld_;
 	worldTransform_.translation_ = worldTransform_.GetWorldPos();
 	Translation_ = worldTransform_.translation_;
+	worldTransform_.TransferMatrix();
 	quaternion_ = createQuaternion(0.0f, { 0.0f,1.0f,0.0f });
 	quaternion_ = Normalize(quaternion_);
 	titleCount_ = 0;
@@ -48,13 +49,23 @@ void Player::Initialize(Model* model,Vector3 pos)
 	audio_->soundDatas[1] = audio_->SoundLoadWave("resource/Audio/PressurePlate.wav");
 	audio_->soundDatas[2] = audio_->SoundLoadWave("resource/Audio/PressureClearPlate.wav");
 	audio_->soundDatas[3] = audio_->SoundLoadWave("resource/Audio/moveGround_.wav");
-	
+	isCountOver = false;
 }
 
 void Player::Update()
 {
+
 	if (worldTransform_.matWorld_.m[3][1] < -100.0f) {
 		gameOver = true;
+	}
+	if (input_->PushKey(DIK_G)||stepsCount_>=99) {
+		isCountOver = true;
+	}
+	
+	if (isCountOver) {
+		IsFall();
+		worldTransform_.translation_ = worldTransform_.GetWorldPos();
+		Translation_ = worldTransform_.translation_;
 	}
 
 	//落ちる処理
@@ -64,7 +75,7 @@ void Player::Update()
 		Translation_ = worldTransform_.translation_;
 	}
 	else {
-		if (worldTransform_.matWorld_.m[3][1] >= -1.0f) {
+		if (worldTransform_.matWorld_.m[3][1] >= -1.0f/*&& stepsCount_< 99*/) {
 			Move();
 		}
 
@@ -110,7 +121,7 @@ void Player::Update()
 
 	
 	if (count_ < stepsCount_) {
-		if (num2_ != 9) {
+		if (num2_ <= 9) {
 			num1_ += 1;
 			if (num1_ > 9) {
 				num1_ = 0;

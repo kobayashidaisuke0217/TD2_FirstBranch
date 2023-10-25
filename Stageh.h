@@ -38,9 +38,8 @@ public:
 	//bool GetBlockUp() { return blockUp; }
 	bool SetSwitch(const bool up);
 	bool GetShake() { return shake_; }
-
 	void SetGoalModel(Model* model);
-
+	void SetCountOver(bool flag) { countOver_ = flag; }
 private:
 	WorldTransform worldTransformNormal_[49] = {};
 	WorldTransform worldTransformUp_[49] = {};
@@ -60,5 +59,7 @@ private:
 	float Up = 0;
 	float Down = -2.0f;
 	bool shake_ = false;
-
+	bool countOver_;
+	float move[53];
+	
 };
