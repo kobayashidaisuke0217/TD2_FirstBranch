@@ -20,6 +20,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	moveSpeed = 0.0f;
 	goal_ = worldTransform_.matWorld_;
 	start_ = worldTransform_.matWorld_;
+	playerNowPos_ = worldTransform_.matWorld_;
 	worldTransform_.translation_ = worldTransform_.GetWorldPos();
 	Translation_ = worldTransform_.translation_;
 	quaternion_ = createQuaternion(0.0f, { 0.0f,1.0f,0.0f });
@@ -37,7 +38,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	stageSelectCount_ = 0;
     heart_ = false;
     diamond_ = false;
-
+	
 
 	stepsCount_ = 0;
 
@@ -58,10 +59,12 @@ void Player::Update()
 	}
 
 	//落ちる処理
-	if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 0||worldTransform_.matWorld_.m[3][1]>0.0f&&!gameClear) {
-		IsFall();
-		worldTransform_.translation_ = worldTransform_.GetWorldPos();
-		Translation_ = worldTransform_.translation_;
+	if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 0 || worldTransform_.matWorld_.m[3][1] > 0.0f && !gameClear) {
+		
+			IsFall();
+			worldTransform_.translation_ = worldTransform_.GetWorldPos();
+			Translation_ = worldTransform_.translation_;
+		
 	}
 	else {
 		if (worldTransform_.matWorld_.m[3][1] >= -1.0f) {
@@ -124,7 +127,7 @@ void Player::Update()
 	Vector3 WorldPos = worldTransform_.GetWorldPos();
 	Vector4 Mat1 = { goal_.m[3][0],goal_.m[3][1],goal_.m[3][2],goal_.m[3][3] };
 	Vector4 Mat2 = { start_.m[3][0],start_.m[3][1],start_.m[3][2],start_.m[3][3] };
-	PlayerMap = { (goal_.m[3][2] / 2) * -1,(goal_.m[3][0] / 2) };
+	PlayerMap = { (playerNowPos_.m[3][2] / 2) * -1,(playerNowPos_.m[3][0] / 2) };
 	ImGui::Begin("player");
 	ImGui::DragFloat4("translation", &WorldPos.x, 0.01f);
 	ImGui::DragFloat2("translation", &PlayerMap.x, 0.01f);
@@ -697,6 +700,7 @@ void Player::Move()
 			}
 
         stepsCount_ += 1;
+		playerNowPos_ = goal_;
 
 		}
 
