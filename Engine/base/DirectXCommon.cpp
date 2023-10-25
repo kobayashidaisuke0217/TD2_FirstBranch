@@ -23,7 +23,7 @@ void DirectXCommon::Initialize(WinApp* win, int32_t backBufferWidth, int32_t bac
 	winApp_ = win;
 	backBufferWidth_ = backBufferWidth;
 	backBufferHeight_ = backBufferHeight;
-	winApp_->CreateGameWindow(L"CG2", 1280, 720);
+	winApp_->CreateGameWindow(L"サイコロシフト", 1280, 720);
 	
 	// DXGIデバイス初期化
 	InitializeDXGIDevice();
