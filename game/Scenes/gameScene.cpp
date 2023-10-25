@@ -276,12 +276,12 @@ void GameScene::Draw3D()
 {
 	skyDome_->Draw(viewProjection_);
 	stage_->Draw(viewProjection_);
-	player_->Draw(viewProjection_);
+	//player_->Draw(viewProjection_);
 	
 	enemy_->Draw(viewProjection_);
 	efectmanager_->Draw(viewProjection_);
 	
-		plane_[0]->Draw(PlaneWorldTransform, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, nowLevelTexture_);
+	//	plane_[0]->Draw(PlaneWorldTransform, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, nowLevelTexture_);
 	
 	
 	// 弾の描画
@@ -324,21 +324,53 @@ void GameScene::trueFireworks() {
 	
 	if (player_->GetGameClear()) {
 		--changeTimer_;
-		for (int i = 0; i < 10; ++i) {
-			Vector3 velocity = { 0, 0, 0 };
-			float numberX = (rand() % 11 - 5) / 5.0f;
-			float numberY = (rand() % 11 - 5) / 5.0f;
-			float numberZ = (rand() % 11 - 5) / 5.0f;
-			velocity = { numberX, numberY, numberZ };
-			// 弾を生成、初期化
-			Fireworks* newFireworks = new Fireworks();
-			newFireworks->Initialize(
-				fireworksModel_, player_->GetWorldPosition(), {0.5f, 0.5f, 0.5f},
-				velocity, velocity);
+		if (Clearlevel_ == Level3) {
+			for (int i = 0; i < 50; ++i) {
+				Vector3 velocity = { 0, 0, 0 };
+				float numberX = (rand() % 11 - 5) / 5.0f;
+				float numberY = (rand() % 11 - 5) / 5.0f;
+				float numberZ = (rand() % 11 - 5) / 5.0f;
+				velocity = { numberX, numberY, numberZ };
+				// 弾を生成、初期化
+				Fireworks* newFireworks = new Fireworks();
+				newFireworks->Initialize(
+					fireworksModel_, player_->GetWorldPosition(), { 0.5f, 0.5f, 0.5f },
+					velocity, velocity);
 
-			fireworks_.push_back(newFireworks);
+				fireworks_.push_back(newFireworks);
+			}
+		}if (Clearlevel_ == Level2) {
+			for (int i = 0; i < 20; ++i) {
+				Vector3 velocity = { 0, 0, 0 };
+				float numberX = (rand() % 11 - 5) / 5.0f;
+				float numberY = (rand() % 11 - 5) / 5.0f;
+				float numberZ = (rand() % 11 - 5) / 5.0f;
+				velocity = { numberX, numberY, numberZ };
+				// 弾を生成、初期化
+				Fireworks* newFireworks = new Fireworks();
+				newFireworks->Initialize(
+					fireworksModel_, player_->GetWorldPosition(), { 0.5f, 0.5f, 0.5f },
+					velocity, velocity);
+
+				fireworks_.push_back(newFireworks);
+			}
 		}
+		if (Clearlevel_ == Level1) {
+			for (int i = 0; i < 5; ++i) {
+				Vector3 velocity = { 0, 0, 0 };
+				float numberX = (rand() % 11 - 5) / 5.0f;
+				float numberY = (rand() % 11 - 5) / 5.0f;
+				float numberZ = (rand() % 11 - 5) / 5.0f;
+				velocity = { numberX, numberY, numberZ };
+				// 弾を生成、初期化
+				Fireworks* newFireworks = new Fireworks();
+				newFireworks->Initialize(
+					fireworksModel_, player_->GetWorldPosition(), { 0.5f, 0.5f, 0.5f },
+					velocity, velocity);
 
+				fireworks_.push_back(newFireworks);
+			}
+		}
 		for (Fireworks* fireworks : fireworks_) {
 
 			fireworks->Update();
