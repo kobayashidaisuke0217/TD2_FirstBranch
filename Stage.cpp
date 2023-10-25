@@ -189,7 +189,9 @@ void Stage::Stage1Initialize() {
 			}
 		}
 	}
-
+	
+	Clearlevel2_ = 50;
+	Clearlevel3_ = 18;
 
 }
 
@@ -405,6 +407,19 @@ void Stage::Stage5Initialize() {
 	}
 
 
+}
+
+int Stage::LevelCheck(int count)
+{
+	if (count <= Clearlevel3_) {
+		return Level3;
+	}
+	else if (count <= Clearlevel2_) {
+		return Level2;
+	}
+	else {
+		return Level1;
+	}
 }
 
 

@@ -42,7 +42,7 @@ public:
 
 	int Getnum1() { return num1_; };
 	int Getnum2() { return num2_; };
-
+	int GetStepCount() { return stepsCount_; }
 	bool GetHeart() { return heart_; };
 	bool GetDiamond() { return diamond_; };
 	bool GetGameClear() { return gameClear; };
