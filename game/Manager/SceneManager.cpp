@@ -35,8 +35,15 @@ void SceneManager::Run() {
 		blueMoon_->BeginFrame();
 		
 		preSceneNum_ = sceneNum_;
-		sceneNum_ = sceneArr_[sceneNum_]->GetSceneNum();
-
+		if (input->PressKey(DIK_RETURN) && input->PressKey(DIK_ESCAPE)) {
+			
+			sceneNum_ = TITLE_SCENE;
+			
+			//preSceneNum_ = TITLE_SCENE;
+		}
+		else {
+			sceneNum_ = sceneArr_[sceneNum_]->GetSceneNum();
+		}
 		if (sceneNum_ != preSceneNum_) {
 			sceneArr_[preSceneNum_]->Finalize();
 			sceneArr_[sceneNum_]->Initialize();
@@ -45,9 +52,10 @@ void SceneManager::Run() {
 		sceneArr_[sceneNum_]->Update();
 		
 		
+		
 		sceneArr_[sceneNum_]->Draw();
 		
-
+		
 
 #ifdef _DEBUG
 		imguiManager_->End();

@@ -90,7 +90,7 @@ private:
 	bool goalFlag3_ = false;
 	int titleCount_;
 	bool JumFlag_;
-
+	int isOverCount_;
 
 	Vector3 goalPos_;
 

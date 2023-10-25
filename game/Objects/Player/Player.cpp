@@ -44,7 +44,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	}
 	volume[0] = 0.1f;
 	stepsCount_ = 0;
-
+	isOverCount_ = 0;
 	audio_ = Audio::GetInstance();
 	audio_->Initialize();
 	//サウンドデータ
@@ -66,11 +66,14 @@ void Player::Update()
 	}
 	
 	if (isCountOver) {
+		isOverCount_++;
+		
+	}
+	if (isOverCount_ > 40) {
 		IsFall();
 		worldTransform_.translation_ = worldTransform_.GetWorldPos();
 		Translation_ = worldTransform_.translation_;
 	}
-
 	//落ちる処理
 	if (map_[(int)(playerNowPos_.m[3][2] / 2) * -1][(int)(playerNowPos_.m[3][0] / 2)] == 0 || worldTransform_.matWorld_.m[3][1]>0.0f && !gameClear) {
 		IsFall();
@@ -241,7 +244,7 @@ void Player::TitleUpdate()
 
 
 	}
-	if (input_->PushKey(DIK_RETURN)) {
+	if (input_->PushKey(DIK_SPACE)) {
 		/*if (MoveFlag == false) {
 			
 			Vector3 move = { 0.0f,2.0f,0.0f };
@@ -343,7 +346,7 @@ void Player::SelectUpdate()
 	ImGui::End();
 	if (input_->PushKey(DIK_A) || stageSelectMoveLeftCoumt_ != 0) {
 		if (stageSelectCount_ < 1 && stageSelectMoveLeftCoumt_ == 6) {
-			SetTranslation({ 100.0f,0.0f,0.0f });
+			SetTranslation({ 100.0f,-2.0f,0.0f });
 			worldTransform_.TransferMatrix();
 		}
 		if (MoveFlag == false && stageSelectMoveRightCoumt_ == 0) {
@@ -368,7 +371,7 @@ void Player::SelectUpdate()
 
 	if (input_->PushKey(DIK_D)||stageSelectMoveRightCoumt_!=0  ) {
 		if (stageSelectCount_ > 3&& stageSelectMoveRightCoumt_==6) {
-			SetTranslation({ -8.0f,0.0f,0.0f });
+			SetTranslation({ -8.0f,-2.0f,0.0f });
 			worldTransform_.TransferMatrix();
 		}
 		
@@ -453,7 +456,7 @@ void Player::IsFall()
 
 	speed_ += 0.01f;
 	worldTransform_.matWorld_.m[3][1] -= speed_;
-	worldTransform_.translation_.y -= 0.1f;
+	worldTransform_.translation_.y =worldTransform_.GetWorldPos().y;
 
 }
 
