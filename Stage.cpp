@@ -144,11 +144,11 @@ void Stage::Stage1Initialize() {
 	//0 何もない 1床 2起伏壁_1 3起伏壁_2 4感圧版_1 5感圧版_2 6ゴール
 	int map[7][7] = {
 		{0,0,0,0,0,0,0},
-		{0,1,1,1,1,5,0},
-	    {0,1,1,1,1,1,0},
-	    {0,1,1,2,3,3,0},
+		{0,1,1,2,1,5,0},
 	    {0,1,1,2,1,1,0},
-	    {0,4,1,2,1,6,0},
+	    {0,1,1,3,1,4,0},
+	    {0,1,1,1,1,1,0},
+	    {0,1,1,6,1,1,0},
 		{0,0,0,0,0,0,0},
 	};
 	for (int i = 0; i < 7; ++i) {
@@ -189,7 +189,9 @@ void Stage::Stage1Initialize() {
 			}
 		}
 	}
-
+	
+	Clearlevel2_ = 50;
+	Clearlevel3_ = 18;
 
 }
 
@@ -405,6 +407,19 @@ void Stage::Stage5Initialize() {
 	}
 
 
+}
+
+int Stage::LevelCheck(int count)
+{
+	if (count <= Clearlevel3_) {
+		return Level3;
+	}
+	else if (count <= Clearlevel2_) {
+		return Level2;
+	}
+	else {
+		return Level1;
+	}
 }
 
 

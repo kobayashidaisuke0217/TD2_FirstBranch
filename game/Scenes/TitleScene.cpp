@@ -27,7 +27,7 @@ void TitleScene::Initialize()
 	worldTransformPlane_.scale_ = { 53.9f,31.0f,1.0f };
 	worldTransformPlane_.rotation_ = { 1.2f,0.0f,0.0f };
 	Stagenum = 0;
-	texturehandle = textureManager_->Load("Resource/uvChecker.png");
+	texturehandle = textureManager_->Load("Resource/haike.png");
 	sceneNum = 0;
 
 	

@@ -126,5 +126,5 @@ void Audio::SoundPlayloop(IXAudio2* xAudio2, const SoundData& soundData, float v
 	// 波形データの再生
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
 	result = pSourceVoice->Start();
-
+	
 }
