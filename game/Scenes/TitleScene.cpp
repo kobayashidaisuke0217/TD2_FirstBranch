@@ -27,6 +27,7 @@ void TitleScene::Initialize()
 	worldTransformPlane_.rotation_ = { 1.2f,0.0f,0.0f };
 	Stagenum = 0;
 	texturehandle = textureManager_->Load("Resource/uvChecker.png");
+	sceneNum = 0;
 }
 
 void TitleScene::Update()

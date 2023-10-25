@@ -60,7 +60,7 @@ void StageSelectScene::Initialize()
 void StageSelectScene::Update()
 {
 	player_->SelectUpdate();
-	if (player_->GetWorldTransform().GetWorldPos().y >= 15.0f || input->PushKey(DIK_M)) {
+	if ( input->PushKey(DIK_SPACE)) {
 		Change->setmoveFlag();
 	}
 	if (player_->GetStageSelectLeft() == 0 && player_->GetStageSelectRight() == 0) {
@@ -71,9 +71,7 @@ void StageSelectScene::Update()
 		sceneNum = GAME_SCENE;
 
 	}
-	if (input->PushKey(DIK_1)) {
-		index++;
-	}
+	
 	if (index >= 5) {
 		index = 0;
 	}
