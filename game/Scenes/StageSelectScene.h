@@ -18,6 +18,8 @@ public:
 
 	void Draw() override;
 	void Finalize()override;
+	void InitializeFloatingGimmick();
+	void FloatingGimmick();
 private:
 	ViewProjection viewProjection_;
 	BlueMoon* blueMoon_;
@@ -37,5 +39,22 @@ private:
 	Vector3 PlayerRespornPos[5];
 	float LerpTimer;
 	Audio* audio_ = nullptr;
+	//矢印のアニメーション
+	Transform transformR_;
+	Transform transformL_;
+	Transform SpriteuvTransform;
+	uint32_t arrowR;
+	uint32_t arrowL;
+	std::unique_ptr<Sprite>arrow_[2] = { nullptr };
+
+	//浮遊ギミックの媒介変数
+	float floatingParameter_ = 0.0f;
+	// 浮遊移動サイクル
+	float cycle = 0;
+	// 浮遊の振幅
+	float amplitude = 0.0f;
+	float amplitudeArm = 0.4f;
+	//円周率
+	float Pi = 0.0f;
 };
 

@@ -21,6 +21,8 @@ void StageSelectScene::Initialize()
 	backGroundhandle[2] = textureManager_->Load("Resource/StageSelect_3.png");
 	backGroundhandle[3] = textureManager_->Load("Resource/StageSelect_4.png");
 	backGroundhandle[4] = textureManager_->Load("Resource/StageSelect_5.png");
+	arrowR = textureManager_->Load("Resource/arrowR.png");
+	arrowL = textureManager_->Load("Resource/arrowL.png");
 
 	index = Stagenum;
 	blueMoon_ = BlueMoon::GetInstance();
@@ -71,11 +73,27 @@ void StageSelectScene::Initialize()
 	player_->SetStageSelectNum(index);
 	LerpTimer = 0.0f;
 	
+	InitializeFloatingGimmick();
+	for (int i = 0; i < 2; i++) {
+		arrow_[i] = std::make_unique<Sprite>();
+		arrow_[i]->Initialize({ 0.0f,0.0f,0.0f,0.0f }, { 150.0f,150.0f,0.0f,0.0f });
+	}
+
+	transformR_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{890.0f,474.0f,1.0f} };
+	transformL_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{280.0f,474.0f,1.0f} };
+	
+	SpriteuvTransform =
+	{
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
 }
 
 void StageSelectScene::Update()
 {
 	player_->SelectUpdate();
+	
 	if ( input->PushKey(DIK_SPACE)) {
 		Change->setmoveFlag();
 	}
@@ -132,12 +150,14 @@ void StageSelectScene::Update()
 			worldTransformPlane_[i+5].scale_ = { 0.0f,0.0f,0.0f };
 		}
 	}
+	FloatingGimmick();
 	viewProjection_.translation_ = cameraPos[index];
 	Stagenum = index;
 	Vector3 pos = player_->GetWorldPosition();
 	ImGui::Begin("SceneManager");
 	ImGui::InputInt("SceneNum", &Stagenum);
-	
+	ImGui::DragFloat3("ArrowR", &transformR_.translate.x, 2.0f);
+	ImGui::DragFloat3("ArrowL", &transformL_.translate.x, 2.0f);
 	ImGui::DragFloat3("scale1", &worldTransformPlane_[0].scale_.x, 0.1f);
 	ImGui::DragFloat3("trans1", &worldTransformPlane_[0].translation_.x, 0.1f);
 	ImGui::DragFloat3("rotate1", &worldTransformPlane_[0].rotation_.x, 0.1f);
@@ -196,13 +216,46 @@ void StageSelectScene::Draw()
 	plane_[12]->Draw(worldTransformPlane_[12], viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, backGroundhandle[2]);
 	plane_[13]->Draw(worldTransformPlane_[13], viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, backGroundhandle[3]);
 	plane_[14]->Draw(worldTransformPlane_[14], viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, backGroundhandle[4]);
+	
 	//plane_->Draw({ 1.0f,1.0f,1.0f,1.0f }, worldTransformPlane_, stageTextueHandle[0],viewProjection_);
 	player_->Draw(viewProjection_);
+	blueMoon_->SpritePreDraw();
+	blueMoon_->SetBlendMode(0);
+	if (player_->GetStageSelectLeft() ==0 && player_->GetStageSelectRight() == 0) {
+		arrow_[0]->Draw(transformR_, SpriteuvTransform, { 1.0f,1.0f,1.0f,1.0f }, arrowR);
+		arrow_[1]->Draw(transformL_, SpriteuvTransform, { 1.0f,1.0f,1.0f,1.0f }, arrowL);
+	}
 	
 	Change->Draw();
-
+	
 }
 
 void StageSelectScene::Finalize()
 {
+}
+
+void StageSelectScene::InitializeFloatingGimmick() {
+	floatingParameter_ = 0.0f;
+
+	// 浮遊移動サイクル
+	cycle = 60;
+	Pi = 3.1415f;
+	// 浮遊の振幅
+	amplitude = 2.0f;
+	amplitudeArm = 0.4f;
+}
+
+void StageSelectScene::FloatingGimmick() {
+	// 1フレームでのパラメータ加算値
+	const float steppe = 2.0f * Pi / cycle;
+
+	// パラメータを1分加算
+	floatingParameter_ += steppe;
+	// 2πを超えたら0に戻す
+	floatingParameter_ = std::fmod(floatingParameter_, 2.0f * Pi);
+
+
+	transformR_.translate.x =  transformR_.translate.x + std::sin(floatingParameter_) * amplitude;
+	transformL_.translate.x = transformL_.translate.x - std::sin(floatingParameter_) * amplitude;
+	
 }
