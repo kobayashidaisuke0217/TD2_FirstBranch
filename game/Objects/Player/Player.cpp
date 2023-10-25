@@ -244,7 +244,7 @@ void Player::TitleUpdate()
 
 
 	}
-	if (input_->PushKey(DIK_RETURN)) {
+	if (input_->PushKey(DIK_SPACE)) {
 		/*if (MoveFlag == false) {
 			
 			Vector3 move = { 0.0f,2.0f,0.0f };
