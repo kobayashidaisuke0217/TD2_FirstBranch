@@ -52,9 +52,9 @@ void SceneChange::SelectUpdate()
 		
 	}
 	
-	if (material.w < 0.3f) {
+	if (material.w < 0.0f) {
 		selectmoveFlag_ = false;
-		selectarfaUp_ = true;
+		selectarfaUp_ = true ;
 		material.w = 0.3f;
 	}
 	if (material.w >= 1.0f) {
