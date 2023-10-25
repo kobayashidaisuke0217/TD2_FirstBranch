@@ -36,5 +36,6 @@ private:
 	int preLeftMoveCount_;
 	Vector3 PlayerRespornPos[5];
 	float LerpTimer;
+	Audio* audio_ = nullptr;
 };
 

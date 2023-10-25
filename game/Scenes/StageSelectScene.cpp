@@ -70,6 +70,7 @@ void StageSelectScene::Initialize()
 	worldTransformPlane_[14].translation_ = { 89.5f,0.0f,2.8f };
 	player_->SetStageSelectNum(index);
 	LerpTimer = 0.0f;
+	
 }
 
 void StageSelectScene::Update()

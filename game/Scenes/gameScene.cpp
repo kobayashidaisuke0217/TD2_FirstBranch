@@ -15,6 +15,7 @@ void GameScene::Initialize()
 	textureManager_ = Texturemanager::GetInstance();
 	textureManager_->Initialize();
 	collisionManager_ = make_unique<CollisionManager>();
+	
 	input_ = Input::GetInstance();
 	Change_ = SceneChange::GetInstance();
 	Change_->Initialize();
@@ -109,10 +110,13 @@ void GameScene::Initialize()
 	};
 	material = { 1.0f,1.0f,1.0f,1.0f };
 	nextTitle_ = false;
+
+	
 }
 
 void GameScene::Update()
 {
+	
 	Change_->Update();
 	count_++;
 	stage_->Update();
