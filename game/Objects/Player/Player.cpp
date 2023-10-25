@@ -56,7 +56,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	audio_->soundDatas[3] = audio_->SoundLoadWave("resource/Audio/moveGround_.wav");
 	audio_->soundDatas[4] = audio_->SoundLoadWave("resource/Audio/Fall.wav");
 	audio_->soundDatas[5] = audio_->SoundLoadWave("resource/Audio/Clear.wav");
-	audio_->soundDatas[6] = audio_->SoundLoadWave("resource/Audio/landing.wav");
+	audio_->soundDatas[6] = audio_->SoundLoadWave("resource/Audio/landing2.wav");
 	isCountOver = false;
 }
 
@@ -97,7 +97,7 @@ void Player::Update()
 	//着地音
 	if (worldTransform_.translation_.y <= 0 && !lnding_) {
 		lnding_ = true;
-		audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[5], 1.5f);
+		audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[6], 1.5f);
 	}
 
 	model_->SetColor(color);
