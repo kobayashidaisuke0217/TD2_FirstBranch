@@ -68,9 +68,10 @@ void GameScene::Initialize()
 	GoalModel_.reset(Model::CreateModelFromObj("Resource", "goal.obj"));
 	HeartGoalModel_.reset(Model::CreateModelFromObj("Resource", "goalHeart.obj"));
 	DiamondGoalModel_.reset(Model::CreateModelFromObj("Resource", "goalDiamond.obj"));
+	floorMoveModel_.reset(Model::CreateModelFromObj("Resource", "floorMove.obj"));
 	stage_ = std::make_unique<Stage>();
 
-	std::vector<Model*>BlockModels = { BlockModel_.get(),HeartModel_.get(),DiamondModel_.get(),GoalModel_.get()};
+	std::vector<Model*>BlockModels = { BlockModel_.get(),HeartModel_.get(),DiamondModel_.get(),GoalModel_.get(),floorMoveModel_ .get()};
 	stage_->Initialize(BlockModels,Stagenum);
 
 	int map_[7][7];

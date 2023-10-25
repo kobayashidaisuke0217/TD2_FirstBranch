@@ -9,6 +9,7 @@ void Stage::Initialize(const std::vector<Model*>& models,int stagenum) {
 	modelHeart_ = models[1];
 	modelDiamond_ = models[2];
 	modelGoal_ = models[3];
+	modelFloorMove_ = models[4];
 	/*blockUp = false;
 	shake_ = false;*/
 	for (int i = 0; i < 49; i++) {
@@ -130,8 +131,8 @@ void Stage::Draw(const ViewProjection& viewprojection) {
 
 	for (int i = 0; i < 49; i++) {
 		modelNormal_->Draw(worldTransformNormal_[i], viewprojection);
-		modelNormal_->Draw(worldTransformUp_[i], viewprojection);
-		modelNormal_->Draw(worldTransformDown_[i], viewprojection);
+		modelFloorMove_->Draw(worldTransformUp_[i], viewprojection);
+		modelFloorMove_->Draw(worldTransformDown_[i], viewprojection);
 	}
 	modelHeart_->Draw(worldTransformHeart_, viewprojection);
 	modelDiamond_->Draw(worldTransformDiamond_, viewprojection);
