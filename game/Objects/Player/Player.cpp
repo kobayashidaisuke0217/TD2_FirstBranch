@@ -346,7 +346,7 @@ void Player::SelectUpdate()
 	ImGui::End();
 	if (input_->PushKey(DIK_A) || stageSelectMoveLeftCoumt_ != 0) {
 		if (stageSelectCount_ < 1 && stageSelectMoveLeftCoumt_ == 6) {
-			SetTranslation({ 100.0f,0.0f,0.0f });
+			SetTranslation({ 100.0f,-2.0f,0.0f });
 			worldTransform_.TransferMatrix();
 		}
 		if (MoveFlag == false && stageSelectMoveRightCoumt_ == 0) {
@@ -371,7 +371,7 @@ void Player::SelectUpdate()
 
 	if (input_->PushKey(DIK_D)||stageSelectMoveRightCoumt_!=0  ) {
 		if (stageSelectCount_ > 3&& stageSelectMoveRightCoumt_==6) {
-			SetTranslation({ -8.0f,0.0f,0.0f });
+			SetTranslation({ -8.0f,-2.0f,0.0f });
 			worldTransform_.TransferMatrix();
 		}
 		

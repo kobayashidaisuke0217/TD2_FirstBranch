@@ -16,16 +16,22 @@ void StageSelectScene::Initialize()
 	stageTextueHandle[7] = textureManager_->Load("Resource/Stage_3.png");
 	stageTextueHandle[8] = textureManager_->Load("Resource/Stage_4.png");
 	stageTextueHandle[9] = textureManager_->Load("Resource/Stage_5.png");
+	backGroundhandle[0] = textureManager_->Load("Resource/StageSelect_1.png");
+	backGroundhandle[1] = textureManager_->Load("Resource/StageSelect_2.png");
+	backGroundhandle[2] = textureManager_->Load("Resource/StageSelect_3.png");
+	backGroundhandle[3] = textureManager_->Load("Resource/StageSelect_4.png");
+	backGroundhandle[4] = textureManager_->Load("Resource/StageSelect_5.png");
+
 	index = Stagenum;
 	blueMoon_ = BlueMoon::GetInstance();
 	input = Input::GetInstance();
 	Change = SceneChange::GetInstance();
 	Change->Initialize();
 	PlayerRespornPos[0] = { 2.0f,-2.0f,-2.0f };
-	PlayerRespornPos[1] = { 24.0f,0.0f,-2.0f };
-	PlayerRespornPos[2] = { 46.0f,0.0f,-2.0f };
-	PlayerRespornPos[3] = { 68.0f,0.0f,-2.0f };
-	PlayerRespornPos[4] = { 90.0f,0.0f,-2.0f };
+	PlayerRespornPos[1] = { 24.0f,-2.0f,-2.0f };
+	PlayerRespornPos[2] = { 46.0f,-2.0f,-2.0f };
+	PlayerRespornPos[3] = { 68.0f,-2.0f,-2.0f };
+	PlayerRespornPos[4] = { 90.0f,-2.0f,-2.0f };
 	viewProjection_.translation_ = { 2.0f,0.0f,-12.0f };
 	viewProjection_.rotation_ = { 0.0f, 0.0f, 0.0f };
 	cameraPos[0]= { 1.9f,0.0f,-12.0f };
@@ -36,23 +42,32 @@ void StageSelectScene::Initialize()
 	playerModel_.reset(Model::CreateModelFromObj("Resource", "saikoro.obj"));
 	player_ = std::make_unique<Player>();
 	player_->Initialize(playerModel_.get(),PlayerRespornPos[Stagenum]);
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 15; i++) {
 		plane_[i] = std::make_unique<Plane>();
 		plane_[i]->Initialize();
 		worldTransformPlane_[i].Initialize();
 		worldTransformPlane_[i].scale_ = { 0.0f,0.0f,0.0f };
 	}
-	worldTransformPlane_[0].translation_ = { -6.0f,3.2f,2.8f };
-	worldTransformPlane_[1].translation_ = { 15.9f,3.2f,2.8f };
-	worldTransformPlane_[2].translation_ = { 37.8f,3.2f,2.8f };
-	worldTransformPlane_[3].translation_ = { 59.7f,3.2f,2.8f };
-	worldTransformPlane_[4].translation_ = { 81.6f,3.2f,2.8f };
-	worldTransformPlane_[5].translation_ = { 9.8f,3.2f,2.8f };
-	worldTransformPlane_[6].translation_ = { 31.7f,3.2f,2.8f };
-	worldTransformPlane_[7].translation_ = { 53.6f,3.2f,2.8f };
-	worldTransformPlane_[8].translation_ = { 75.5f,3.2f,2.8f };
-	worldTransformPlane_[9].translation_ = { 97.4f,3.2f,2.8f };
-
+	worldTransformPlane_[10].scale_ = { 21.9f,12.3f,0.0f };
+	worldTransformPlane_[11].scale_ = { 21.9f,12.3f,0.0f };
+	worldTransformPlane_[12].scale_ = { 21.9f,12.3f,0.0f };
+	worldTransformPlane_[13].scale_ = { 21.9f,12.3f,0.0f };
+	worldTransformPlane_[14].scale_ = { 21.9f,12.3f,0.0f };
+	worldTransformPlane_[0].translation_ = { -3.6f,2.4f,2.2f };
+	worldTransformPlane_[1].translation_ = { 18.3f,2.4f,2.2f };
+	worldTransformPlane_[2].translation_ = { 40.2f,2.4f,2.2f };
+	worldTransformPlane_[3].translation_ = { 64.1f,2.4f,2.2f };
+	worldTransformPlane_[4].translation_ = { 84.0f,2.4f,2.2f };
+	worldTransformPlane_[5].translation_ = { 6.8f,3.2f,2.2f };
+	worldTransformPlane_[6].translation_ = { 28.7f,3.2f,2.2f };
+	worldTransformPlane_[7].translation_ = { 50.6f,3.2f,2.2f };
+	worldTransformPlane_[8].translation_ = { 73.5f,3.2f,2.2f };
+	worldTransformPlane_[9].translation_ = { 94.4f,3.2f,2.2f };
+	worldTransformPlane_[10].translation_ = { 1.9f,0.0f,2.8f };
+	worldTransformPlane_[11].translation_ = { 23.8f,0.0f,2.8f };
+	worldTransformPlane_[12].translation_ = { 45.7f,0.0f,2.8f };
+	worldTransformPlane_[13].translation_ = { 67.6f,0.0f,2.8f };
+	worldTransformPlane_[14].translation_ = { 89.5f,0.0f,2.8f };
 	player_->SetStageSelectNum(index);
 	LerpTimer = 0.0f;
 }
@@ -105,7 +120,7 @@ void StageSelectScene::Update()
 			LerpTimer = 1.0f;
 		}
 		worldTransformPlane_[index].scale_ = Lerp(LerpTimer, { 0.0f,0.0f,0.0f }, { 6.0f,6.0f,2.8f });
-		worldTransformPlane_[index + 5].scale_ = Lerp(LerpTimer, { 0.0f,0.0f,0.0f }, { 6.0f,6.0f,2.8f });
+		worldTransformPlane_[index + 5].scale_ = Lerp(LerpTimer, { 0.0f,0.0f,0.0f }, { 8.0f,4.5f,2.8f });
 	}
 	else {
 		LerpTimer = 0.0f;
@@ -122,20 +137,36 @@ void StageSelectScene::Update()
 	ImGui::Begin("SceneManager");
 	ImGui::InputInt("SceneNum", &Stagenum);
 	
-	ImGui::DragFloat3("scale1", &worldTransformPlane_[5].scale_.x, 0.1f);
-	ImGui::DragFloat3("trans1", &worldTransformPlane_[5].translation_.x, 0.1f);
-	ImGui::DragFloat3("rotate1", &worldTransformPlane_[5].rotation_.x, 0.1f);
-	ImGui::DragFloat3("scale2", &worldTransformPlane_[6].scale_.x, 0.1f);
-	ImGui::DragFloat3("trans2", &worldTransformPlane_[6].translation_.x, 0.1f);
-	ImGui::DragFloat3("rotate2", &worldTransformPlane_[6].rotation_.x, 0.1f);
-	ImGui::DragFloat3("scale3", &worldTransformPlane_[7].scale_.x, 0.1f);
-	ImGui::DragFloat3("translate3", &worldTransformPlane_[7].translation_.x, 0.1f);
-	ImGui::DragFloat3("rotate3", &worldTransformPlane_[7].rotation_.x, 0.1f);
-	ImGui::DragFloat3("scale4", &worldTransformPlane_[8].scale_.x, 0.1f);
-	ImGui::DragFloat3("trans4", &worldTransformPlane_[8].translation_.x, 0.1f);
-	ImGui::DragFloat3("rotate4", &worldTransformPlane_[8].rotation_.x, 0.1f);
-	ImGui::DragFloat3("scale5", &worldTransformPlane_[9].scale_.x, 0.1f);
-	ImGui::DragFloat3("translate5", &worldTransformPlane_[9].translation_.x, 0.1f);
+	ImGui::DragFloat3("scale1", &worldTransformPlane_[0].scale_.x, 0.1f);
+	ImGui::DragFloat3("trans1", &worldTransformPlane_[0].translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate1", &worldTransformPlane_[0].rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale5", &worldTransformPlane_[5].scale_.x, 0.1f);
+	ImGui::DragFloat3("trans5", &worldTransformPlane_[5].translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate5", &worldTransformPlane_[5].rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale2", &worldTransformPlane_[1].scale_.x, 0.1f);
+	ImGui::DragFloat3("trans2", &worldTransformPlane_[1].translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate2", &worldTransformPlane_[1].rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale6", &worldTransformPlane_[6].scale_.x, 0.1f);
+	ImGui::DragFloat3("trans6", &worldTransformPlane_[6].translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate6", &worldTransformPlane_[6].rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale3", &worldTransformPlane_[2].scale_.x, 0.1f);
+	ImGui::DragFloat3("translate3", &worldTransformPlane_[2].translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate3", &worldTransformPlane_[2].rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale7", &worldTransformPlane_[7].scale_.x, 0.1f);
+	ImGui::DragFloat3("trans7", &worldTransformPlane_[7].translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate7", &worldTransformPlane_[7].rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale4", &worldTransformPlane_[3].scale_.x, 0.1f);
+	ImGui::DragFloat3("trans4", &worldTransformPlane_[3].translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate4", &worldTransformPlane_[3].rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale8", &worldTransformPlane_[8].scale_.x, 0.1f);
+	ImGui::DragFloat3("trans8", &worldTransformPlane_[8].translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate8", &worldTransformPlane_[8].rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale9", &worldTransformPlane_[4].scale_.x, 0.1f);
+	ImGui::DragFloat3("translate9", &worldTransformPlane_[4].translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate9", &worldTransformPlane_[4].rotation_.x, 0.1f);
+	ImGui::DragFloat3("scale10", &worldTransformPlane_[9].scale_.x, 0.1f);
+	ImGui::DragFloat3("trans10", &worldTransformPlane_[9].translation_.x, 0.1f);
+	ImGui::DragFloat3("rotate10", &worldTransformPlane_[9].rotation_.x, 0.1f);
 	ImGui::End();
 	ImGui::Begin("view");
 	ImGui::DragFloat3("1", &cameraPos[0].x, 0.1f);
@@ -144,7 +175,7 @@ void StageSelectScene::Update()
 	ImGui::DragFloat3("4", &cameraPos[3].x, 0.1f);
 	ImGui::DragFloat3("5", &cameraPos[4].x, 0.1f);
 	ImGui::End();
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 15; i++) {
 		worldTransformPlane_[i].UpdateMatrix();
 	}
 	viewProjection_.UpdateMatrix();
@@ -158,7 +189,13 @@ void StageSelectScene::Draw()
 	blueMoon_->ModelPreDraw();
 	for (int i = 0; i < 10; i++) {
 		plane_[i]->Draw(worldTransformPlane_[i], viewProjection_, {1.0f,1.0f,1.0f,1.0f}, stageTextueHandle[i]);
-	}//plane_->Draw({ 1.0f,1.0f,1.0f,1.0f }, worldTransformPlane_, stageTextueHandle[0],viewProjection_);
+	}
+	plane_[10]->Draw(worldTransformPlane_[10], viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, backGroundhandle[0]);
+	plane_[11]->Draw(worldTransformPlane_[11], viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, backGroundhandle[1]);
+	plane_[12]->Draw(worldTransformPlane_[12], viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, backGroundhandle[2]);
+	plane_[13]->Draw(worldTransformPlane_[13], viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, backGroundhandle[3]);
+	plane_[14]->Draw(worldTransformPlane_[14], viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, backGroundhandle[4]);
+	//plane_->Draw({ 1.0f,1.0f,1.0f,1.0f }, worldTransformPlane_, stageTextueHandle[0],viewProjection_);
 	player_->Draw(viewProjection_);
 	
 	Change->Draw();
