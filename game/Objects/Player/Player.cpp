@@ -39,7 +39,7 @@ void Player::Initialize(Model* model,Vector3 pos)
 	stageSelectCount_ = 0;
     heart_ = false;
     diamond_ = false;
-
+	
 
 	stepsCount_ = 0;
 
@@ -70,10 +70,12 @@ void Player::Update()
 	}
 
 	//落ちる処理
-	if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 0||worldTransform_.matWorld_.m[3][1]>0.0f&&!gameClear) {
-		IsFall();
-		worldTransform_.translation_ = worldTransform_.GetWorldPos();
-		Translation_ = worldTransform_.translation_;
+	if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] == 0 || worldTransform_.matWorld_.m[3][1] > 0.0f && !gameClear) {
+		
+			IsFall();
+			worldTransform_.translation_ = worldTransform_.GetWorldPos();
+			Translation_ = worldTransform_.translation_;
+		
 	}
 	else {
 		if (worldTransform_.matWorld_.m[3][1] >= -1.0f/*&& stepsCount_< 99*/) {
@@ -710,6 +712,7 @@ void Player::Move()
 
         stepsCount_ += 1;
 		playerNowPos_ = goal_;
+
 		}
 
 	}
