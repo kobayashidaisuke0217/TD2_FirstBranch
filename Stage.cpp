@@ -45,7 +45,7 @@ void Stage::Initialize(const std::vector<Model*>& models,int stagenum) {
 	}
 
 	for (int i = 0; i < 53; i++) {
-		move[i] = (std::rand() % 3 / 10.0f)+0.1f;
+		move[i] = (std::rand() % 3 / 10.0f)+0.2f;
 	}
 	shakeCount_ = 0;
 }
@@ -98,6 +98,7 @@ void Stage::Update() {
 				worldTransformNormal_[i].translation_.y -= move[i];
 				worldTransformUp_[i].translation_.y -= move[i];
 				worldTransformDown_[i].translation_.y -= move[i];
+				move[i] += 0.015f;
 			}
 			worldTransformHeart_.translation_.y -= move[50];
 			worldTransformDiamond_.translation_.y -= move[51];
@@ -162,7 +163,7 @@ void Stage::Stage1Initialize() {
 				worldTransformNormal_[index].translation_ = { 0.0f + j * 2,-2.0f,0.0f - i * 2 };
 			}
 			else {
-				worldTransformNormal_[index].translation_ = { 0.0f ,90.0f,0.0f };
+				worldTransformNormal_[index].translation_ = { 4.0f ,-2.0f,-4.0f };
 			}
 			if (map_[i][j] == 2) {
 				worldTransformUp_[index].translation_ = { 0.0f + j * 2,Up,0.0f - i * 2 };
