@@ -22,11 +22,7 @@
 #include "EfectManager.h"
 #include "Plane.h"
 using namespace std;
-enum Score {
-	Level1,
-	Level2,
-	Level3,
-};
+
 class GameScene:public Iscene
 {
 public:

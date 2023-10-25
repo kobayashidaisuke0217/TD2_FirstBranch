@@ -12,6 +12,11 @@ enum  St {
 	Stages5,
 
 };
+enum Score {
+	Level1,
+	Level2,
+	Level3,
+};
 class Stage{
 public:
 
@@ -26,7 +31,7 @@ public:
 	void Stage4Initialize();
 	void Stage5Initialize();
 
-	
+	int LevelCheck(int count);
 
 	int GetMap(int i, int j);
 
@@ -55,6 +60,8 @@ private:
 	int map_[7][7];
 	int index = 0;
 	
+	 int Clearlevel2_;
+	 int Clearlevel3_;
 	Input* input_ = nullptr;
 	bool blockUp = false;
 	float Up = 0;

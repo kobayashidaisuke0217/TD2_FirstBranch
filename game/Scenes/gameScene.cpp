@@ -149,6 +149,7 @@ void GameScene::Update()
 	ImGui::Begin("Clearlevel");
 	ImGui::InputInt("Level",&Clearlevel_);
 	ImGui::End();
+	Clearlevel_ = stage_->LevelCheck(player_->GetStepCount());
 	if (Clearlevel_ != ClearLevelprev_) {
 		IsClearLevelmove = true;
 		kanbanMoveSpeed = 0.0f;
