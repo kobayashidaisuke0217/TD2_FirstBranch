@@ -132,7 +132,8 @@ void GameScene::Initialize()
 	ClearLevelprev_ = Clearlevel_;
 	IsClearLevelmove = false;
 	kanbanMoveSpeed = 0.0f;
-
+	IsMovetab = false;
+	tabMoveSpeed_ = 1.0f;
 }
 
 void GameScene::Update()
@@ -169,7 +170,31 @@ void GameScene::Update()
 			PlaneWorldTransform.rotation_ = Lerp(kanbanMoveSpeed, { 19.7f, -11.6f, 0.3f }, { 13.5f,-11.6f, 0.3f });
 		}
 	}
+	if (input_->PushKey(DIK_TAB)) {
+		if (tabTransform_.translate.x==-612.0f) {
+			IsMovetab = true;
+			tabMoveSpeed_ = 0.0f;
+		}
+		if (tabTransform_.translate.x == 0.0f) {
+			IsMovetab = false;
+			tabMoveSpeed_ = 0.0f;
+		}
 
+	}
+	
+		if (tabMoveSpeed_ < 1.0f) {
+			tabMoveSpeed_ += 0.01f;
+		}
+		else {
+			tabMoveSpeed_ = 1.0f;
+			
+		}if (IsMovetab) {
+		tabTransform_.translate = Lerp(tabMoveSpeed_, { -612.0f,0.0f,0.0f }, { 0.0f,0.0f,0.0f });
+		}
+		else {
+			tabTransform_.translate = Lerp(tabMoveSpeed_, { 0.0f,0.0f,0.0f }, { -612.0f,0.0f,0.0f });
+
+		}
 	if (player_->GetWorldPosition().y >= 100.0f || input_->PushKey(DIK_ESCAPE)) {
 		Change_->setmoveFlag();
 		nextTitle_ = true;

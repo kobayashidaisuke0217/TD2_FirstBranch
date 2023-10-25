@@ -101,7 +101,8 @@ private:
 	Transform tabTransform_;
 	Transform SpriteuvTransform;
 	Vector4 material;
-
+	bool IsMovetab = false;
+	float tabMoveSpeed_;
 	//花火のエフェクト
 	std::unique_ptr<Model>sterModel_;
 	std::unique_ptr<Model>hertModel_;
