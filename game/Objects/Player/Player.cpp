@@ -87,8 +87,9 @@ void Player::Update()
 		Translation_ = worldTransform_.translation_;
 	}
 	else {
-		speed_ = 0.0f;
-		if (worldTransform_.matWorld_.m[3][1] >= -1.0f/*&& stepsCount_< 99*/) {
+		
+		if (worldTransform_.matWorld_.m[3][1] >= -1.0f&& isOverCount_ < 40) {
+			speed_ = 0.0f;
 			Move();
 		}
 
@@ -149,7 +150,10 @@ void Player::Update()
 		}
 		count_ = stepsCount_;
 	}
-	
+	if (num2_ > 9) {
+		num1_ = 9;
+		num2_ = 9;
+	}
 
 	Vector3 WorldPos = worldTransform_.GetWorldPos();
 	Vector4 Mat1 = { goal_.m[3][0],goal_.m[3][1],goal_.m[3][2],goal_.m[3][3] };
@@ -467,6 +471,7 @@ void Player::Draw(const ViewProjection& view)
 
 void Player::IsFall()
 {
+
 	if (speed_ <= 0) {
 		audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[4], volume[0]);
 	}
