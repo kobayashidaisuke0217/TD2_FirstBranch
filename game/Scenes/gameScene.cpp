@@ -38,7 +38,10 @@ void GameScene::Initialize()
 	numTexture_[7] = textureManager_->Load("Resource/number7.png");
 	numTexture_[8] = textureManager_->Load("Resource/number8.png");
 	numTexture_[9] = textureManager_->Load("Resource/number9.png");
-
+	tabTexture_ = textureManager_->Load("Resource/setumei.png");
+	Leveltexture_[0] = textureManager_->Load("Resource/hosi1.png");
+	Leveltexture_[1] = textureManager_->Load("Resource/hosi2.png");
+	Leveltexture_[2] = textureManager_->Load("Resource/hosi3.png");
 	for (int i = 0; i < 2; i++) {
 		num_[i] = std::make_unique<Sprite>();
 		num_[i]->Initialize({ 0.0f,0.0f,0.0f,0.0f }, { 100.0f,100.0f,0.0f,0.0f });
@@ -73,7 +76,8 @@ void GameScene::Initialize()
 
 	std::vector<Model*>BlockModels = { BlockModel_.get(),HeartModel_.get(),DiamondModel_.get(),GoalModel_.get(),floorMoveModel_ .get()};
 	stage_->Initialize(BlockModels,Stagenum);
-
+	tabSprite_ = make_unique<Sprite>();
+	tabSprite_->Initialize({ 0.0f,0.0f,0.0f,0.0f }, { 2000.0f,720.0f,0.0f,0.0f });
 	int map_[7][7];
 	for (int i = 0; i < 7; ++i) {
 		for (int j = 0; j < 7; ++j) {
@@ -99,9 +103,9 @@ void GameScene::Initialize()
 	hertModel_.reset(Model::CreateModelFromObj("Resource", "heartEfect.obj"));
 	fireworksMove_ = false;
 	changeTimer_ = 10.0f;
-
-	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1123.0f,20.0f,1.0f} };
-	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1039.0f,20.0f,1.0f} };
+	tabTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{-612.0f,0.0f,0.0f} };
+	transform1_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1123.0f,30.0f,1.0f} };
+	transform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1039.0f,30.0f,1.0f} };
 	fireworksMove_ = false; 
 	SpriteuvTransform =
 	{
@@ -112,7 +116,23 @@ void GameScene::Initialize()
 	material = { 1.0f,1.0f,1.0f,1.0f };
 	nextTitle_ = false;
 
+	for (int i = 0; i< 3; i++) {
+		plane_[i] =std::make_unique<Plane>();
+		plane_[i]->Initialize();
+	}
 	
+		PlaneWorldTransform.Initialize();
+		
+	
+	PlaneWorldTransform.translation_ = { 12.8f,3.6f,-9.4f };
+	PlaneWorldTransform.rotation_ = { 26.2f,-11.6f,0.3f };
+	PlaneWorldTransform.scale_ = { 3.9f,1.0f,1.0f };
+	Clearlevel_ = Level3;
+	nowLevelTexture_ = Leveltexture_[Level3];
+	ClearLevelprev_ = Clearlevel_;
+	IsClearLevelmove = false;
+	kanbanMoveSpeed = 0.0f;
+
 }
 
 void GameScene::Update()
@@ -124,7 +144,31 @@ void GameScene::Update()
 	player_->Update();
 	enemy_->Update();
 	skyDome_->Update();
-
+	ClearLevelprev_ = Clearlevel_;
+	ImGui::Begin("Clearlevel");
+	ImGui::InputInt("Level",&Clearlevel_);
+	ImGui::End();
+	if (Clearlevel_ != ClearLevelprev_) {
+		IsClearLevelmove = true;
+		kanbanMoveSpeed = 0.0f;
+	}if (IsClearLevelmove) {
+		if (kanbanMoveSpeed < 1.0f) {
+			kanbanMoveSpeed += 0.01f;
+		}
+		else {
+			kanbanMoveSpeed = 1.0f;
+			IsClearLevelmove = false;
+		}
+		if (kanbanMoveSpeed >= 0.5f) {
+			nowLevelTexture_ = Leveltexture_[Clearlevel_];
+		}
+		if (Clearlevel_ == Level2) {
+			PlaneWorldTransform.rotation_ = Lerp(kanbanMoveSpeed, { 26.2f, -11.6f, 0.3f }, { 19.7f,-11.6f, 0.3f });
+		}
+		if (Clearlevel_ == Level1) {
+			PlaneWorldTransform.rotation_ = Lerp(kanbanMoveSpeed, { 19.7f, -11.6f, 0.3f }, { 13.5f,-11.6f, 0.3f });
+		}
+	}
 
 	if (player_->GetWorldPosition().y >= 100.0f || input_->PushKey(DIK_ESCAPE)) {
 		Change_->setmoveFlag();
@@ -182,9 +226,13 @@ void GameScene::Update()
 		collisionManager_->CheckAllCollision();
 	}
 	ImGui::Begin("tex");
-	ImGui::DragFloat3("1", &transform1_.translate.x, 0.1f);
-	ImGui::DragFloat3("2", &transform2_.translate.x, 0.1f);
+	ImGui::DragFloat3("1tr", &PlaneWorldTransform.rotation_.x, 0.1f);
+	ImGui::DragFloat3("2", &tabTransform_.translate.x);
 	ImGui::End();
+	
+		PlaneWorldTransform.UpdateMatrix();
+
+	
 }
 
 
@@ -206,7 +254,10 @@ void GameScene::Draw3D()
 	
 	enemy_->Draw(viewProjection_);
 	efectmanager_->Draw(viewProjection_);
-
+	
+		plane_[0]->Draw(PlaneWorldTransform, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, nowLevelTexture_);
+	
+	
 	// 弾の描画
 	for (Fireworks* firework : fireworks_) {
 		firework->Draw(viewProjection_);
@@ -228,6 +279,8 @@ void GameScene::Draw2D() {
 	num_[0]->Draw(transform1_, SpriteuvTransform, material, numTexture_[player_->Getnum1()]);
 	//二桁目
 	num_[1]->Draw(transform2_, SpriteuvTransform, material, numTexture_[player_->Getnum2()]);
+	
+		tabSprite_->Draw(tabTransform_, SpriteuvTransform, material, tabTexture_);
 	Change_->Draw();
 	
 	

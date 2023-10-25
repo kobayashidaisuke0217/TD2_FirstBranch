@@ -8,6 +8,7 @@
 #include "EfectManager.h"
 #include <Sprite.h>
 #include "Audio.h"
+
 class Player:public Collider
 {
 public:

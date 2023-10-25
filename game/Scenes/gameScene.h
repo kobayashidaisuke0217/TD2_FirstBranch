@@ -20,7 +20,13 @@
 #include <Stageh.h>
 #include "SceneChange.h"
 #include "EfectManager.h"
+#include "Plane.h"
 using namespace std;
+enum Score {
+	Level1,
+	Level2,
+	Level3,
+};
 class GameScene:public Iscene
 {
 public:
@@ -81,16 +87,26 @@ private:
 	std::unique_ptr<Model> floorMoveModel_ = nullptr;
 	bool nextTitle_;
 	uint32_t numTexture_[10];
+	uint32_t tabTexture_;
+	uint32_t Leveltexture_[3];
+	uint32_t nowLevelTexture_;
+	int Clearlevel_;
+	int ClearLevelprev_;
+	bool IsClearLevelmove;
+	float kanbanMoveSpeed = 0.0f;
 	std::unique_ptr<Sprite> num_[2] = { nullptr };
-
+	unique_ptr<Sprite> tabSprite_;
 	Transform transform1_;
 	Transform transform2_;
+	Transform tabTransform_;
 	Transform SpriteuvTransform;
 	Vector4 material;
 
 	//花火のエフェクト
 	std::unique_ptr<Model>sterModel_;
 	std::unique_ptr<Model>hertModel_;
+	std::unique_ptr<Plane> plane_[3];
+	WorldTransform PlaneWorldTransform;
 	Model* fireworksModel_;
 	std::list<Fireworks*> fireworks_;
 	float changeTimer_ = 10.0f;
