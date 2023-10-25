@@ -184,7 +184,7 @@ void GameScene::Update()
 	}
 	
 		if (tabMoveSpeed_ < 1.0f) {
-			tabMoveSpeed_ += 0.01f;
+			tabMoveSpeed_ += 0.05f;
 		}
 		else {
 			tabMoveSpeed_ = 1.0f;
@@ -276,12 +276,12 @@ void GameScene::Draw3D()
 {
 	skyDome_->Draw(viewProjection_);
 	stage_->Draw(viewProjection_);
-	//player_->Draw(viewProjection_);
+	player_->Draw(viewProjection_);
 	
 	enemy_->Draw(viewProjection_);
 	efectmanager_->Draw(viewProjection_);
 	
-	//plane_[0]->Draw(PlaneWorldTransform, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, nowLevelTexture_);
+	plane_[0]->Draw(PlaneWorldTransform, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, nowLevelTexture_);
 	
 	
 	// 弾の描画

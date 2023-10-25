@@ -261,7 +261,7 @@ void Player::TitleUpdate()
 
 
 	}
-	if (input_->PushKey(DIK_SPACE)) {
+	if (input_->PushKey(DIK_SPACE)||input_->PushKey(DIK_RETURN)) {
 		/*if (MoveFlag == false) {
 			
 			Vector3 move = { 0.0f,2.0f,0.0f };
@@ -361,7 +361,7 @@ void Player::SelectUpdate()
 	ImGui::Begin("pp");
 	ImGui::DragFloat3("transform", &Translation_.x);
 	ImGui::End();
-	if (input_->PushKey(DIK_A) || stageSelectMoveLeftCoumt_ != 0) {
+	if (input_->PushKey(DIK_A)|| input_->PushKey(DIK_LEFT) || stageSelectMoveLeftCoumt_ != 0) {
 		if (stageSelectCount_ < 1 && stageSelectMoveLeftCoumt_ == 6) {
 			SetTranslation({ 100.0f,-2.0f,0.0f });
 			worldTransform_.TransferMatrix();
@@ -386,7 +386,7 @@ void Player::SelectUpdate()
 	}
 
 
-	if (input_->PushKey(DIK_D)||stageSelectMoveRightCoumt_!=0  ) {
+	if (input_->PushKey(DIK_D)|| input_->PushKey(DIK_RIGHT) || stageSelectMoveRightCoumt_!=0  ) {
 		if (stageSelectCount_ > 3&& stageSelectMoveRightCoumt_==6) {
 			SetTranslation({ -8.0f,-2.0f,0.0f });
 			worldTransform_.TransferMatrix();
@@ -556,7 +556,7 @@ void Player::IsCollision(const WorldTransform& worldtransform)
 void Player::Move()
 {
 
-	if (input_->PushKey(DIK_SPACE) && MoveFlag == false && !gameClear) {
+	if (input_->PushKey(DIK_SPACE)|| input_->PushKey(DIK_RETURN) && MoveFlag == false && !gameClear) {
 		if ((sMap_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] != 2) && (sMap_[(int)(PlayerMap.x)][(int)(PlayerMap.y)] != 3)) {
 			audio_->SoundPlayWave(audio_->xAudio2.Get(), audio_->soundDatas[3], volume[3]);
 			if (switch_) {
@@ -571,7 +571,7 @@ void Player::Move()
 
 	}
 
-	if (input_->PushKey(DIK_W) && MoveFlag == false) {
+	if (input_->PushKey(DIK_W)|| input_->PushKey(DIK_UP) && MoveFlag == false) {
 		if (map_[(int)(PlayerMap.x - 1)][(int)(PlayerMap.y)] != 2 && map_[(int)(PlayerMap.x - 1)][(int)(PlayerMap.y)] != 3) {
 			Vector3 move = { 0.0f,0.0f,2.0f };
 
@@ -590,7 +590,7 @@ void Player::Move()
 	}
 
 
-	if (input_->PushKey(DIK_S) && MoveFlag == false) {
+	if (input_->PushKey(DIK_S) || input_->PushKey(DIK_DOWN) && MoveFlag == false) {
 		if (map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 2 && map_[(int)(PlayerMap.x +1 )][(int)(PlayerMap.y)] != 3) {
 			Vector3 move = { 0.0f,0.0f,-2.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 1.0f,0.0f,0.0f });
@@ -608,7 +608,7 @@ void Player::Move()
 	}
 
 
-	if (input_->PushKey(DIK_A) && MoveFlag == false) {
+	if (input_->PushKey(DIK_A) || input_->PushKey(DIK_LEFT) && MoveFlag == false) {
 
 		if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y - 1)] != 2 && map_[(int)(PlayerMap.x)][(int)(PlayerMap.y-1)] != 3) {
 			Vector3 move = { -2.0f,0.0f,0.0f };
@@ -627,7 +627,7 @@ void Player::Move()
 	}
 
 
-	if (input_->PushKey(DIK_D) && MoveFlag == false) {
+	if (input_->PushKey(DIK_D) || input_->PushKey(DIK_RIGHT) && MoveFlag == false) {
 		if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 2 && map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 3) {
 			Vector3 move = { 2.0f,0.0f,0.0f };
 			Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,1.0f });
