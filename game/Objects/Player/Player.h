@@ -53,7 +53,7 @@ private:
 	Input* input_ = nullptr;
 
   Audio* audio_ = nullptr;
-
+  float volume[20];
 	const ViewProjection* viewProjection_ = nullptr;
 	Model* model_;
 	StructSphere structSphere_;
