@@ -66,7 +66,7 @@ void Player::Update()
 	if (worldTransform_.matWorld_.m[3][1] < -100.0f) {
 		gameOver = true;
 	}
-	if (input_->PushKey(DIK_G)||stepsCount_>=99) {
+	if (stepsCount_>=99) {
 		isCountOver = true;
 	}
 	
