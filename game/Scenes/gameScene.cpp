@@ -50,7 +50,7 @@ void GameScene::Initialize()
 	}
 
 	SpaceSprite_ = std::make_unique<Sprite>();
-	SpaceSprite_->Initialize({ 0.0f,0.0f,0.0f,0.0f }, { 240.0f,100.0f,0.0f,0.0f });
+	SpaceSprite_->Initialize({ 0.0f,-70.0f,0.0f,0.0f }, { 240.0f,120.0f,0.0f,0.0f });
 
 	spaceTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{100.0f,614.0f,0.0f} };
 	player_->Initialize(playerModel_.get(), { 2.0f, 30.0f, -2.0f });
