@@ -281,13 +281,13 @@ void GameScene::Draw3D()
 {
 	skyDome_->Draw(viewProjection_);
 	stage_->Draw(viewProjection_);
-	player_->Draw(viewProjection_);
+	//player_->Draw(viewProjection_);
 	
 	
 	efectmanager_->Draw(viewProjection_);
 	
 	plane_[0]->Draw(PlaneWorldTransform, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, nowLevelTexture_);
-	
+	plane_[0]->Draw(player_->GetWorldTransform(), viewProjection_, {1.0f,1.0f,1.0f,1.0f}, nowLevelTexture_);
 	
 	// 弾の描画
 	for (Fireworks* firework : fireworks_) {
@@ -312,12 +312,13 @@ void GameScene::Draw2D() {
 	num_[1]->Draw(transform2_, SpriteuvTransform, material, numTexture_[player_->Getnum2()]);
 	
 		tabSprite_->Draw(tabTransform_, SpriteuvTransform, material, tabTexture_);
-		if (player_->GetSwitch()) {
+		
+		/*if (player_->GetSwitch()) {
 			SpaceSprite_->Draw(spaceTransform_, SpriteuvTransform, material, spacenum[0]);
 		}
 		else {
 			SpaceSprite_->Draw(spaceTransform_, SpriteuvTransform, material, spacenum[1]);
-		}
+		}*/
 	Change_->Draw();
 	
 	
