@@ -44,10 +44,10 @@ void SceneChange::SelectUpdate()
 	
 	if (selectmoveFlag_ == true) {
 		if (selectarfaUp_ == true) {
-			material.w += 0.02f;
+			material.w += 0.03f;
 		}
 		else {
-			material.w -= 0.02f;
+			material.w -= 0.03f;
 		}
 		
 	}
@@ -79,10 +79,10 @@ void SceneChange::Move()
 	ChangeFlag_ = false;
 	if (moveFlag_ == true) {
 		if (arfaUp_ == true) {
-			material.w += 0.01f;
+			material.w += 0.03f;
 		}
 		else {
-			material.w -= 0.01f;
+			material.w -= 0.03f;
 		}
 		
 	}

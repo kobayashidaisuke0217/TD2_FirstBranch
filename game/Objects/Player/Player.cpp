@@ -282,7 +282,7 @@ void Player::TitleUpdate()
 	if (MoveFlag == true) {
 		titleIsMove = true;
 		if (moveSpeed <= 1.0f) {
-			moveSpeed += 0.05f;
+			moveSpeed += 0.1f;
 		}
 		else
 		{
@@ -321,7 +321,7 @@ void Player::TitleUpdate()
 	if (JumFlag_ == true && titleIsMove == false) {
 	
 		if (moveSpeed <= 1.0f) {
-			moveSpeed += 0.05f;
+			moveSpeed += 0.1f;
 		}
 		else
 		{
@@ -418,7 +418,7 @@ void Player::SelectUpdate()
 
 	if (MoveFlag == true) {
 		if (moveSpeed <= 1.0f) {
-			moveSpeed += 0.05f;
+			moveSpeed += 0.1f;
 		}
 		else
 		{
