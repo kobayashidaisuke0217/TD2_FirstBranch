@@ -19,12 +19,13 @@ DirectXCommon* DirectXCommon::GetInstance()
 
 void DirectXCommon::Initialize(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight)
 {
+	InitializeFixFPS();
 	//resourceLeak = new LeakCheck();
 	winApp_ = win;
 	backBufferWidth_ = backBufferWidth;
 	backBufferHeight_ = backBufferHeight;
-	winApp_->CreateGameWindow(L"2102_サイコロシフト", 1280, 720);
-	
+	winApp_->CreateGameWindow(L"サイコロシフト	", 1280, 720);
+
 	// DXGIデバイス初期化
 	InitializeDXGIDevice();
 	CreateDebug();
@@ -40,7 +41,7 @@ void DirectXCommon::Initialize(WinApp* win, int32_t backBufferWidth, int32_t bac
 	CreateDepthStensil();
 	// フェンス生成
 	CreateFence();
-	
+
 }
 //デバイスの作成
 void DirectXCommon::InitializeDXGIDevice() {
@@ -119,7 +120,7 @@ void DirectXCommon::InitializeCommand() {
 //スワップチェーンを生成
 void DirectXCommon::CreateSwapChain() {
 	//swapChain_ = nullptr;
-	
+
 	swapChainDesc.Width = WinApp::kClientWidth;//画面の幅
 	swapChainDesc.Height = WinApp::kClientHeight;//画面の高さ
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;//色の形式
@@ -147,7 +148,7 @@ void DirectXCommon::CreateSwapChain() {
 void DirectXCommon::CreateFinalRenderTargets() {
 
 	//RTVの設定
-	
+
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//出力結果をSRGBに変換して書き込む
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;//2Dテクスチャとして書き込む
 	//ディスクリプタの先頭を取得する
@@ -214,7 +215,7 @@ void DirectXCommon::PostDraw() {
 
 	//GPUにコマンドリストを準備する
 	//Microsoft::WRL::ComPtr<ID3D12CommandList>commandLists[] = { commandList_.Get() };
-	ID3D12CommandList* commandLists[] = { commandList_.Get()};
+	ID3D12CommandList* commandLists[] = { commandList_.Get() };
 	commandQueue_->ExecuteCommandLists(1, commandLists);
 	//GPUとOSに画面の交換を行うように通知する
 	swapChain_->Present(1, 0);
@@ -232,6 +233,7 @@ void DirectXCommon::PostDraw() {
 		//イベント待つ
 		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
+	updateFixFPS();
 	//次のフレーム用のコマンドリストを準備
 	hr_ = commandAllocator_->Reset();
 	assert(SUCCEEDED(hr_));
@@ -253,15 +255,15 @@ void DirectXCommon::ClearRenderTarget()
 
 void DirectXCommon::Finalize() {
 	CloseHandle(fenceEvent_);
-	
+
 #ifdef DEBUG
 	winApp_->GetdebugController()->Release();
 #endif // DEBUG
-	
-	CloseWindow(winApp_->GetHwnd());
-	
 
-	
+	CloseWindow(winApp_->GetHwnd());
+
+
+
 }
 
 
@@ -323,7 +325,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateDepthStenciltextureR
 
 	D3D12_CLEAR_VALUE depthClearValue{};
 	depthClearValue.DepthStencil.Depth = 1.0f;
-	depthClearValue.Format= DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthClearValue.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	Microsoft::WRL::ComPtr<ID3D12Resource>resource = nullptr;
 	//ID3D12Resource* resource = nullptr;
 	HRESULT hr = device->CreateCommittedResource(
@@ -339,7 +341,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateDepthStenciltextureR
 void DirectXCommon::CreateDepthStensil() {
 	depthStencilResource = CreateDepthStenciltextureResource(device_.Get(), WinApp::kClientWidth, WinApp::kClientHeight);
 	dsvDescriptorHeap_ = CreateDescriptionHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);
-	
+
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvdesc{};
 	dsvdesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	dsvdesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
@@ -376,6 +378,27 @@ void DirectXCommon::CreateDebug()
 		//infoQueue->Release();
 	}
 #endif
+}
+
+void DirectXCommon::InitializeFixFPS()
+{
+	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / 60.0f));
+	const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / 65.0f));
+
+	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference_);
+	if (elapsed < kMinTime) {
+		while (std::chrono::steady_clock::now() - reference_ < kMinTime)
+		{
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
+		}
+	}reference_ = std::chrono::steady_clock::now();
+}
+
+void DirectXCommon::updateFixFPS()
+{
+	reference_ = std::chrono::steady_clock::now();
 }
 
 

@@ -50,7 +50,7 @@ void GameScene::Initialize()
 	}
 
 	SpaceSprite_ = std::make_unique<Sprite>();
-	SpaceSprite_->Initialize({ 0.0f,-70.0f,0.0f,0.0f }, { 240.0f,120.0f,0.0f,0.0f });
+	SpaceSprite_->Initialize({ 0.0f,-70.0f,0.0f,0.0f }, { 320.0f,180.0f,0.0f,0.0f });
 
 	spaceTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{100.0f,614.0f,0.0f} };
 	player_->Initialize(playerModel_.get(), { 2.0f, 30.0f, -2.0f });
@@ -281,13 +281,13 @@ void GameScene::Draw3D()
 {
 	skyDome_->Draw(viewProjection_);
 	stage_->Draw(viewProjection_);
-	//player_->Draw(viewProjection_);
+	player_->Draw(viewProjection_);
 	
 	
 	efectmanager_->Draw(viewProjection_);
 	
 	plane_[0]->Draw(PlaneWorldTransform, viewProjection_, { 1.0f,1.0f,1.0f,1.0f }, nowLevelTexture_);
-	plane_[0]->Draw(player_->GetWorldTransform(), viewProjection_, {1.0f,1.0f,1.0f,1.0f}, nowLevelTexture_);
+	
 	
 	// 弾の描画
 	for (Fireworks* firework : fireworks_) {
@@ -306,19 +306,18 @@ void GameScene::ApplyGlobalVariables()
 void GameScene::Draw2D() {
 	blueMoon_->SetBlendMode(blendCount_);
 	//一桁目
-
 	num_[0]->Draw(transform1_, SpriteuvTransform, material, numTexture_[player_->Getnum1()]);
 	//二桁目
 	num_[1]->Draw(transform2_, SpriteuvTransform, material, numTexture_[player_->Getnum2()]);
 	
 		tabSprite_->Draw(tabTransform_, SpriteuvTransform, material, tabTexture_);
 		
-		/*if (player_->GetSwitch()) {
+		if (player_->GetSwitch()) {
 			SpaceSprite_->Draw(spaceTransform_, SpriteuvTransform, material, spacenum[0]);
 		}
 		else {
 			SpaceSprite_->Draw(spaceTransform_, SpriteuvTransform, material, spacenum[1]);
-		}*/
+		}
 	Change_->Draw();
 	
 	

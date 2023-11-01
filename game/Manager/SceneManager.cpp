@@ -100,7 +100,7 @@ void SceneManager::Initialize()
 	audio_ = Audio::GetInstance();
 	audio_->Initialize();
 	audio_->soundDatas[7] = audio_->SoundLoadWave("resource/Audio/BGM.wav");
-	audio_->SoundPlayloop(audio_->xAudio2.Get(), audio_->soundDatas[7], 0.1f);
+	audio_->SoundPlayloop(audio_->xAudio2.Get(), audio_->soundDatas[7], 0.05f);
 }
 
 

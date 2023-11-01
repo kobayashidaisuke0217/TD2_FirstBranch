@@ -40,6 +40,9 @@ void WorldTransform::UpdateQuaternionMatrix(Matrix4x4 quart)
 {
 	Matrix4x4 Afine = MakeQuatAffineMatrix(scale_, quart, translation_);
 	matWorld_ = Afine;
+	if (parent_) {
+		matWorld_ = Multiply(matWorld_, parent_->matWorld_);
+	}
 	TransferMatrix();
 }
 Vector3 WorldTransform::GetWorldPos()
