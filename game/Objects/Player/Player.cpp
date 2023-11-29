@@ -369,7 +369,7 @@ void Player::SelectUpdate()
 		if (MoveFlag == false && stageSelectMoveRightCoumt_ == 0) {
 			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y - 1)] != 2 && map_[(int)(PlayerMap.x + 1)][(int)(PlayerMap.y)] != 3) {
 				Vector3 move = { -2.0f,0.0f,0.0f };
-				Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,-1.0f });
+				Quaternion	newquaternion_ = createQuaternion(1, { 0.0f,0.0f,-1.0f });
 				newquaternion_ = Normalize(newquaternion_);
 				quaternion_ = Multiply(quaternion_, newquaternion_);
 				Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
@@ -395,7 +395,7 @@ void Player::SelectUpdate()
 		if (MoveFlag == false && stageSelectMoveLeftCoumt_ == 0) {
 			if (map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 2 && map_[(int)(PlayerMap.x)][(int)(PlayerMap.y + 1)] != 3) {
 				Vector3 move = { 2.0f,0.0f,0.0f };
-				Quaternion	newquaternion_ = createQuaternion(rad, { 0.0f,0.0f,1.0f });
+				Quaternion	newquaternion_ = createQuaternion(1, { 0.0f,0.0f,1.0f });
 				newquaternion_ = Normalize(newquaternion_);
 				quaternion_ = Multiply(quaternion_, newquaternion_);
 				Matrix4x4 quaternionMat = quaternionToMatrix(quaternion_);
